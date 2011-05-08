@@ -1,0 +1,8 @@
+#summary About emo-framework
+#labels Phase-Design
+
+= Introduction =
+
+emo(yee-mow) is 2D game engine for Android and iOS.
+
+emo is lightweight game framework that is driven by Squirrel, object-oriented scripting language for your game logic. emo has native game engine almost all codes are written in C/C++ for Android and C/C++/Objective-C for iOS that is based on OpenGL for graphic rendering and OpenAL/OpenSL for sound interface. 

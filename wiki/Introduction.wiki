@@ -8,3 +8,5 @@ emo(yee-mow) is 2D game engine for Android and iOS.
 emo is lightweight game framework that is driven by Squirrel, object-oriented scripting language for your game logic. emo has native game engine almost all codes are written in C/C++ for Android and C/C++/Objective-C for iOS that is based on OpenGL for graphic rendering and OpenAL/OpenSL for sound interface. 
 
 [http://www.emo-framework.com/images/emodesign.png]
+
+Squirrel is intuitive lightweight object-oriented programming language that fits real-time requirements of your games. *You can write all of your game logic by Squirrel programming language*. You don't have to learn Objective-C or even Java, you need no knowledge for Apple's Foundation Framework nor Android API. With Squirrel and emo framework, you can write your game once by Squirrel that runs on both Android and iOS.

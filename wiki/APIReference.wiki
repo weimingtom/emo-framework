@@ -3,29 +3,52 @@
 
 = Introduction =
 
-This page is emo-framework's API reference index.
+This page is emo-framework's API reference index. This page does not contain the built-in functions of Squirrel programming language. For more informations about Squirrel built-in functions and APIs, please refer to http://www.squirrel-lang.org/#documentation .
 
 = Details =
 
 == Basic Functions ==
 
+  * onLoad
+  * onGainedFocus
+  * onLostFocus
+  * onDispose
+  * onError
+
 == Shape and Sprite ==
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+  * Rectangle
+  * Sprite
 
 == Sprite sheet and animations ==
 
+  * SpriteSheet
+
 == Tiled Map ==
 
-== Sprite Modifiers ==
+  * MapSprite
+
+== Sprite Modifiers and Easing Functions ==
+
+  * emo.Modifier
+  * emo.MultiModifier
+  * emo.easing functions
 
 == Events == 
 
+  * MotionEvent
+  * KeyEvent
+  * SensorEvent
+
 == Audio ==
+
+  * Audio
 
 == Database ==
 
+  * Database
+  * Preference
+
 == Networking ==
+
+  * Asynchronous HTTP request and callback

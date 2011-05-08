@@ -9,14 +9,14 @@ This page is emo-framework's API reference index. This page does not contain the
 
 == Basic Functions ==
 
-  * Stage.load
   * onLoad
   * onGainedFocus
   * onLostFocus
   * onDispose
-  * onLowMemory
-  * onFps
-  * onError
+
+== Stage and Levels ==
+
+  * Stage
 
 == Shape and Sprite ==
 
@@ -42,10 +42,14 @@ This page is emo-framework's API reference index. This page does not contain the
   * MotionEvent
   * KeyEvent
   * SensorEvent
+  * onLowMemory
+  * onError
+  * onFps
 
 == Audio ==
 
   * Audio
+  * AudioChannel
 
 == Database ==
 

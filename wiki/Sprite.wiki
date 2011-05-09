@@ -2,7 +2,7 @@
 #labels Phase-Implementation
 #sidebar Sidebar
 
-= Introduction =
+= emo.Sprite =
 
 emo.Sprite class represents basic entity for your game. Sprite class can move, scale and rotates around the screen. Sprite have one texture image that cannot contain multiple frames. If you want to use multiple frames from one image(aka sprite sheet), use SpriteSheet class.
 

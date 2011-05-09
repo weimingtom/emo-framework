@@ -61,7 +61,6 @@ Stage#windowWidth returns the screen width. If integer parameter has been set to
 
 {{{
 local stage = emo.Stage();
-stage.load(Level_1());
 local width = stage.windowWidth(); // get the window width
 stage.windowWidth(320); // set the window width to 320
 }}}
@@ -73,7 +72,6 @@ Stage#windowHeight returns the screen height. If integer parameter has been set 
 
 {{{
 local stage = emo.Stage();
-stage.load(Level_1());
 local height = stage.windowHeight(); // get the window height
 stage.windowHeight(240); // set the window height to 240
 }}}

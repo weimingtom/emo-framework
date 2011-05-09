@@ -85,13 +85,6 @@ class Level_2 {
     }
 
     /*
-     * this block is your game loop. 
-     */
-    function onDrawFrame(dt) {
-        // this block is your your game loop
-    }
-
-    /*
      * called when level 2 ends.
      */
     function onDispose() {

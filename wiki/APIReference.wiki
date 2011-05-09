@@ -52,3 +52,7 @@ This page is emo-framework's API reference index. This page does not contain the
 == Networking ==
 
   * Asynchronous HTTP request and callback
+
+== On-demend script loading ==
+
+  * On-demend script loading

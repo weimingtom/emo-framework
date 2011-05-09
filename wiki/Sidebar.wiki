@@ -1,4 +1,4 @@
   * [Introduction Introduction]
-  * [ApiReference API Reference]
+  * [APIReference API Reference]
     * [Stage]
     * [Sprite]

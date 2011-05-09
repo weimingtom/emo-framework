@@ -26,11 +26,26 @@ stage.load(Level_1());
 
 == windowWidth ==
 
-Stage#windowWidth returns the screen width.
+Stage#windowWidth returns the screen width. If integer parameter has been set to the windowWidth window width is updated.
+
+{{{
+local stage = emo.Stage();
+stage.load(Level_1());
+local width = stage.windowWidth(); // get the window width
+stage.windowWidth(320); // set the window width to 320
+}}}
+
 
 == windowHeight ==
 
-Stage#windowHeight returns the screen height.
+Stage#windowHeight returns the screen height. If integer parameter has been set to the windowHeight window height is updated.
+
+{{{
+local stage = emo.Stage();
+stage.load(Level_1());
+local height = stage.windowHeight(); // get the window height
+stage.windowHeight(240); // set the window height to 240
+}}}
 
 == viewport ==
 
@@ -40,3 +55,5 @@ Stage#viewport sets the viewport of the screen.
 
 Stage#ortho updates the orthogonal parameters for OpenGL. 
 == interval ==
+
+Stage#interval updates the draw interval of the screen. This can be used to limit the fps(frame per second).

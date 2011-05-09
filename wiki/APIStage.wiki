@@ -87,4 +87,4 @@ Stage#viewport sets the viewport of the screen.
 Stage#ortho updates the orthogonal parameters for OpenGL. 
 == interval ==
 
-Stage#interval updates the draw interval of the screen. This can be used to limit the fps(frame per second).
+Stage#interval updates the draw interval of the screen. This can be used to debug the game or limit the fps(frame per second) while loading the heavy assets.

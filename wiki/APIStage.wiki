@@ -44,8 +44,8 @@ class Level_2 {
 }
 local stage = emo.Stage();
 stage.load(Level_1());
-// Level_1#onDispose are called automatically before loading Level_2.
-stage.load(Level_2());
+stage.load(Level_2()); // Level_1#onDispose are called automatically before loading Level_2.
+
 }}}
 
 It prints like below:

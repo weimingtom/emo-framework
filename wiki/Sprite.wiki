@@ -54,7 +54,7 @@ sprite.show(); // show the sprite
 
 == Changing colors ==
 
-Sprite class can change its color by using Sprite#red, Sprite#green, Sprite#blue. Alpha color also can be changed by Sprite#alpha to change transparency of the sprite. If no parameter has been specified these functions, current color is returned. Each color value is float value from 0 to 1. By using Sprite#color all colors can be updated at a time.
+Sprite class can change its color by using Sprite#red, Sprite#green, Sprite#blue. Alpha color also can be changed by Sprite#alpha to change transparency of the sprite. If no parameter has been specified for these functions current color is returned. Each color value is float value from 0 to 1. By using Sprite#color all colors can be updated at a time.
 
 {{{
 local sprite = emo.Sprite("dog.png");

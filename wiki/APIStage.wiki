@@ -1,0 +1,42 @@
+#summary API reference for emo.Stage
+#labels Phase-Implementation
+
+= Introduction =
+
+emo.Stage class represents one and only stage for your game. Stage class can be used to load the new level and enter the game loop, dispose the level and proceed to the next level.
+
+== load ==
+
+Stage#load load the level and delegates the event loop to the level. The loaded class can have receive the event throught event delegate functions like onLoad, onGainedFocus, onLostFocus and onDispose. It goes something like this:
+
+{{{
+class Level_1 {
+    function onLoad() {
+        // load something
+    }
+    function onDispose() {
+        // dispose something
+    }
+}
+
+local stage = emo.Stage();
+stage.load(Level_1());
+}}}
+
+
+== windowWidth ==
+
+Stage#windowWidth returns the screen width.
+
+== windowHeight ==
+
+Stage#windowHeight returns the screen height.
+
+== viewport ==
+
+Stage#viewport sets the viewport of the screen.
+
+== ortho ==
+
+Stage#ortho updates the orthogonal parameters for OpenGL. 
+== interval ==

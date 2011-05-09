@@ -1,0 +1,32 @@
+#summary API reference for emo.Sprite
+#labels Phase-Implementation
+
+= Introduction =
+
+emo.Sprite class represents basic entity for your game. Sprite class can move, scale and rotates around the screen. Sprite have one texture image that cannot contain multiple frames. If you want to use multiple frames from one image(aka sprite sheet), use SpriteSheet class.
+
+== constructor ==
+
+Create a sprite instance with a parameter for image file name. *Only PNG image can be used* to create a sprite. By using Sprite constructor the framework reserve the vertex buffer however image file itself is not loaded yet.
+
+{{{
+// create a sprite instance from dog.png
+local sprite = emo.Sprite("dog.png");
+}}}
+
+== load ==
+
+Load the sprite into the screen. Image file associated with this sprite is loaded into the memory and loaded to the screen. If you want to just load and hide the sprite use Sprite#hide before calling load().
+
+{{{
+local sprite = emo.Sprite("dog.png");
+sprite.load(); // the sprite will be loaded immediately to the screen.
+
+local hideSprite = emo.Sprite("dog.png");
+hideSprite.hide(); // hide the sprite
+hideSprite.load(); // the sprite is loaded but this sprite is not visible.
+
+// .. on later events
+hideSprite.show(); // now the sprite is visible
+
+}}}

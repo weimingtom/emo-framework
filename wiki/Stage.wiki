@@ -78,11 +78,26 @@ stage.windowHeight(240); // set the window height to 240
 
 == viewport ==
 
-Stage#viewport sets the viewport of the screen.
+Stage#viewport sets the viewport of the screen. Stage#viewport is just the proxy calls for OpenGL glViewport command. Default viewport size is just the same size as Stage#windowWidth and Stage#windowHeight.
+
+{{{
+local width  = 480;
+local height = 320;
+local stage = emo.Stage();
+stage.viewport(width, height);
+}}}
 
 == ortho ==
 
-Stage#ortho updates the orthogonal parameters for OpenGL. 
+Stage#ortho updates the orthogonal parameters for OpenGL. Stage#ortho is just the proxy calls for OpenGL glOrthof command. Default width and height are just the same size as Stage#windowWidth and Stage#windowHeight.
+
+{{{
+local width  = 480;
+local height = 320;
+local stage = emo.Stage();
+stage.ortho(width, height);
+}}}
+
 == interval ==
 
 Stage#interval updates the draw interval of the screen. This can be used to debug the game or limit the fps(frame per second) while loading the heavy assets.

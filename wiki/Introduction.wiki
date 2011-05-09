@@ -54,13 +54,6 @@ class Level_1 {
     }
 
     /*
-     * this block is your game loop. 
-     */
-    function onDrawFrame(dt) {
-        // this block is your your game loop
-    }
-
-    /*
      * when the screen is touched down, proceed to the next level.
      */
     function onMotionEvent(motionEvent) {

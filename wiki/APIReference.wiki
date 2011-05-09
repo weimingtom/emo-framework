@@ -13,8 +13,9 @@ This page is emo-framework's API reference index. This page does not contain the
 
 == Shape and Sprite ==
 
+  * Line
   * Rectangle
-  * Sprite
+  * [Sprite]
 
 == Sprite sheet and animations ==
 

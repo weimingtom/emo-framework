@@ -1,5 +1,6 @@
 #summary API reference for emo.Sprite
 #labels Phase-Implementation
+#sidebar Sidebar
 
 = Introduction =
 

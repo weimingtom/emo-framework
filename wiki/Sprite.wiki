@@ -30,3 +30,37 @@ hideSprite.load(); // the sprite is loaded but this sprite is not visible.
 hideSprite.show(); // now the sprite is visible
 
 }}}
+
+== show and hide ==
+
+Show and hide the sprite from the screen. Sprite#show updates the alpha color of the sprite to 0(transparent) and Sprite#hide updates the alpha color of the sprite to 1.
+
+{{{
+local sprite = emo.Sprite("dog.png");
+sprite.hide(); // hide the sprite
+sprite.show(); // show the sprite
+}}}
+
+== Changing colors ==
+
+Sprite class can change its color by using Sprite#red, Sprite#green, Sprite#blue. Alpha color also can be changed by Sprite#alpha to change transparency of the sprite. If no parameter has been specified these functions, current color is returned. Each color value is float value from 0 to 1. By using Sprite#color all colors can be updated at a time.
+
+{{{
+local sprite = emo.Sprite("dog.png");
+
+sprite.alpha(0); // Just as same as calling hide();
+sprite.alpha(1); // Just as same as calling show();
+
+local a = sprite.alpha(); // returns current alpha value ... 1
+
+sprite.color(0, 0, 0, 1); // red=0, green=0, blue=0, alpha=1 ... color equals 'black'
+
+sprite.red(1); // update the red color to 1 ... (1, 0, 0, 1) = red
+local r = sprite.red(); // returns current red value ... 1
+
+sprite.green(1); // update green color to 1 ... (1, 1, 0, 1) = yellow
+local g = sprite.green(); // returns current green value ... 1
+
+sprite.blue(1); // update blue color to 1 ... (1, 1, 1, 1) = white
+local b = sprite.blue(); // returns current blue value ... 1
+}}}

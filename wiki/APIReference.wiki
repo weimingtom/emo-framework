@@ -9,7 +9,7 @@ This page is emo-framework's API reference index. This page does not contain the
 
 == Stage and Levels ==
 
-  * [APIStage]
+  * [Stage]
 
 == Shape and Sprite ==
 

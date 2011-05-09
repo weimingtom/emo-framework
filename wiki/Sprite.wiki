@@ -55,12 +55,12 @@ local a = sprite.alpha(); // returns current alpha value ... 1
 
 sprite.color(0, 0, 0, 1); // red=0, green=0, blue=0, alpha=1 ... color equals 'black'
 
-sprite.red(1); // update the red color to 1 ... (1, 0, 0, 1) = red
+sprite.red(1); // update the red color to 1 ... RGBA(1, 0, 0, 1) = red
 local r = sprite.red(); // returns current red value ... 1
 
-sprite.green(1); // update green color to 1 ... (1, 1, 0, 1) = yellow
+sprite.green(1); // update green color to 1 ... RGBA(1, 1, 0, 1) = yellow
 local g = sprite.green(); // returns current green value ... 1
 
-sprite.blue(1); // update blue color to 1 ... (1, 1, 1, 1) = white
+sprite.blue(1); // update blue color to 1 ... RGBA(1, 1, 1, 1) = white
 local b = sprite.blue(); // returns current blue value ... 1
 }}}

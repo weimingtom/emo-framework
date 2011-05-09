@@ -17,7 +17,7 @@ As emo has simple and easy to use application programming interface that is runn
 
 == Lightweight ==
 
-The key concept of emo-framework is to keep it simple and lightweight in many ways. emo is driven by Squirrel that fits in the size, memory bandwidth, and real-time requirements of games. emo has native game engine which almost all codes are written in C/C++ for Android and C/C++/Objective-C for iOS that is based on OpenGL for graphic rendering and OpenAL/OpenSL for sound interface. 
+One of the key concepts of emo-framework is to keep it simple and lightweight in many ways. emo is driven by Squirrel that fits in the size, memory bandwidth, and real-time requirements of games. emo has native game engine which almost all codes are written in C/C++ for Android and C/C++/Objective-C for iOS that is based on OpenGL for graphic rendering and OpenAL/OpenSL for sound interface. 
 
 == Open source and Free ==
 

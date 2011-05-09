@@ -53,6 +53,6 @@ This page is emo-framework's API reference index. This page does not contain the
 
   * Asynchronous HTTP request and callback
 
-== On-demend script loading ==
+== Dynamic Scripting ==
 
-  * On-demend script loading
+  * On-demand script loading

@@ -7,7 +7,7 @@ emo.Stage class represents one and only stage for your game. Stage class can be 
 
 == load ==
 
-Stage#load load the level and delegates the event loop to the level. The loaded class can have receive the event throught event delegate functions like onLoad, onGainedFocus, onLostFocus and onDispose. It goes something like this:
+Stage#load load the level and delegates the event loop to the level. The loaded class can receive the event throught the event delegate functions like onLoad, onGainedFocus, onLostFocus and onDispose. It goes something like this:
 
 {{{
 class Level_1 {

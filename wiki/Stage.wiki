@@ -1,5 +1,6 @@
 #summary API reference for emo.Stage
 #labels Phase-Implementation
+#sidebar Sidebar
 
 = Introduction =
 

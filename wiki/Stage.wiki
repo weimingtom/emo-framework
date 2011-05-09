@@ -2,7 +2,7 @@
 #labels Phase-Implementation
 #sidebar Sidebar
 
-= Introduction =
+= emo.Stage =
 
 emo.Stage class represents one and only stage for your game. Stage class can be used to load the new level and enter the game loop, dispose the level and proceed to the next level.
 

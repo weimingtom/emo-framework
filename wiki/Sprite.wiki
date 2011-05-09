@@ -31,6 +31,17 @@ hideSprite.show(); // now the sprite is visible
 
 }}}
 
+Sprite#load returns boolean value to see whether loading is succeeded or not.
+
+{{{
+local sprite = emo.Sprite("dog.png");
+if (sprite.load()) {
+   print("sprite is loaded");
+} else {
+   print("something is going wrong");
+}
+}}}
+
 == show and hide ==
 
 Show and hide the sprite from the screen. Sprite#show updates the alpha color of the sprite to 0(transparent) and Sprite#hide updates the alpha color of the sprite to 1.

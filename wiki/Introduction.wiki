@@ -17,4 +17,4 @@ As emo has simple and easy to use application programming interface that is runn
 
 == Open source ==
 
-emo is released under the terms of open-source license: New BSD License. You can use emo framework at absolutely free of charge. You don't have to disclose your source code even if it is commercial products. And also you don't have to show any logo or something like that of emo framework in your game. (note: you have to reproduce the license in any way, see the license document for details.)
+emo is released under the terms of open-source license: New BSD License. You can use emo framework at absolutely free of charge. You don't have to disclose your source code even if it is commercial products. And also you don't have to show any logo or something like that of emo framework in your game. (note: you have to reproduce the license document in any way, see the license document for details.)

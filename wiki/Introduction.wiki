@@ -23,3 +23,86 @@ One of the key concepts of emo-framework is to keep it simple and lightweight in
 == Open source and Free ==
 
 emo is released under the terms of open-source license: New BSD License. You can use emo framework at absolutely free of charge. You don't have to disclose your source code even in the commercial products. And also you don't have to show any logo or something like that of emo framework in your game. (note: redistributions in binary form must reproduce the copyright notice, see the license document for details.)
+
+
+== Object-Oriented ==
+
+By using emo framework you can write your game logic by Squirrel: object-oriented programming language. You can write your game level as "class" and define the callback event as methods. It goes something like below:
+
+{{{
+local stage   = emo.Stage(); // stage class represents your game stage
+
+/*
+ * Level 1 definition
+ */
+class Level_1 {
+
+    dogSprite  = emo.Sprite("dog.png");
+
+    /*
+     * called when level 1 started
+     */
+    function onLoad() {
+        dogSprite.load(0, 0); // load dog sprite into the screen
+    }
+
+    /*
+     * called when level 1 ends.
+     */
+    function onDispose() {
+        dogSprite.remove(); // remove the sprite from the screen
+    }
+
+    /*
+     * this block is your game loop. 
+     */
+    function onDrawFrame(dt) {
+        // this block is your your game loop
+    }
+
+    /*
+     * when the screen is touched down, proceed to the next level.
+     */
+    function onMotionEvent(motionEvent) {
+        if (motionEvent.getAction() == MOTION_EVENT_ACTION_DOWN) {
+            stage.load(Level_2());
+        }
+    }
+}
+
+/*
+ * Level 2 definition
+ */
+class Level_2 {
+
+    kingSprite = emo.Sprite("king.png");
+
+    /*
+     * called when level 2 started
+     */
+    function onLoad() {
+        kingSprite.load(0, 0); // load king sprite into the screen
+    }
+
+    /*
+     * this block is your game loop. 
+     */
+    function onDrawFrame(dt) {
+        // this block is your your game loop
+    }
+
+    /*
+     * called when level 2 ends.
+     */
+    function onDispose() {
+        kingSprite.remove(); // remove the sprite from the screen
+    }
+}
+
+/*
+ * load Level 1 stage when this script is loaded
+ */
+function emo::onLoad() {
+    stage.load(Level_1());
+}
+}}}

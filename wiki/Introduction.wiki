@@ -15,6 +15,10 @@ Squirrel is intuitive lightweight object-oriented programming language that fits
 
 As emo has simple and easy to use application programming interface that is running on top of the Squirrel programming language, you don't have to endure the difficulties of learning Objective-C and Java, and you can focus on your game logic by using one programming language. Not only novice programmers but also professional game programmers who is familiar with Lua (famous game programming language in the game industry) will make full use of Squirrel in a minute because Squirrel is much inspired by the language like Lua, JavaScript and Python.
 
+== Lightweight ==
+
+The key concept of emo-framework is to keep it simple and lightweight in many ways. emo is driven by Squirrel that fits in the size, memory bandwidth, and real-time requirements of games. emo has native game engine which almost all codes are written in C/C++ for Android and C/C++/Objective-C for iOS that is based on OpenGL for graphic rendering and OpenAL/OpenSL for sound interface. 
+
 == Open source and Free ==
 
 emo is released under the terms of open-source license: New BSD License. You can use emo framework at absolutely free of charge. You don't have to disclose your source code even in the commercial products. And also you don't have to show any logo or something like that of emo framework in your game. (note: redistributions in binary form must reproduce the copyright notice, see the license document for details.)

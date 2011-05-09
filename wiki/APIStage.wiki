@@ -23,6 +23,37 @@ local stage = emo.Stage();
 stage.load(Level_1());
 }}}
 
+If the next level are loaded using Stage#load, the current level are disposed before loading the next level.
+
+{{{
+class Level_1 {
+    function onLoad() {
+        print("Level_1:onLoad");
+    }
+    function onDispose() {
+        print("Level_1:onDispose");
+    }
+}
+class Level_2 {
+    function onLoad() {
+        print("Level_2:onLoad");
+    }
+    function onDispose() {
+        print("Level_2:onDispose");
+    }
+}
+local stage = emo.Stage();
+stage.load(Level_1());
+// Level_1#onDispose are called automatically before loading Level_2.
+stage.load(Level_2());
+}}}
+
+It prints like below:
+{{{
+Level1:onLoad
+Level1:onDispose
+Level2:onLoad
+}}}
 
 == windowWidth ==
 

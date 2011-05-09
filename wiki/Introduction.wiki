@@ -1,6 +1,6 @@
 #summary About emo-framework
 #labels Phase-Design
-#sidebar SideBar
+#sidebar Sidebar
 
 = Introduction =
 

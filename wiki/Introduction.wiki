@@ -43,7 +43,7 @@ class Level_1 {
      * called when level 1 started
      */
     function onLoad() {
-        dogSprite.load(0, 0); // load dog sprite into the screen
+        dogSprite.load(); // load dog sprite into the screen
     }
 
     /*
@@ -74,7 +74,7 @@ class Level_2 {
      * called when level 2 started
      */
     function onLoad() {
-        kingSprite.load(0, 0); // load king sprite into the screen
+        kingSprite.load(); // load king sprite into the screen
     }
 
     /*

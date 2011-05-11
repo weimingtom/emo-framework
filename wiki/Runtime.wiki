@@ -13,3 +13,41 @@ Runtime#import imports and compiles the Squirrel scripts from the asset. Any fil
 local runtime = emo.Runtime();
 runtime.import("stage2.nut");
 }}}
+
+=== log ===
+
+Runtime#log is useful for print debug message into the log console. Loggin message can be seen at logcat(Android) or console(iOS). Runtime#log needs log level parameter and message string.
+
+{{{
+local runtime = emo.Runtime();
+runtime.log(LOG_INFO, "info message");
+runtime.log(LOG_ERROR, "error message");
+runtime.log(LOG_WARN, "warn message");
+}}} 
+
+=== info ===
+
+Runtime#info is useful for print debug information message into the log console. Logging message can be seen at logcat(Android) or console(iOS). 
+
+{{{
+local runtime = emo.Runtime();
+runtime.info("info message");
+}}}
+
+=== error ===
+
+Runtime#info is useful for print error message into the log console. Logging message can be seen at logcat(Android) or console(iOS). 
+
+{{{
+local runtime = emo.Runtime();
+runtime.error("error message");
+}}}
+
+=== warn ===
+
+Runtime#info is useful for print warning message into the log console. Logging message can be seen at logcat(Android) or console(iOS). 
+
+{{{
+local runtime = emo.Runtime();
+runtime.warn("warn message");
+}}}

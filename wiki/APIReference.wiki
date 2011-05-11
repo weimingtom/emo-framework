@@ -8,8 +8,9 @@ This page is emo-framework's API reference index. This page does not contain the
 
 = Details =
 
-== Stage and Levels ==
+== Runtime and Levels ==
 
+  * [Runtime]
   * [Stage]
 
 == Shape and Sprite ==

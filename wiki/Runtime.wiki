@@ -1,0 +1,15 @@
+#summary API reference for emo.Runtime
+#labels Phase-Implementation
+
+= emo.Runtime =
+
+emo.Runtime class represents basic functions for emo-framework runtime that contains import, log and so on.
+
+== import ==
+
+Runtime#import imports and compiles the Squirrel scripts from the asset. Any files from asset can be imported using this function on demand at runtime. This function is useful for loading new stage or levels dynamically at runtime.
+
+{{{
+local runtime = emo.Runtime();
+runtime.import("stage2.nut");
+}}}

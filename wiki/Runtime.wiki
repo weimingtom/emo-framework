@@ -1,5 +1,6 @@
 #summary API reference for emo.Runtime
 #labels Phase-Implementation
+#sidebar Sidebar
 
 = emo.Runtime =
 

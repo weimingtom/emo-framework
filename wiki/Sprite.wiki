@@ -76,3 +76,30 @@ local g = sprite.green(); // returns current green value ... 1
 sprite.blue(1); // update blue color to 1 ... RGBA(1, 1, 1, 1) = white
 local b = sprite.blue(); // returns current blue value ... 1
 }}}
+
+=== isLoaded ===
+
+Sprite#isLoaded returns true if the sprite is loaded.
+
+{{{
+local sprite = emo.Sprite("dog.png");
+if (sprite.isLoaded()) {
+  print("sprite is loaded");
+} else {
+  print("sprite is not loaded");
+}
+sprite.load();
+print(sprite.isLoaded()); // if loading is succeeded isLoaded returns true
+}}}
+
+=== move(x,y) ===
+
+Sprite#move moves the sprite around the stage. Sprite can be moved outside the screen that makes the sprite invisible.
+
+{{{
+local sprite = emo.Sprite("dog.png");
+sprite.move(0, 0); // sprite is now (x=0, y=0)
+sprite.move(100, 200); // moves the sprite to (x=100, y=200)
+}}}
+
+=== 

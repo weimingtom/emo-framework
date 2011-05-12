@@ -146,18 +146,21 @@ print(sprite.getHeight());
 }}}
 
 === scale(scaleX, scaleY) === 
+=== scale(scaleX, scaleY, centerX, centerY) === 
 
-Sprite#scale can be used to scale the sprite. The default scale value equals (1, 1). 
+Sprite#scale can be used to scale the sprite. The default scale value equals (1, 1). The center for scale (centerX, centerY) is specified by the additional parameter. If the center is not specified the center of the sprite(width/2, height/2) is used to scale the sprite.
 
 {{{
 local sprite = emo.Sprite("dog.png");
 
 sprite.scale(1.5, 1.5); // scales the sprite 1.5 times bigger.
+sprite.scale
 }}}
 
 === rotate(angle) ===
+=== rotate(angle, centerX, centerY) ===
 
-Sprite#rotate can be used to rotate the sprite. Rotation angle(degree) can be specified in the first parameter.
+Sprite#rotate can be used to rotate the sprite. The first parameter of the angle is the rotation angle(degree). The center position for rotation is specified by additional parameter(centerX, centerY). If the rotation center is not specified the center of the sprite(width/2, height/2) is used to rotate the sprite.
 
 {{{
 local sprite = emo.Sprite("dog.png");

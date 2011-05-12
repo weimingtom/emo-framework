@@ -51,3 +51,26 @@ Runtime#info is useful for print warning message into the log console. Logging m
 local runtime = emo.Runtime();
 runtime.warn("warn message");
 }}}
+
+=== os ==
+
+Runtime#os returns OS type that emo-framework is running on. OS_ANDROID and OS_IOS constant variable can be used to check the os name.
+
+{{{
+local runtime = emo.Runtime();
+local os = runtime.os();
+if (os == OS_ANDROID) {
+  print("Android");
+} else if (os == OS_IOS) {
+  print("iOS");
+}
+}}}
+
+=== finish ===
+
+Runtime#finish finishes the current activity. *Runtime#finish* works only on the Android platform*. Nothing is happened if finish() is called from iOS.
+
+{{{
+local runtime = emo.Runtime();
+runtime.finish(); // finishes the current activity
+}}}

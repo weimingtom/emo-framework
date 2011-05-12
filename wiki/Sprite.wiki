@@ -84,7 +84,9 @@ Sprite#isLoaded returns true if the sprite is loaded.
 {{{
 local sprite = emo.Sprite("dog.png");
 print(sprite.isLoaded()); // must returns false because the sprite is not loaded yet.
+
 sprite.load();
+
 // if loading is succeeded isLoaded returns true
 if (sprite.isLoaded()) {
   print("sprite is loaded");
@@ -103,4 +105,31 @@ sprite.move(0, 0); // sprite is now (x=0, y=0)
 sprite.move(100, 200); // moves the sprite to (x=100, y=200)
 }}}
 
-=== 
+=== Get the Position ===
+
+Sprite#getX, getY can be used to retrieve the position of the sprite.
+
+{{{
+local sprite = emo.Sprite("dog.png");
+sprite.move(0, 0); // sprite is now (x=0, y=0)
+
+print(sprite.getX()); // returns 0;
+
+sprite.move(100, 200); // moves the sprite to (x=100, y=200)
+
+print(sprite.getX()); // returns 100
+print(sprite.getY()); // returns 200
+}}}
+
+== The Z-Order ==
+
+Sprite#setZ and Sprite#getZ can be used to set/get the sprite's z-order. Z-order is used to specify the order of drawing the sprite. 
+{{{
+local sprite = emo.Sprite("dog.png");
+local background = emo.Sprite("background.png");
+
+background.setZ(0);
+sprite.setZ(1);     // the dog will be draw over the background
+
+print(sprite.getZ()); // returns 1
+}}}

@@ -68,7 +68,7 @@ if (os == OS_ANDROID) {
 
 === finish ===
 
-Runtime#finish finishes the current activity. *Runtime#finish* works only on the Android platform*. Nothing is happened if finish() is called from iOS.
+Runtime#finish finishes the current activity. *Runtime#finish works only on the Android platform*. Nothing is happened if finish() is called from iOS.
 
 {{{
 local runtime = emo.Runtime();

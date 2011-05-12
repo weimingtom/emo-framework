@@ -154,7 +154,6 @@ Sprite#scale can be used to scale the sprite. The default scale value equals (1,
 local sprite = emo.Sprite("dog.png");
 
 sprite.scale(1.5, 1.5); // scales the sprite 1.5 times bigger.
-sprite.scale
 }}}
 
 === rotate(angle) ===

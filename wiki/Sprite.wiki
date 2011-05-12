@@ -105,7 +105,7 @@ sprite.move(0, 0); // sprite is now (x=0, y=0)
 sprite.move(100, 200); // moves the sprite to (x=100, y=200)
 }}}
 
-=== Get the Position ===
+=== The Position ===
 
 Sprite#getX, getY can be used to retrieve the position of the sprite.
 
@@ -121,7 +121,7 @@ print(sprite.getX()); // returns 100
 print(sprite.getY()); // returns 200
 }}}
 
-== The Z-Order ==
+=== The Z-Order ===
 
 Sprite#setZ and Sprite#getZ can be used to set/get the sprite's z-order. Z-order is used to specify the order of drawing the sprite. 
 {{{
@@ -129,7 +129,37 @@ local sprite = emo.Sprite("dog.png");
 local background = emo.Sprite("background.png");
 
 background.setZ(0);
-sprite.setZ(1);     // the dog will be draw over the background
+sprite.setZ(1);     // the dog will be drew over the background
 
 print(sprite.getZ()); // returns 1
+}}}
+
+=== The Size ===
+
+Sprite#getWidth and getHeight can be used to retrieve the width and height of the sprite. 
+
+{{{
+local sprite = emo.Sprite("dog.png");
+
+print(sprite.getWidth());
+print(sprite.getHeight());
+}}}
+
+=== scale(scaleX, scaleY) === 
+
+Sprite#scale can be used to scale the sprite. The default scale value equals (1, 1). 
+
+{{{
+local sprite = emo.Sprite("dog.png");
+
+sprite.scale(1.5, 1.5); // scales the sprite 1.5 times bigger.
+}}}
+
+=== rotate(angle) ===
+
+Sprite#rotate can be used to rotate the sprite. Rotation angle(degree) can be specified in the first parameter.
+
+{{{
+local sprite = emo.Sprite("dog.png");
+sprite.rotate(30); rotate the sprite 30 degrees.
 }}}

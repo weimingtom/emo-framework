@@ -83,13 +83,14 @@ Sprite#isLoaded returns true if the sprite is loaded.
 
 {{{
 local sprite = emo.Sprite("dog.png");
+print(sprite.isLoaded()); // must returns false because the sprite is not loaded yet.
+sprite.load();
+// if loading is succeeded isLoaded returns true
 if (sprite.isLoaded()) {
   print("sprite is loaded");
 } else {
   print("sprite is not loaded");
 }
-sprite.load();
-print(sprite.isLoaded()); // if loading is succeeded isLoaded returns true
 }}}
 
 === move(x,y) ===

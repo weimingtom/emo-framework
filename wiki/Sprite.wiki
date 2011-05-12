@@ -163,5 +163,5 @@ Sprite#rotate can be used to rotate the sprite. The first parameter of the angle
 
 {{{
 local sprite = emo.Sprite("dog.png");
-sprite.rotate(30); rotate the sprite 30 degrees.
+sprite.rotate(30); // rotate the sprite 30 degrees.
 }}}

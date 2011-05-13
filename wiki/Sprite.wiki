@@ -169,6 +169,22 @@ local sprite = emo.Sprite("dog.png");
 sprite.scale(1.5, 1.5); // scales the sprite 1.5 times bigger.
 }}}
 
+=== Getting the scale ===
+
+Sprite#getScale, getScaleX, getScaleY returns the scale of the sprite. getScale() is the alias for getScaleX().
+
+{{{
+local sprite = emo.Sprite("dog.png");
+print(sprite.getScale()); // returns 1
+
+sprite.scale(1.5, 1.5); // scales the sprite 1.5 times bigger.
+print(sprite.getScale());  // returns 1.5
+
+sprite.scale(2, 1); // scales the sprite width: 2 times bigger.
+print(sprite.getScaleX()); // returns 2
+print(sprite.getScaleY()); // return 1
+}}}
+
 === rotate(angle) ===
 === rotate(angle, centerX, centerY) ===
 
@@ -177,4 +193,16 @@ Sprite#rotate rotates the sprite. The first parameter of the angle is the rotati
 {{{
 local sprite = emo.Sprite("dog.png");
 sprite.rotate(30); // rotate the sprite 30 degrees.
+}}}
+
+=== Getting the angle ===
+
+Sprite#getAngle() returns the angle(degree) of the sprite. Default angle of the sprite is 0.
+
+{{{
+local sprite = emo.Sprite("dog.png");
+print(sprite.getAngle()); // returns 0
+
+sprite.rotate(30); // rotate the sprite 30 degrees.
+print(sprite.getAngle()); // returns 30
 }}}

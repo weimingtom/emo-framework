@@ -227,9 +227,9 @@ sprite.move(0, 0);       // moves the sprite to (0, 0);
 sprite.setSize(64, 128); // sprite size equals (64, 128);
 
 print(sprite.contains(50, 50));  // returns true;
-print(sprite.contains(64, 128)); // return true;
-print(sprite.contains(65, 129)); // return false;
+print(sprite.contains(64, 128)); // returns true;
+print(sprite.contains(65, 129)); // returns false;
 
 sprite.move(1, 1);
-print(sprite.contains(65, 129)); // return true;
+print(sprite.contains(65, 129)); // returns true;
 }}}

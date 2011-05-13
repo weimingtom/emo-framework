@@ -249,6 +249,6 @@ otherSprite.setSize(64, 64); // sprite size equals (64, 64);
 
 print(sprite.collidesWith(otherSprite));  // returns true;
 
-sprite.move(128, 128);
+otherSprite.move(128, 128);
 print(sprite.collidesWith(otherSprite));  // returns false;
 }}}

@@ -77,7 +77,7 @@ sprite.blue(1); // update blue color to 1 ... RGBA(1, 1, 1, 1) = white
 local b = sprite.blue(); // returns current blue value ... 1
 }}}
 
-=== isLoaded ===
+== isLoaded ==
 
 Sprite#isLoaded returns true if the sprite is loaded.
 
@@ -95,7 +95,7 @@ if (sprite.isLoaded()) {
 }
 }}}
 
-=== move(x,y) ===
+== move(x,y) ==
 
 Sprite#move moves the sprite around the stage. Sprite can be moved outside the screen that makes the sprite invisible.
 
@@ -105,7 +105,7 @@ sprite.move(0, 0); // sprite is now (x=0, y=0)
 sprite.move(100, 200); // moves the sprite to (x=100, y=200)
 }}}
 
-=== The Position ===
+== The Position ==
 
 Sprite#getX, getY returns the position of the sprite.
 
@@ -121,7 +121,7 @@ print(sprite.getX()); // returns 100
 print(sprite.getY()); // returns 200
 }}}
 
-=== The Z-Order ===
+== The Z-Order ==
 
 Sprite#setZ and Sprite#getZ sets/gets the sprite's z-order. Z-order is used to specify the order of drawing the sprite. 
 {{{
@@ -134,7 +134,7 @@ sprite.setZ(1);     // the dog will be drew over the background
 print(sprite.getZ()); // returns 1
 }}}
 
-=== Getting the size ===
+== Getting the size ==
 
 Sprite#getWidth and getHeight returns the width and height of the sprite. 
 
@@ -145,7 +145,7 @@ print(sprite.getWidth());
 print(sprite.getHeight());
 }}}
 
-=== Updating the size ===
+== Updating the size ==
 
 Sprite#setWidth and setHeight set the width and height of the sprite. Sprite#setSize sets the sprite width and height.
 
@@ -158,8 +158,8 @@ sprite.setHeight(128); // set the height to 128
 sprite.setSize(64, 128); // width=64, height=128 (same as above)
 }}}
 
-=== scale(scaleX, scaleY) === 
-=== scale(scaleX, scaleY, centerX, centerY) === 
+== scale(scaleX, scaleY) ==
+== scale(scaleX, scaleY, centerX, centerY) ==
 
 Sprite#scale scales the sprite. The default scale value equals (1, 1). The center for scale (centerX, centerY) is specified by the additional parameter. If the center is not specified the center of the sprite(width/2, height/2) is used to scale the sprite.
 
@@ -169,7 +169,7 @@ local sprite = emo.Sprite("dog.png");
 sprite.scale(1.5, 1.5); // scales the sprite 1.5 times bigger.
 }}}
 
-=== Getting the scale ===
+== Getting the scale ==
 
 Sprite#getScale, getScaleX, getScaleY returns the scale of the sprite. getScale() is the alias for getScaleX().
 
@@ -185,8 +185,8 @@ print(sprite.getScaleX()); // returns 2
 print(sprite.getScaleY()); // return 1
 }}}
 
-=== rotate(angle) ===
-=== rotate(angle, centerX, centerY) ===
+== rotate(angle) ==
+== rotate(angle, centerX, centerY) ==
 
 Sprite#rotate rotates the sprite. The first parameter of the angle is the rotation angle(degree). The center position for rotation is specified by additional parameter(centerX, centerY). If the rotation center is not specified the center of the sprite(width/2, height/2) is used to rotate the sprite.
 
@@ -195,7 +195,7 @@ local sprite = emo.Sprite("dog.png");
 sprite.rotate(30); // rotate the sprite 30 degrees.
 }}}
 
-=== Getting the angle ===
+== Getting the angle ==
 
 Sprite#getAngle() returns the angle(degree) of the sprite. Default angle of the sprite is 0.
 
@@ -207,7 +207,7 @@ sprite.rotate(30); // rotate the sprite 30 degrees.
 print(sprite.getAngle()); // returns 30
 }}}
 
-=== remove ===
+== remove ==
 
 Sprite#remove removes the sprite from the screen. Calling remove() removes internal buffer for the sprite, and remove the sprite from the engine. *The sprite instance can not be re-used after calling remove()*. Use Sprite#hide and Sprite#show if you just want to hide/show the sprite from the screen.
 
@@ -217,7 +217,7 @@ sprite.load();   // load the sprite
 sprite.remove(); // remove the sprite
 }}}
 
-=== contains(x, y) ===
+== contains(x, y) ==
 
 Sprite#contains(x, y) checks whether the given coordinate is inside the sprite or not. Returns true if the given coordinate is inside the sprite.
 
@@ -234,7 +234,7 @@ sprite.move(1, 1);
 print(sprite.contains(65, 129)); // returns true;
 }}}
 
-=== collidesWith ===
+== collidesWith ==
 
 Sprite#collidesWith checks whether the sprite collides with the other sprite or not. Returns true if the given sprite collides with the sprite.
 
@@ -253,7 +253,7 @@ otherSprite.move(128, 128);
 print(sprite.collidesWith(otherSprite));  // returns false;
 }}}
 
-=== getName ===
+== getName ==
 
 Sprite#getName returns the name of the sprite. The name of the sprite is not unique because it is the string given by the constructor.
 

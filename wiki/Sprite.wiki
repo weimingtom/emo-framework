@@ -252,3 +252,15 @@ print(sprite.collidesWith(otherSprite));  // returns true;
 otherSprite.move(128, 128);
 print(sprite.collidesWith(otherSprite));  // returns false;
 }}}
+
+=== getName ===
+
+Sprite#getName returns the name of the sprite. The name of the sprite is not unique because it is the string given by the constructor.
+
+{{{
+local sprite = emo.Sprite("dog.png");
+print(sprite.getName()); // returns "dog.png"
+
+local otherSprite = emo.Sprite("dog.png");
+print(otherSprite.getName()); // returns "dog.png"
+}}}

@@ -23,6 +23,6 @@ rectangle.setSize(50, 50); // rectangle width=50, height=50
 rectangle.load(); // load the rectangle
 }}}
 
-== other methods ==
+== Rectangle extends Sprite ==
 
 emo.Rectangle class extends the [Sprite] class so you can use all methods of [Sprite] with Rectangle. See [Sprite] class for details.

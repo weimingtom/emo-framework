@@ -15,7 +15,7 @@ local rectangle = emo.Rectangle(); // creates rectangle instance
 
 == load ==
 
-Load the Rectangle instance into the screen. Before loading the rectangle, you have to set the size of the rectangle. (default rectangle size equals (width=1, height=1).
+Load the Rectangle instance into the screen. Before loading the rectangle, you have to set the size of the rectangle. Default rectangle size equals (width=1, height=1).
 
 {{{
 local rectangle = emo.Rectangle(); // creates rectangle instance

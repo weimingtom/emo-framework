@@ -3,7 +3,7 @@
 
 = emo.Rectangle =
 
-emo.Rectangle class represents the rectangle area without any texture. Rectangle class extends emo.Sprite so all methods of the Sprite can be used with Rectangle class.
+emo.Rectangle class represents the rectangle area without texture.
 
 == constructor ==
 

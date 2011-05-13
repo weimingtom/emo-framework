@@ -55,7 +55,7 @@ sprite.show(); // show the sprite
 
 == Changing colors ==
 
-Sprite class can change its color by using Sprite#red, Sprite#green, Sprite#blue. Alpha color also can be changed by Sprite#alpha to change transparency of the sprite. If no parameter has been specified for these functions current color is returned. Each color value is float value from 0 to 1. By using Sprite#color all colors can be updated at a time.
+Sprite class can change its color (RGB) individually by using Sprite#red, Sprite#green, Sprite#blue. Alpha color also can be changed by Sprite#alpha to change transparency of the sprite. If no parameter has been specified for these functions current color is returned. Each color value is float value from 0 to 1. Sprite#color changes all colors at a time.
 
 {{{
 local sprite = emo.Sprite("dog.png");
@@ -107,7 +107,7 @@ sprite.move(100, 200); // moves the sprite to (x=100, y=200)
 
 === The Position ===
 
-Sprite#getX, getY can be used to retrieve the position of the sprite.
+Sprite#getX, getY returns the position of the sprite.
 
 {{{
 local sprite = emo.Sprite("dog.png");
@@ -123,7 +123,7 @@ print(sprite.getY()); // returns 200
 
 === The Z-Order ===
 
-Sprite#setZ and Sprite#getZ can be used to set/get the sprite's z-order. Z-order is used to specify the order of drawing the sprite. 
+Sprite#setZ and Sprite#getZ sets/gets the sprite's z-order. Z-order is used to specify the order of drawing the sprite. 
 {{{
 local sprite = emo.Sprite("dog.png");
 local background = emo.Sprite("background.png");
@@ -134,9 +134,9 @@ sprite.setZ(1);     // the dog will be drew over the background
 print(sprite.getZ()); // returns 1
 }}}
 
-=== The Size ===
+=== Getting the size ===
 
-Sprite#getWidth and getHeight can be used to retrieve the width and height of the sprite. 
+Sprite#getWidth and getHeight returns the width and height of the sprite. 
 
 {{{
 local sprite = emo.Sprite("dog.png");
@@ -145,10 +145,23 @@ print(sprite.getWidth());
 print(sprite.getHeight());
 }}}
 
+=== Updating the size ===
+
+Sprite#setWidth and setHeight set the width and height of the sprite. Sprite#setSize sets the sprite width and height.
+
+{{{
+local sprite = emo.Sprite("dog.png");
+
+sprite.setWidth(64);   // set the width to 64
+sprite.setHeight(128); // set the height to 128
+
+sprite.setSize(64, 128); // width=64, height=128 (same as above)
+}}}
+
 === scale(scaleX, scaleY) === 
 === scale(scaleX, scaleY, centerX, centerY) === 
 
-Sprite#scale can be used to scale the sprite. The default scale value equals (1, 1). The center for scale (centerX, centerY) is specified by the additional parameter. If the center is not specified the center of the sprite(width/2, height/2) is used to scale the sprite.
+Sprite#scale scales the sprite. The default scale value equals (1, 1). The center for scale (centerX, centerY) is specified by the additional parameter. If the center is not specified the center of the sprite(width/2, height/2) is used to scale the sprite.
 
 {{{
 local sprite = emo.Sprite("dog.png");
@@ -159,7 +172,7 @@ sprite.scale(1.5, 1.5); // scales the sprite 1.5 times bigger.
 === rotate(angle) ===
 === rotate(angle, centerX, centerY) ===
 
-Sprite#rotate can be used to rotate the sprite. The first parameter of the angle is the rotation angle(degree). The center position for rotation is specified by additional parameter(centerX, centerY). If the rotation center is not specified the center of the sprite(width/2, height/2) is used to rotate the sprite.
+Sprite#rotate rotates the sprite. The first parameter of the angle is the rotation angle(degree). The center position for rotation is specified by additional parameter(centerX, centerY). If the rotation center is not specified the center of the sprite(width/2, height/2) is used to rotate the sprite.
 
 {{{
 local sprite = emo.Sprite("dog.png");

@@ -1,0 +1,23 @@
+#summary API reference for emo.Rectangle
+
+= emo.Rectangle =
+
+emo.Rectangle class represents the rectangle area without any texture. Rectangle class extends emo.Sprite so all methods of the Sprite can be used with Rectangle class.
+
+== constructor ==
+
+Creates the Rectangle instance. 
+
+{{{
+local rectangle = emo.Rectangle(); // creates rectangle instance
+}}}
+
+== load ==
+
+Load the Rectangle instance into the screen. Before loading the rectangle, you have to set the size of the rectangle. (default rectangle size equals (width=1, height=1).
+
+{{{
+local rectangle = emo.Rectangle(); // creates rectangle instance
+rectangle.setSize(50, 50); // rectangle width=50, height=50
+rectangle.load(); // load the rectangle
+}}}

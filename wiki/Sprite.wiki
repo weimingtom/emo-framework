@@ -206,3 +206,27 @@ print(sprite.getAngle()); // returns 0
 sprite.rotate(30); // rotate the sprite 30 degrees.
 print(sprite.getAngle()); // returns 30
 }}}
+
+=== remove ===
+
+Sprite#remove removes the sprite from the screen. Calling remove() removes internal buffer for the sprite, and remove the sprite from the engine. *The sprite instance can not be re-used after calling remove()*. Use Sprite#hide and Sprite#show if you just want to hide/show the sprite from the screen.
+
+{{{
+local sprite = emo.Sprite("dog.png");
+sprite.load();   // load the sprite
+sprite.remove(); // remove the sprite
+}}}
+
+=== contains(x, y) ===
+
+Sprite#contains(x, y) returns whether the given coordinate is inside the sprite or not. If the given coordinate is inside the sprite this function returns true.
+
+{{{
+local sprite = emo.Sprite("dog.png");
+sprite.move(0, 0);       // moves the sprite to (0, 0); 
+sprite.setSize(64, 128); // sprite size equals (64, 128);
+
+print(sprite.contains(50, 50));  // returns true;
+print(sprite.contains(64, 128)); // return true;
+print(sprite.contains(65, 129)); // return false;
+}}}

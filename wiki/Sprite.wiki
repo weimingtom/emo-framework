@@ -219,7 +219,7 @@ sprite.remove(); // remove the sprite
 
 === contains(x, y) ===
 
-Sprite#contains(x, y) returns whether the given coordinate is inside the sprite or not. If the given coordinate is inside the sprite this function returns true.
+Sprite#contains(x, y) checks whether the given coordinate is inside the sprite or not. Returns true if the given coordinate is inside the sprite.
 
 {{{
 local sprite = emo.Sprite("dog.png");
@@ -232,4 +232,23 @@ print(sprite.contains(65, 129)); // returns false;
 
 sprite.move(1, 1);
 print(sprite.contains(65, 129)); // returns true;
+}}}
+
+=== collidesWith ===
+
+Sprite#collidesWith checks whether the sprite collides with the other sprite or not. Returns true if the given sprite collides with the sprite.
+
+{{{
+local sprite = emo.Sprite("dog.png");
+sprite.move(0, 0);       // moves the sprite to (0, 0); 
+sprite.setSize(64, 64); // sprite size equals (64, 64);
+
+local otherSprite = emo.Sprite("dog.png");
+otherSprite.move(32, 32);       // moves the sprite to (32, 32); 
+otherSprite.setSize(64, 64); // sprite size equals (64, 64);
+
+print(sprite.collidesWith(otherSprite));  // returns true;
+
+sprite.move(128, 128);
+print(sprite.collidesWith(otherSprite));  // returns false;
 }}}

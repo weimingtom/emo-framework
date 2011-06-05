@@ -12,6 +12,8 @@ Runtime#import imports and compiles the Squirrel scripts from the asset. Any fil
 {{{
 local runtime = emo.Runtime();
 runtime.import("stage2.nut");
+// for short, you can write import statement like this.
+// emo.Runtime.import("stage2.nut");
 }}}
 
 === log ===
@@ -52,7 +54,7 @@ local runtime = emo.Runtime();
 runtime.warn("warn message");
 }}}
 
-=== os ==
+=== os ===
 
 Runtime#os returns OS type that emo-framework is running on. OS_ANDROID and OS_IOS constant variable can be used to check the os name.
 
@@ -65,6 +67,21 @@ if (os == OS_ANDROID) {
   print("iOS");
 }
 }}}
+
+=== device ===
+
+Runtime#device returns device type that emo-framework is running on. For iPhone this function returns the "hw.machine" value of sysctlbyname. For Android this function returns the value of android.os.Build.DEVICE constant;
+
+{{{
+local runtime = emo.Runtime();
+local device = runtime.device();
+// returns 'iPhone3,1' if it runs on iPhone 4
+// returns 'generic' if it runs on Android Simulator
+}}}
+
+=== isSimulator ===
+
+Runtime#isSimulator returns if the emo-framework runs on the simulator. This function is useful for developing and debugging.
 
 === finish ===
 

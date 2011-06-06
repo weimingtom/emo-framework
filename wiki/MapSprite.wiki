@@ -109,3 +109,9 @@ local citymap = emo.MapSprite("map1.png", 34, 42);
 // load the map into the screen
 citymap.load();
 }}}
+
+== rotate and scale ==
+
+MapSprite itself can be moved around the screen however it does not support rotation and scaling. MapSprite only print errors if rotate and scale is called.
+
+

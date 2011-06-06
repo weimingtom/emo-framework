@@ -128,12 +128,13 @@ local centerY = stage.getCenterY();
 Stage#setContentScale scales the current content. This function is useful to support multiple screen density. This function is equivalent to Stage#ortho(Stage#getWindowWidth() / scale, Stage#getWindowHeight() / scale).
 
 {{{
-  // if the screen has large display, scale contents twice
-  // that makes the stage size by half.
-  // This examples shows how to display similar-scale images
-  // on Retina and non-Retina display.
-    stage.setContentScale(stage.getWindowWidth() / 320);
+// if the screen has large display, scale contents twice
+// that makes the stage size by half.
+// This examples shows how to display similar-scale images
+// on Retina and non-Retina display.
+local stage = emo.Stage();
+stage.setContentScale(stage.getWindowWidth() / 320);
 
-  // if the device has 320x480 screen, the stage size equals 320x480.
-  // if the device has 640x960 screen, the stage size remains 320x480.
+// if the device has 320x480 screen, the stage size equals 320x480.
+// if the device has 640x960 screen, the stage size remains 320x480.
 }}}

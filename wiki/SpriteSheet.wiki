@@ -28,6 +28,21 @@ local sprite = emo.SpriteSheet("dog.png", 34, 42);
 sprite.setFrame(1);
 }}}
 
+== animate(startFrame, frameCount, interval, loopCount = 0) ==
+
+SpriteSheet#animate animates the sprite with given parameters. startFrame is the stating frame index for the animation, and frameCount is the number of frames from the startFrame index. interval parameter is the animation frame interval in milliseconds. The default loop count equals 0 that means this sprite animates only once.
+
+{{{
+local explosion = emo.SpriteSheet("explosion.png", 19, 19, 3, 2, 0);
+explosion.load();
+
+// animate the sprite from index=1 to index=6, frame interval equals 500 milliseconds(0.5sec) once.  
+explosion.animates(1, 5, 500);
+
+// animate the sprite with one loop (that replays the animation once.)
+explosion.animates(1, 5, 1);
+}}}
+
 == load() ==
 == load(x, y, frameIndex) ==
 

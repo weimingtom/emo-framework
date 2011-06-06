@@ -112,3 +112,7 @@ citymap.load();
 == rotate and scale ==
 
 MapSprite itself can be moved around the screen however it does not support rotation and scaling. MapSprite only print errors if rotate and scale is called.
+
+== MapSprite extends Sprite ==
+
+emo.MapSprite class extends the [Sprite] class so you can use all methods of [Sprite] with MapSprite except rotate and scale. See [Sprite] for details.

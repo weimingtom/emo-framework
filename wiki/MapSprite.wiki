@@ -3,7 +3,7 @@
 
 = emo.MapSprite =
 
-emo.MapSprite class represents the tiled map that can be defined by multidimensional index integer arrays.
+emo.MapSprite class represents the tiled map that can be defined by multidimensional integer arrays.
 
 == constructor(name, frameWidth, frameHeight, border = 0, margin = 0) ==
 
@@ -15,6 +15,22 @@ local citymap = emo.MapSprite("map1.png", 34, 42);
 
 // create 19x19 map sprite with 3 border and 2 margin
 local villmap = emo.MapSprite("map2.png", 19, 19, 3, 2);
+}}}
+
+== setMap ==
+
+MapSprite#setMap sets the tiled map raw data defined by multidimensional integer arrays. An empty tile can be defined by the negative integer value: -1.
+
+{{{
+local citymap = emo.MapSprite("map1.png", 34, 42);
+local tiles = [
+  [0, 1, -1, 2],
+  [0, 3, -1, 2],
+  [0, 4, -1, 2],
+  [0, 4, -1, 2],
+];
+citymap.setTile(tiles);
+citymap.load();
 }}}
 
 == load() ==

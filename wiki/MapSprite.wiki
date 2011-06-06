@@ -16,3 +16,15 @@ local citymap = emo.MapSprite("map1.png", 34, 42);
 // create 19x19 map sprite with 3 border and 2 margin
 local villmap = emo.MapSprite("map2.png", 19, 19, 3, 2);
 }}}
+
+== load() ==
+== load(x, y) ==
+== load(x, y, width, height) ==
+
+MapSprite#load loads the map into the screen. The default position of the map is (x=0, y=0) if no coordinates has been specified.
+
+{{{
+local citymap = emo.MapSprite("map1.png", 34, 42);
+// load the map into the screen
+citymap.load();
+}}}

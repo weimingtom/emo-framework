@@ -1,0 +1,18 @@
+#summary API reference for emo.MapSprite
+#labels Phase-Design
+
+= emo.MapSprite =
+
+emo.MapSprite class represents the tiled map that can be defined by multidimensional index integer arrays.
+
+== constructor(name, frameWidth, frameHeight, border = 0, margin = 0) ==
+
+Creates a map sprite with given parameters.
+
+{{{
+// create 34x42 map sprite with no border and margin, default frame index = 0
+local citymap = emo.MapSprite("map1.png", 34, 42);
+
+// create 19x19 map sprite with 3 border and 2 margin
+local villmap = emo.MapSprite("map2.png", 19, 19, 3, 2);
+}}}

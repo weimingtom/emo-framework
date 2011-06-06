@@ -23,6 +23,8 @@ MapSprite#setMap sets the tiled map raw data defined by multidimensional integer
 
 {{{
 local citymap = emo.MapSprite("map1.png", 34, 42);
+
+// creates 4x4 tiled map with given parameters.
 local tiles = [
   [0, 1, -1, 2],
   [0, 3, -1, 2],
@@ -31,6 +33,34 @@ local tiles = [
 ];
 citymap.setTile(tiles);
 citymap.load();
+}}}
+
+== clearTiles ==
+
+MapSprite#clearTiles clears the current map.
+
+{{{
+// clear the all tiles.
+citymap.clearTiles();
+}}}
+
+== addRow ==
+
+MapSprite#addRow adds the tile row with given array. Note that the given array parameter is not multidimensional.
+
+{{{
+// add new row to the tiled map
+local tile = [0, 1, 2, 3];
+citymap.addRow(tile);
+}}}
+
+== setTileAt(row, column, value) ==
+
+MapSprite#setTileAt sets the tile value to the given tile index (row, column)
+
+{{{
+// sets the tile -1 (empty tile) to the row=0, column=1
+citymap.setTileAt(0, 1, -1);
 }}}
 
 == load() ==

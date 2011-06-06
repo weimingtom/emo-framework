@@ -3,6 +3,20 @@
 
 = emo.!SpriteSheet =
 
-emo.!SpriteSheet represents the sprite sheet that supports sprite animation. SpriteSheet is an image that can contain multiple sprites. Sprite sheet is also known as "sprite atlas" and 'texture atlas"
+emo.!SpriteSheet represents the sprite sheet that supports sprite animation. SpriteSheet is an image that can contain multiple sprites. Sprite sheet is also known as "sprite atlas" and 'texture atlas".
 
-== constructor ==
+== constructor(name, width, height, border = 0, margin=0, frameIndex=0) ==
+
+Creates a sprite sheet with given parameters. border, margin, frameIndex parameters has defualt value(=0) so those can be ommited.
+
+{{{
+// create 34x42 sprite sheet with no border and margin, default frame index = 0
+local sprite = emo.SpriteSheet("dog.png", 34, 42);
+
+// create 19x19 sprite sheet with 3 border and 2 margin and frame index equals 0.
+local explosion = emo.SpriteSheet("explosion.png", 19, 19, 3, 2, 0);
+}}}
+
+== SpriteSheet extends Sprite == 
+
+As emo.SpriteSheet class extends emo.Sprite so all Sprite functions can be used with SpriteSheet. Check [Sprite] class documents for details.

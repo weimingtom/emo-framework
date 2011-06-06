@@ -56,11 +56,46 @@ citymap.addRow(tile);
 
 == setTileAt(row, column, value) ==
 
-MapSprite#setTileAt sets the tile value to the given tile index (row, column)
+MapSprite#setTileAt sets the tile value to the given tile index (row, column).
 
 {{{
 // sets the tile -1 (empty tile) to the row=0, column=1
 citymap.setTileAt(0, 1, -1);
+}}}
+
+== getTileAt(row, column) ==
+
+MapSprite#getTileAt returns the tile value of the given tile index (row, column).
+
+{{{
+// set tile value at (0, 1) = -1
+citymap.setTileAt(0, 1, -1);
+// tile value at (0, 1) should be -1
+local value = citymap.getTileAt(0, 1);
+}}}
+
+== getTileIndexAtCoord(x, y) ==
+
+MapSprite#getTileIndexAtCoord returns the tile index of the given coordinate. The return value contains tile index: row and column.
+
+{{{
+// get the tile index at coord (x=100, y=200)
+local coord = citymap.getTileIndexAtCoord(100, 200);
+
+local row    = coord.row;
+local column = coord.column;
+}}}
+
+== getTilePositionAtCoord(x, y) ==
+
+MapSprite#getTilePositionAtCoord returns the tile's position of the given coordinate. The return value contains the position of the tile: x, y.
+
+{{{
+// get the tile's original coordinate at coord (x=100, y=200)
+local coord = citymap.getTilePositionAtCoord(100, 200);
+
+local x = coord.x;
+local y = coord.y;
 }}}
 
 == load() ==

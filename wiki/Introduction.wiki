@@ -22,7 +22,7 @@ One of the key concepts of emo-framework is to keep it simple and lightweight in
 
 == Open source and Free ==
 
-emo is released under the terms of open-source license: New BSD License. You can use emo framework at absolutely free of charge. You don't have to disclose your source code even in the commercial products. And also you don't have to show any logo or something like that of emo framework in your game. (note: redistributions in binary form must reproduce the copyright notice, see the license document for details.)
+emo is released under the terms of the open-source license: New BSD License. You can use emo framework at absolutely free of charge. You don't have to disclose your source code even in the commercial products. And also you don't have to show any logo or something like that of emo framework in your game. (note: redistributions in binary form must reproduce the copyright notice, see the license document for details.)
 
 
 == Object-Oriented ==

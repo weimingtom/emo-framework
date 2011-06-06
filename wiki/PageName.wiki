@@ -1,0 +1,8 @@
+#summary API reference for emo.SpriteSheet
+#labels Phase-Design
+
+= emo.SpriteSheet =
+
+emo.SpriteSheet represents the sprite sheet that supports sprite animation. SpriteSheet is an image that can contain multiple sprites. Sprite sheet is also known as "sprite atlas" and 'texture atlas"
+
+== constructor ==

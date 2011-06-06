@@ -99,6 +99,32 @@ sprite.load();
 // sprite.load(10, 20, 1);
 }}}
 
+== getFrameIndex ==
+
+SpriteSheet#getFrameIndex returns current frame index of the sprite sheet. 
+
+{{{
+local idx = sprite.getFrameIndex();
+}}}
+
+== getFrameCount ==
+
+SpriteSheet#getFrameCount returns the frame count of the sprite sheet.
+
+{{{
+local count = sprite.getFrameCount();
+}}}
+
+== isAnimationFinished ==
+
+SpriteSheet#isAnimationFinished returns whether the sprite sheet animation is finished or not.
+
+{{{
+// if the animation is finished, hide the sprite.
+if (sprite.isAnimationFinished()) {
+  sprite.hide();
+}
+}}}
 
 == SpriteSheet extends Sprite == 
 

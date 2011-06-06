@@ -57,22 +57,22 @@ Level2:onLoad
 
 == windowWidth ==
 
-Stage#windowWidth returns the screen width. If integer parameter has been set to the windowWidth window width is updated.
+Stage#getWindowWidth returns the screen width. If integer parameter has been set to the Stage#windowWidth window width is updated.
 
 {{{
 local stage = emo.Stage();
-local width = stage.windowWidth(); // get the window width
+local width = stage.getWindowWidth(); // get the window width
 stage.windowWidth(320); // set the window width to 320
 }}}
 
 
 == windowHeight ==
 
-Stage#windowHeight returns the screen height. If integer parameter has been set to the windowHeight window height is updated.
+Stage#getWindowHeight returns the screen height. If integer parameter has been set to the Stage#windowHeight window height is updated.
 
 {{{
 local stage = emo.Stage();
-local height = stage.windowHeight(); // get the window height
+local height = stage.getWindowHeight(); // get the window height
 stage.windowHeight(240); // set the window height to 240
 }}}
 
@@ -104,3 +104,42 @@ Stage#interval updates the draw interval(millisecond) of the screen. This can be
 {{{
 emo.Stage.interval(100); // change update interval to 100 milliseconds
 }}}
+
+== getCenterX ==
+
+Stage#getCenterX returns the center coordinate X of the current screen. This function is equivalent to Stage#getWindowWidth() * 0.5.
+
+{{{
+local stage = emo.Stage();
+local centerX = stage.getCenterX();
+}}}
+
+== getCenterY ==
+
+Stage#getCenterY returns the center coordinate Y of the current screen. This function is equivalent to Stage#getWindowHeight() * 0.5.
+
+{{{
+local stage = emo.Stage();
+local centerY = stage.getCenterY();
+}}}
+
+== setContentScale ==
+
+Stage#setContentScale scales the current content. This function is useful to support multiple screen size. This function is equivalent to Stage#ortho(Stage#getWindowWidth() / scale, Stage#getWindowHeight()
+ / scale).
+
+{{{
+  // if the screen has large display, scale contents twice
+  // that makes the stage size by half.
+  // This examples shows how to display similar-scale images
+  // on Retina and non-Retina display.
+  if (stage.getWindowWidth() > 320) {
+    stage.setContentScale(stage.getWindowWidth() / 320);
+
+    // if the device has 320x480 screen, the stage size equals 320x480.
+    // if the device has 640x960 screen, the stage size remains 320x480.
+  }
+
+
+}}}
+

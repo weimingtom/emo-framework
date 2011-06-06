@@ -32,7 +32,7 @@ line.move(0, 0, 100, 100); // sets the line (0, 0) to (100, 100);
 
 == load ==
 
-Load the Line instance into the screen. Default line width equals 1 and the position equals (1, 1).
+Load the Line instance into the screen. Default line width equals 1 and the default position equals (0, 0, 1, 1) if no parameters is specified by using Line#setWidth and Line#move.
 
 {{{
 local line = emo.Line(); // creates a line instance

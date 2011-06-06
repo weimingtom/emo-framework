@@ -56,6 +56,18 @@ This page is emo-framework's API reference index. This page does not contain the
 
   * Asynchronous HTTP request and callback
 
+== Physics ==
+
+  * World
+  * Body
+  * Fixture
+  * Joint
+  * PolygonShape
+  * CircleShape
+  * PhysicsInfo
+  * onContact
+
+
 == Dynamic Scripting ==
 
   * On-demand script loading

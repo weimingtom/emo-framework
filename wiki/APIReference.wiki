@@ -15,17 +15,17 @@ This page is emo-framework's API reference index. This page does not contain the
 
 == Shape and Sprite ==
 
-  * Line
+  * [Line\
   * [Rectangle]
   * [Sprite]
 
 == Sprite sheet and animations ==
 
-  * SpriteSheet
+  * [SpriteSheet]
 
 == Tiled Map ==
 
-  * MapSprite
+  * [MapSprite]
 
 == Sprite Modifiers and Easing Functions ==
 

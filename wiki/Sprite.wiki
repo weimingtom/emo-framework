@@ -45,7 +45,7 @@ if (sprite.load()) {
 
 == show and hide ==
 
-Show and hide the sprite from the screen. Sprite#show updates the alpha color of the sprite to 0(transparent) and Sprite#hide updates the alpha color of the sprite to 1.
+Show and hide the sprite from the screen. Sprite#hide updates the alpha color of the sprite to 0(transparent) and Sprite#show updates the alpha color of the sprite to 1.
 
 {{{
 local sprite = emo.Sprite("dog.png");

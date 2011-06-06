@@ -19,7 +19,7 @@ local explosion = emo.SpriteSheet("explosion.png", 19, 19, 3, 2, 0);
 
 == setFrame(index) ==
 
-SpriteSheet#setFrame sets the current frame index of the sprite sheet. The default frame index equals 0.
+SpriteSheet#setFrame sets the current frame index of the sprite sheet. The default frame index equals 0. Note that this function stops the current animation.
 
 {{{
 // creates the sprite sheet instance with given parameters.
@@ -41,6 +41,48 @@ explosion.animates(1, 5, 500);
 
 // animate the sprite with one loop (that replays the animation once.)
 explosion.animates(1, 5, 1);
+}}}
+
+== pause ==
+
+SpriteSheet#pause pauses the animation and stop at the current frame index.
+
+{{{
+local explosion = emo.SpriteSheet("explosion.png", 19, 19, 3, 2, 0);
+explosion.load();
+
+explosion.animates(1, 5, 500);
+
+// pauses the animation at current frame.
+explosion.pause();
+}}}
+
+== pauseAt ==
+
+SpriteSheet#pauseAt pauses the animation and stop at the given frame index.
+
+{{{
+local explosion = emo.SpriteSheet("explosion.png", 19, 19, 3, 2, 0);
+explosion.load();
+
+explosion.animates(1, 5, 500);
+
+// pauses the animation at frame index = 0
+explosion.pauseAt(0);
+}}}
+
+== stop ==
+
+SpriteSheet#stop stops the animation. This function stops the current animation and reset the frame index to 0.
+
+{{{
+local explosion = emo.SpriteSheet("explosion.png", 19, 19, 3, 2, 0);
+explosion.load();
+
+explosion.animates(1, 5, 500);
+
+// stops the animation.
+explosion.stop();
 }}}
 
 == load() ==

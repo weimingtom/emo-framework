@@ -100,7 +100,6 @@ local y = coord.y;
 
 == load() ==
 == load(x, y) ==
-== load(x, y, width, height) ==
 
 MapSprite#load loads the map into the screen. The default position of the map is (x=0, y=0) if no coordinates has been specified.
 
@@ -113,5 +112,3 @@ citymap.load();
 == rotate and scale ==
 
 MapSprite itself can be moved around the screen however it does not support rotation and scaling. MapSprite only print errors if rotate and scale is called.
-
-

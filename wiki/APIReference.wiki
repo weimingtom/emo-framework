@@ -27,46 +27,45 @@ This page is emo-framework's API reference index. This page does not contain the
 
   * [MapSprite]
 
-== Sprite Modifiers and Easing Functions ==
+== Modifiers and Easing ==
 
-  * emo.Modifier
-  * emo.MultiModifier
-  * emo.easing functions
+  * [Modifier]
+  * [MultiModifier]
+  * [Easing]
 
 == Events == 
 
-  * MotionEvent
-  * KeyEvent
-  * SensorEvent
-  * onLowMemory
-  * onError
-  * onFps
+  * [MotionEvent]
+  * [KeyEvent]
+  * [SensorEvent]
+  * [onLowMemory]
+  * [onError]
+  * [onFps]
 
 == Audio ==
 
-  * Audio
-  * AudioChannel
+  * [Audio]
+  * [AudioChannel]
 
 == Database ==
 
-  * Database
-  * Preference
+  * [Database]
+  * [Preference]
 
 == Networking ==
 
-  * Asynchronous HTTP request and callback
+  * [Asynchronous HTTP request and callback]
 
 == Physics ==
 
-  * World
-  * Body
-  * Fixture
-  * Joint
-  * PolygonShape
-  * CircleShape
-  * PhysicsInfo
-  * onContact
-
+  * [World]
+  * [Body]
+  * [Fixture]
+  * [Joint]
+  * [PolygonShape]
+  * [CircleShape]
+  * [PhysicsInfo]
+  * [onContact]
 
 == Dynamic Scripting ==
 

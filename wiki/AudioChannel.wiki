@@ -103,3 +103,54 @@ ch0.seek(0);
 // ch0 plays from the beginning
 ch0.play();
 }}}
+
+== setLoop(flag) ==
+
+Loop the audio associated with the channel.
+
+{{{
+local audio = emo.Audio(3);
+local ch0   = audio.craeteChannel(0);
+
+ch0.load("bang.wav");
+
+ch0.setLoop(true);
+
+// audio will be looped
+ch0.play();
+}}}
+
+== isLoop ==
+
+Returns whether loop is enabled or not.
+
+{{{
+local audio = emo.Audio(3);
+local ch0   = audio.craeteChannel(0);
+
+ch0.load("bang.wav");
+
+ch0.setLoop(true);
+
+print(ch0.isLoop()); // should print true
+}}}
+
+== getState ==
+
+Returns current status of the audio channel: *AUDIO_CHANNEL_STOPPED*, *AUDIO_CHANNEL_PAUSED* or *AUDIO_CHANNEL_PLAYING*.
+
+{{{
+local audio = emo.Audio(3);
+local ch0   = audio.craeteChannel(0);
+
+ch0.load("bang.wav");
+
+ch0.setLoop(true);
+
+local state = ch0.getState();
+
+if (state == AUDIO_CHANNEL_PLAYING) {
+  print("playing");
+}
+
+}}}

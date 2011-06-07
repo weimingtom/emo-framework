@@ -171,7 +171,7 @@ local maxVol = ch0.getMaxVolume();
 
 == getMinVolume ==
 
-Returns the minimum volume of the audio channel. Minimum volume is always 0. Note that the actual range of volume depends on the device. (i.e. iPhone goes silent when the volume equals 0, but some Android devices goes silent when the volume is under 0.1 or so.)
+Returns the minimum volume of the audio channel. Minimum volume is always 0. Note that the actual range of volume depends on the device. (i.e. iPhone goes silent when the volume equals 0, but some Android devices goes silent when the volume is under 0.9 or so.)
 
 {{{
 local audio = emo.Audio(3);
@@ -184,7 +184,7 @@ local minVol = ch0.getMinVolume();
 
 == getVolume ==
 
-Returns the current volume of the audio channel. The volume range is float value: 0 to 1. Note that the actual range of volume depends on the device. (i.e. iPhone goes silent when the volume equals 0, but some Android devices goes silent when the volume is under 0.1 or so.)
+Returns the current volume of the audio channel. The volume range is float value: 0 to 1. Note that the actual range of volume depends on the device. (i.e. iPhone goes silent when the volume equals 0, but some Android devices goes silent when the volume is under 0.9 or so.)
 
 {{{
 local audio = emo.Audio(3);
@@ -197,7 +197,7 @@ local volume = ch0.getVolume();
 
 == setVolume ==
 
-Sets the current volume of the audio channel. Note that the actual range of volume depends on the device. (i.e. iPhone goes silent when the volume equals 0, but some Android devices goes silent when the volume is under 0.1 or so.) The audio channel will be silent when the minimum volume is set to the audio channel.
+Sets the current volume of the audio channel. Note that the actual range of volume depends on the device. (i.e. iPhone goes silent when the volume equals 0, but some Android devices goes silent when the volume is under 0.9 or so.) The audio channel will be silent when the minimum volume is set to the audio channel.
 
 {{{
 local audio = emo.Audio(3);

@@ -18,4 +18,40 @@ AudioChannel#load loads the audio file with given filename. Every audio files sh
 
 === Supported audio format: ===
 
-For iOS: emo-framework uses 'Extended Audio File Services' for iOS so folloing format can be loaded through audio channel.  [http://developer.apple.com/library/ios/#documentation/MusicAudio/Reference/AudioFileConvertRef/Reference/reference.html#//apple_ref/doc/c_ref/AudioFileTypeID Extended Audio File Services: Built-In Audio File Types].
+==== For iOS ====
+
+emo-framework uses 'Extended Audio File Services' for iOS so following format can be loaded through audio channel.  [http://developer.apple.com/library/ios/#documentation/MusicAudio/Reference/AudioFileConvertRef/Reference/reference.html#//apple_ref/doc/c_ref/AudioFileTypeID Extended Audio File Services: Built-In Audio File Types].
+
+==== For Android ====
+
+Only linear PCM wave audio can be loaded through audio channel.
+
+{{{
+local audio = emo.Audio(3);
+local ch0   = audio.craeteChannel(0);
+
+ch0.load("bang.wav");
+}}}
+
+== play ==
+
+Plays the audio associated with the channel. Audio channel is automatically stopped when the audio play ends if no loop has been specified by setLoop.
+
+{{{
+local audio = emo.Audio(3);
+local ch0   = audio.craeteChannel(0);
+
+ch0.load("bang.wav");
+
+ch0.play();
+}}}
+
+== stop ==
+
+Stops the audio associated with the channel. The current seek position is reset to the beginning.
+
+== pause ==
+
+Pauses the audio associated with the channel. The audio is resumed when play() is called.
+
+== 

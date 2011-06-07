@@ -1,0 +1,21 @@
+#summary API reference for emo.AudioChannel
+#labels Phase-Design
+
+= emo.AudioChannel =
+
+== constructor ==
+
+There is no constructor for audio channel. Use emo.Audio#createChannel to create new audio channel. See emo.[Audio] document for details.
+
+{{{
+local audio = emo.Audio(3);
+local ch0   = audio.createChannel(0);
+}}}
+
+== load(filename) ==
+
+AudioChannel#load loads the audio file with given filename. Every audio files should be placed under the 'Resources/sounds' folder for iOS, 'assets/sounds' directory for Android. 
+
+=== Supported audio format: ===
+
+For iOS: emo-framework uses 'Extended Audio File Services' for iOS so folloing format can be loaded through audio channel.  [http://developer.apple.com/library/ios/#documentation/MusicAudio/Reference/AudioFileConvertRef/Reference/reference.html#//apple_ref/doc/c_ref/AudioFileTypeID Extended Audio File Services: Built-In Audio File Types].

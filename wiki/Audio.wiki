@@ -1,0 +1,17 @@
+#summary API reference for emo.Audio
+#labels Phase-Design
+
+= emo.Audio =
+
+emo.Audio represents audio interface to to play audio and music. 
+
+== constructor ==
+== constructor(channelCount) ==
+
+Prepares new audio channels with given number of channels. If channelCount is emitted three channels are created by default.
+
+== createChannel(channelIndex) ==
+
+Creates new AudioChannel and returns new instance of emo.AudioChannel. You can interact with audios with this channel.
+
+See AudioChannel document for details.

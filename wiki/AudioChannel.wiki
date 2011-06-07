@@ -14,7 +14,7 @@ local ch0   = audio.createChannel(0);
 
 == load(filename) ==
 
-AudioChannel#load loads the audio file with given filename. Every audio files should be placed under the 'Resources/sounds' folder for iOS, 'assets/sounds' directory for Android. 
+AudioChannel#load loads the audio file with given filename. Every audio files should be placed under the *'Resources/sounds'* folder for iOS, *'assets/sounds'* directory for Android. 
 
 === Supported audio format: ===
 
@@ -50,8 +50,56 @@ ch0.play();
 
 Stops the audio associated with the channel. The current seek position is reset to the beginning.
 
+{{{
+local audio = emo.Audio(3);
+local ch0   = audio.craeteChannel(0);
+
+ch0.load("bang.wav");
+
+ch0.play();
+
+// stops channel 0
+ch0.stop();
+
+// ch0 plays from the beginning
+ch0.play();
+}}}
+
+
 == pause ==
 
 Pauses the audio associated with the channel. The audio is resumed when play() is called.
 
-== 
+{{{
+local audio = emo.Audio(3);
+local ch0   = audio.craeteChannel(0);
+
+ch0.load("bang.wav");
+
+ch0.play();
+
+// pauses channel 0
+ch0.pause();
+
+// ch0 plays from the paused position
+ch0.play();
+}}}
+
+== seek(offset) ==
+
+Seek the audio associated with the channel. The offset is milliseconds from the beginning of the audio.
+
+{{{
+local audio = emo.Audio(3);
+local ch0   = audio.craeteChannel(0);
+
+ch0.load("bang.wav");
+
+ch0.play();
+
+// seek back to the beginning.
+ch0.seek(0);
+
+// ch0 plays from the beginning
+ch0.play();
+}}}

@@ -3,6 +3,8 @@
 
 = emo.AudioChannel =
 
+emo.AudioChannel represents the audio channel that can handle the audio associated with the channel. 
+
 == constructor ==
 
 There is no constructor for audio channel. Use emo.Audio#createChannel to create new audio channel. See emo.[Audio] document for details.

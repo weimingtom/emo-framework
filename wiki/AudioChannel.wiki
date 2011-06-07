@@ -34,8 +34,9 @@ ch0.load("bang.wav");
 }}}
 
 == play ==
+== play(reset = false) ==
 
-Plays the audio associated with the channel. Audio channel is automatically stopped when the audio play ends if no loop has been specified by setLoop.
+Plays the audio associated with the channel. Audio channel is automatically stopped after the audio play ends if no loop has been specified by setLoop. if reset parameter equals true, audio starts at the beginning. if reset parameter equals false or not specified, audio resumes when the audio have been paused by pause().
 
 {{{
 local audio = emo.Audio(3);
@@ -153,4 +154,60 @@ if (state == AUDIO_CHANNEL_PLAYING) {
   print("playing");
 }
 
+}}}
+
+== getMaxVolume ==
+
+Returns the max volume of the audio channel. Max volume is always 1.
+
+{{{
+local audio = emo.Audio(3);
+local ch0   = audio.craeteChannel(0);
+
+ch0.load("bang.wav");
+
+local maxVol = ch0.getMaxVolume();
+}}}
+
+== getMinVolume ==
+
+Returns the minimum volume of the audio channel. Minimum volume is always 0. Note that the actual range of volume depends on the device. (i.e. iPhone goes silent when the volume equals 0, but some Android devices goes silent when the volume is under 0.1 or so.)
+
+{{{
+local audio = emo.Audio(3);
+local ch0   = audio.craeteChannel(0);
+
+ch0.load("bang.wav");
+
+local minVol = ch0.getMinVolume();
+}}}
+
+== getVolume ==
+
+Returns the current volume of the audio channel. The volume range is float value: 0 to 1. Note that the actual range of volume depends on the device. (i.e. iPhone goes silent when the volume equals 0, but some Android devices goes silent when the volume is under 0.1 or so.)
+
+{{{
+local audio = emo.Audio(3);
+local ch0   = audio.craeteChannel(0);
+
+ch0.load("bang.wav");
+
+local volume = ch0.getVolume();
+}}}
+
+== setVolume ==
+
+Sets the current volume of the audio channel. Note that the actual range of volume depends on the device. (i.e. iPhone goes silent when the volume equals 0, but some Android devices goes silent when the volume is under 0.1 or so.) The audio channel will be silent when the minimum volume is set to the audio channel.
+
+{{{
+local audio = emo.Audio(3);
+local ch0   = audio.craeteChannel(0);
+
+ch0.load("bang.wav");
+
+// set volume to the max
+ch0.setVolume(ch0.getMaxVolume());
+
+// set volume to the min (mute)
+ch0.setVolume(ch0.getMinVolume());
 }}}

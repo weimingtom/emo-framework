@@ -3,7 +3,7 @@
 
 = emo.Database =
 
-emo.Database class represents a database for the application. The database is private database so it is only used by the application. 
+emo.Database class represents a database for the application. The database is private database so it is only used by the application. Note that the emo.Database class provices some administrative operations only. Use [Preference] class to store the key and values. 
 
 == getPath(name) ==
 

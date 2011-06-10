@@ -26,7 +26,7 @@ function onKeyEvent(kevent) {
 
 == getKeyCode ==
 
-Returns the key code value from the key event. The key code has the same name compared to the Android's key event. See [http://developer.android.com/reference/android/view/KeyEvent.html Android KeyEvent] document for details.
+Returns the key code of the key event. The key code has the same name compared to the Android's key event. See [http://developer.android.com/reference/android/view/KeyEvent.html Android KeyEvent] document for details.
 
 {{{
 function onKeyEvent(kevent) {
@@ -38,3 +38,11 @@ function onKeyEvent(kevent) {
   return false;
 }
 }}}
+
+== getRepeatCount ==
+
+Retrieve the repeat count of the event. See [http://developer.android.com/reference/android/view/KeyEvent.html Android KeyEvent] document for details.
+
+== getMetaState ==
+
+Returns the state of the meta keys. See [http://developer.android.com/reference/android/view/KeyEvent.html Android KeyEvent] document for details.

@@ -12,3 +12,6 @@
     * [AudioChannel]
     * [Database]
     * [Preference]
+    * [MotionEvent]
+    * [KeyEvent]
+    * [SensorEvent]

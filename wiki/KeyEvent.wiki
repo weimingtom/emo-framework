@@ -13,14 +13,28 @@ function onKeyEvent(kevent) {
 
 == getAction ==
 
-emo-framework is just the proxy that passes the key event fired by Android platform. The action parameter has the same name compared to the Android's key event.
-
-See [http://developer.android.com/reference/android/view/KeyEvent.html Android KeyEvent] document for details.
+emo-framework is just the proxy that passes the key event fired by Android platform. If you handled the event, return true. If you want to allow the event to be handled by the next receiver, return false.  The action parameter has one of the following value: KEY_EVENT_ACTION_DOWN, KEY_EVENT_ACTION_UP or KEY_EVENT_ACTION_MULTIPLE.
 
 {{{
 function onKeyEvent(kevent) {
-  if (kevent.getAction() == KEYCODE_BACK) {
-    print("back button is pressed!");
+  if (kevent.getAction() == KEY_EVENT_ACTION_DOWN) {
+    print("key event down!");
   }
+  return false;
+}
+}}}
+
+== getKeyCode ==
+
+Returns the key code value from the key event. The key code has the same name compared to the Android's key event. See [http://developer.android.com/reference/android/view/KeyEvent.html Android KeyEvent] document for details.
+
+{{{
+function onKeyEvent(kevent) {
+  if (kevent.getAction() == KEY_EVENT_ACTION_DOWN) {
+    if (kevent.getKeyCode() == KEYCODE_HOME) {
+      print("Home button is pressed!");
+    }
+  }
+  return false;
 }
 }}}

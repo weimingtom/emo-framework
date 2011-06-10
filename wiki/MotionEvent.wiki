@@ -54,3 +54,41 @@ The current gesture has been aborted. You will not receive any more points in it
 === MOTION_EVENT_ACTION_POINTER_UP ===
 
 *Android only:* A non-primary pointer has gone up. 
+
+== getPointerId ==
+
+Return the pointer identifier associated with a particular pointer data index is this event.
+
+{{{
+function onMotionEvent(mevent) {
+  if (mevent.getAction() == MOTION_EVENT_ACTION_DOWN) {
+    print(format("pointer id = %d", mevent.getPointerId()));
+  }
+}
+}}}
+
+== getX ==
+
+Returns the X coordinate of this event.
+
+{{{
+function onMotionEvent(mevent) {
+  if (mevent.getAction() == MOTION_EVENT_ACTION_DOWN) {
+    print(format("motion event action down at %dx%d",
+         mevent.getX(), mevent.getY()));
+  }
+}
+}}}
+
+== getY ==
+
+Returns the Y coordinate of this event.
+
+{{{
+function onMotionEvent(mevent) {
+  if (mevent.getAction() == MOTION_EVENT_ACTION_DOWN) {
+    print(format("motion event action down at %dx%d",
+         mevent.getX(), mevent.getY()));
+  }
+}
+}}}

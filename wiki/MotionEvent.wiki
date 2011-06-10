@@ -57,7 +57,7 @@ The current gesture has been aborted. You will not receive any more points in it
 
 == getPointerId ==
 
-Return the pointer identifier associated with a particular pointer data index is this event.
+Return the pointer identifier associated with this event.
 
 {{{
 function onMotionEvent(mevent) {

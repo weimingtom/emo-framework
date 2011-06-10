@@ -5,9 +5,27 @@
 
 MotionEvent class represents the movement events that is fired when user touches the screen. You can get the coordinates of the pointer, action type and so on from the motion event object. emo-framework can handle not only single-touch event but also multiple touch event.
 
+== onMotionEvent(mevent) ==
+
+Called when user touches the screen. you can get motion event information by the given parameter.
+
+{{{
+function onMotionEvent(mevent) {
+    print("motion event!");
+}
+}}}
+
 == getAction ==
 
 emo-framework can handle following action event. Several action types that related with multiple touches are for Android platform only.
+
+{{{
+function onMotionEvent(mevent) {
+  if (mevent.getAction() == MOTION_EVENT_ACTION_DOWN) {
+    print("motion event action down!");
+  }
+}
+}}}
 
 === MOTION_EVENT_ACTION_DOWN ===
 

@@ -45,12 +45,12 @@ The current gesture has been aborted. You will not receive any more points in it
 
 === MOTION_EVENT_ACTION_OUTSIDE ===
 
-*Android only* A movement has happened outside of the normal bounds of the UI element. This does not provide a full gesture, but only the initial location of the movement/touch. 
+*Android only:* A movement has happened outside of the normal bounds of the UI element. This does not provide a full gesture, but only the initial location of the movement/touch. 
  
 === MOTION_EVENT_ACTION_POINTER_DOWN ===
 
-*Android only* A non-primary pointer has gone down. 
+*Android only:* A non-primary pointer has gone down. 
 
 === MOTION_EVENT_ACTION_POINTER_UP ===
 
-*Android only* A non-primary pointer has gone up. 
+*Android only:* A non-primary pointer has gone up. 

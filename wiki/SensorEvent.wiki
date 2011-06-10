@@ -32,3 +32,35 @@ function onSensorEvent(sevent) {
   }
 }
 }}}
+
+== getType ==
+
+Returns the sensor type of this event. SENSOR_TYPE_ACCELEROMETER is returned when the accelerometer event is fired.
+
+{{{
+function onSensorEvent(sevent) {
+  if (sevent.getType() == SENSOR_TYPE_ACCELEROMETER) {
+    print("accelerometer event comes in!");
+  }
+}
+}}}
+
+== getAccelerationX ==
+== getAccelerationY ==
+== getAccelerationZ ==
+
+Returns the acceleration value for the axis of the device. See [http://developer.android.com/reference/android/hardware/SensorManager.html#registerListener%28android.hardware.SensorEventListener,%20android.hardware.Sensor,%20int%29 Android Sensor Event] documents and [http://developer.apple.com/library/ios/#DOCUMENTATION/UIKit/Reference/UIAcceleration_Class/Reference/UIAcceleration.html#//apple_ref/doc/uid/TP40006901 iOS UIAcceleration] document for details.
+
+{{{
+function onSensorEvent(sevent) {
+  if (sevent.getType() == SENSOR_TYPE_ACCELEROMETER) {
+    print("accelerometer event comes in!");
+    print(format("x=%f,y=%f,z=%f", 
+      sevent.getAccelerationX(),
+      sevent.getAccelerationY(),
+      sevent.getAccelerationZ()
+    ));
+  }
+}
+}}}
+

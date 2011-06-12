@@ -56,7 +56,7 @@ runtime.warn("warn message");
 
 === setLogLevel ==
 
-Runtime#setLogLevel sets the current log level. Log level is used to suppress unnecessary log message sent from the application. If the log level equals 'LOG_INFO', all messages are logged, if the log level equals LOG_WARN 'warn' and 'error' messages are logged. If the log level equals LOG_ERROR only the 'error' messages are logged. 
+Runtime#setLogLevel sets the current log level. Log level is used to suppress unnecessary log message sent from the application. If the log level equals 'LOG_INFO', all messages are logged, if the log level equals LOG_WARN 'warn' and 'error' messages are logged. If the log level equals LOG_ERROR only the 'error' messages are logged. The default log level is 'LOG_INFO'.
 
 {{{
 local runtime = emo.Runtime();

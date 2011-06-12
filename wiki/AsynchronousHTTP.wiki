@@ -10,6 +10,10 @@ emo-framework has simple interface to retrieve the content from the web. Because
 Requesting the content from the web is quite simple. Use emo.Net.request function to retrieve the content. Additional parameter can be added by using extra parameter to the request. Note the the first parameter should be unique name so that you have to decide which event is returned at the asynchronous callback in later event. 
 
 {{{
+const MY_REQUEST_NAME = 'My Request';
+const MY_REQUEST_NAME_BY_GET  = 'My Request by GET';
+const MY_REQUEST_NAME_BY_POST = 'My Request by POST';
+
 // http request (default request method is 'GET')
 emo.Net.request(MY_REQUEST_NAME, "http://www.example.com/");
 			
@@ -38,7 +42,7 @@ function onCallback(name, response, err) {
   } else if (name == HTTP_ERROR) {
     print("ACCESS: FAILED");
     // if the request has failed, name equals HTTP_ERROR
-    // and the response equals the request name ('My HTTP Request').
+    // and the response equals the request name (the first parameter you have set to the emo.Net.request).
     print(format("============ ERROR RESPONSE FROM %s ============", response));
     // print the error description and error code.
     print(err.code);

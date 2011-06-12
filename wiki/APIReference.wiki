@@ -34,7 +34,6 @@ This page is emo-framework's API reference index. This page does not contain the
 == Modifiers and Easing ==
 
   * [Modifier]
-  * [SequenceModifier]
   * [Easing]
 
 == Events == 

@@ -30,7 +30,7 @@ text.setText("Hello, World!");
 
 == text rotation ==
 
-TextSprite itself can be moved and scalee however it does not support rotation. TextSprite only print errors if rotate function is called.
+TextSprite itself can be moved and scaled however it does not support rotation. TextSprite only print errors if rotate function is called.
 
 == TextSprite extends MapSprite ==
 

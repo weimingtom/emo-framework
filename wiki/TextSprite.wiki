@@ -28,6 +28,10 @@ Sets the text of the text sprite with given text. The text of the TextSprite can
 text.setText("Hello, World!");
 }}}
 
+== text rotation ==
+
+TextSprite itself can be moved and scalee however it does not support rotation. TextSprite only print errors if rotate function is called.
+
 == TextSprite extends MapSprite ==
 
 emo.TextSprite class extends emo.MapSprite so all function in the MapSprite can be used with TextSprite.

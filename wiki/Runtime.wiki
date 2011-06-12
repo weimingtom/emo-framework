@@ -63,7 +63,7 @@ local runtime = emo.Runtime();
 // suppress the 'info' message'
 runtime.setLogLevel(LOG_WARN);
 
-// supress the 'info' and 'warn' message
+// suppress the 'info' and 'warn' message
 //runtime.setLogLevel(LOG_ERROR);
 }}}
 

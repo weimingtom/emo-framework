@@ -3,7 +3,7 @@
 
 = onLowMemory =
 
-Called when the device has encountered low memory and trying to free the memory for the device. It is recommended to implement this function to free the memory at on low memory as much as possible.
+Called when the device has encountered low memory warning and trying to free the memory for the device. It is recommended to implement this function to free the memory at on low memory as much as possible.
 
 {{{
 function onLowMemory() {

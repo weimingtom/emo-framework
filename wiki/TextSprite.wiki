@@ -27,3 +27,7 @@ Sets the text of the text sprite with given text. The text of the TextSprite can
 {{{
 text.setText("Hello, World!");
 }}}
+
+== TextSprite extends MapSprite ==
+
+emo.TextSprite class extends emo.MapSprite so all function in the MapSprite can be used with TextSprite. See MapSprite for details.

@@ -3,7 +3,7 @@
 
 = Asynchronous HTTP request and callback =
 
-emo-framework has simple function to retrieve the content from the web. Because http request is heavier operation generally and it has no guarantee when the response will return, emo-framework implement the http request as asynchronous callback. 
+emo-framework has simple interface to retrieve the content from the web. Because http request is heavier operation generally and it has no guarantee when the response will return, emo-framework implement the http request as asynchronous callback. 
 
 == Request the content through Internet ==
 

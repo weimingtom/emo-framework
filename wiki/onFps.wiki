@@ -1,0 +1,27 @@
+#summary API reference for onFps
+#labels Phase-Implementation
+
+
+= onFps =
+
+Called when the FPS(Frame Per Second) callback event is called by the application. Call emo.Event.enableOnFpsCallback function to retrieve this event.
+
+== emo.Event.enableOnFpsCallback(msec) ==
+
+Enable the fps callback event with given milliseconds. After enabling the fps callback, onFps event is called at given interval.
+
+{{{
+// onFps event is called at every 5 seconds.
+local event = emo.Event();
+event.enableOnFpsCallback(5000); 
+}}}
+
+== function onFps(fps) ==
+
+Called when the fps callback event is called. The first parameter is the frame per second.
+
+{{{
+function onFps(fps) {
+  print(format("FPS: %4.2f", fps));
+}
+}}}

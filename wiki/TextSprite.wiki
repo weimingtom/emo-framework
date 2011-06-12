@@ -3,7 +3,7 @@
 
 = emo.TextSprite =
 
-emo.TextSprite class represents a text sprite to display text into the screen. Currently TextSprite supports text sprite image as know as sprite sheets.
+emo.TextSprite class represents a text sprite to display text into the screen. Currently TextSprite supports text sprite image as known as sprite sheets.
 
 == constructor(name, textbase, width, height, border = null, margin = null) ==
 

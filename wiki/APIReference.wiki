@@ -18,6 +18,7 @@ This page is emo-framework's API reference index. This page does not contain the
   * [Line]
   * [Rectangle]
   * [Sprite]
+  * [TextSprite]
 
 == Sprite sheet and animations ==
 

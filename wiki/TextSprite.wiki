@@ -30,4 +30,4 @@ text.setText("Hello, World!");
 
 == TextSprite extends MapSprite ==
 
-emo.TextSprite class extends emo.MapSprite so all function in the MapSprite can be used with TextSprite. See MapSprite for details.
+emo.TextSprite class extends emo.MapSprite so all function in the MapSprite can be used with TextSprite.

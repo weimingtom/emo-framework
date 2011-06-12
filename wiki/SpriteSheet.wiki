@@ -7,7 +7,7 @@ emo.!SpriteSheet represents the sprite sheet that supports sprite animation. Spr
 
 == constructor(name, width, height, border = 0, margin=0, frameIndex=0) ==
 
-Creates a sprite sheet with given parameters. border, margin, frameIndex parameters has defualt value(=0) so those can be ommited.
+Creates a sprite sheet with given parameters. border, margin, frameIndex parameters has defualt value(=0) so those can be ommited. *Only PNG image can be used* to create a sprite.
 
 {{{
 // create 34x42 sprite sheet with no border and margin, default frame index = 0

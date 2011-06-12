@@ -54,6 +54,16 @@ local runtime = emo.Runtime();
 runtime.warn("warn message");
 }}}
 
+=== setLogLevel ==
+
+Runtime#setLogLevel sets the current log level. Log level is used to suppress unnecessary log message sent from the application. If the log level equals 'LOG_INFO', all messages are logged, if the log level equals LOG_WARN 'warn' and 'error' messages are logged. If the log level equals LOG_ERROR only the 'error' messages are logged. 
+
+{{{
+local runtime = emo.Runtime();
+// suppress the 'info' message'
+runtime.setLogLevel(LOG_WARN);
+}}}
+
 === os ===
 
 Runtime#os returns OS type that emo-framework is running on. OS_ANDROID and OS_IOS constant variable can be used to check the os name.

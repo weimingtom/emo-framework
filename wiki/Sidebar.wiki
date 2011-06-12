@@ -6,6 +6,7 @@
     * [Sprite]
     * [Rectangle]
     * [Line]
+    * [TextSprite]
     * [SpriteSheet]
     * [MapSprite]
     * [Audio]

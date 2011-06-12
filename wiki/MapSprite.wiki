@@ -7,7 +7,7 @@ emo.MapSprite class represents the tiled map that can be defined by multidimensi
 
 == constructor(name, frameWidth, frameHeight, border = 0, margin = 0) ==
 
-Creates a map sprite with given parameters.
+Creates a map sprite with given parameters. *Only PNG image can be used* to create a sprite.
 
 {{{
 // create 34x42 map sprite with no border and margin, default frame index = 0

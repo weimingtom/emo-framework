@@ -62,6 +62,9 @@ Runtime#setLogLevel sets the current log level. Log level is used to suppress un
 local runtime = emo.Runtime();
 // suppress the 'info' message'
 runtime.setLogLevel(LOG_WARN);
+
+// supress the 'info' and 'warn' message
+//runtime.setLogLevel(LOG_ERROR);
 }}}
 
 === os ===

@@ -1,0 +1,59 @@
+#summary API reference for emo.Modifier
+#labels Phase-Implementation
+
+= Modifier =
+
+Modifier is the kind of composition actions that can add to the Sprites. Modifier modifies the sprites state, such as color, transparency, scaling and rotation with given equations. Modifier is known as 'Easing' or 'Tweening' in the world of Flash and Silverlight.
+
+The following links may help you to understand the concept of Easing.
+
+http://www.cocos2d-iphone.org/wiki/doku.php/prog_guide:actions_ease
+http://msdn.microsoft.com/en-us/library/cc189019%28VS.96%29.aspx
+
+emo-framework supports these kind of easing that called 'Modifier'. Below is the example of moving the sprite from (fromX, fromY) to (toX, toY) in 5 seconds using linear equation.
+
+{{{
+sprite.addModifier(emo.MoveModifier(
+  [fromX, fromY],  // from [x, y]
+  [toX,   toY],    // to   [x, y]
+  5000, emo.easing.Linear));       // duration, equation
+}}}
+
+The default modifiers are listed below.
+
+== emo.!AlphaModifier ==
+
+!AlphaModifier changes the alpha color of the sprite.
+
+{{{
+// add modifier to fade in the splash sprite.
+sprite.addModifier(emo.AlphaModifier(0, 1, 1000, emo.easing.CubicIn));
+}}}
+
+== emo.!ScaleModifier ==
+
+!ScaleModifier changes the scale of the sprite.
+
+{{{
+sprite.addModifier(emo.ScaleModifier(1, 2, 1000, emo.easing.CubicIn));
+}}}
+
+== emo.!RotateModifier ==
+
+!RotateModifier changes the rotation of the sprite.
+
+{{{
+sprite.addModifier(emo.RotateModifier(0, 180, 1000, emo.easing.CubicIn));
+}}}
+
+== emo.!MoveModifier ==
+
+!MoveModifier changes the position of the sprite.
+
+== emo.!MoveCenterModifier ==
+
+!MoveModifier change the position of the sprite using Sprite#moveCenter.
+
+== emo.!ColorModifier ==
+
+!ColorModifier changes the color of the sprite.

@@ -70,4 +70,4 @@ The default equations are listed below.
 
 == emo.easing.!QuartOut ==
 
-== emo.easing.QuartInOut ==
+== emo.easing.!QuartInOut ==

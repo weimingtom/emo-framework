@@ -15,6 +15,8 @@ The following link shows a one minute presentation about emo-framework.
 
 http://prezi.com/xnjyogpegzum/emo-lightweight-2d-game-framework-for-android-and-ios/
 
+<wiki:video url="http://www.youtube.com/watch?v=iCaaik7OlW8"/>
+
 == What is Squirrel? ==
 
 Squirrel is intuitive lightweight object-oriented programming language that fits real-time requirements of your games. *You can write all of your game logic by Squirrel programming language*. You don't have to learn Objective-C or even Java, you need no knowledge for Apple's Foundation Framework nor Android API. With Squirrel and emo framework, you can write your game once by Squirrel that runs on both Android and iOS.

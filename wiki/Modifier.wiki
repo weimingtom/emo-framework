@@ -8,7 +8,7 @@ Modifier is the kind of composition actions that can add to the Sprites. Modifie
 The following links may help you to understand the concept of Easing.
 
   * http://www.cocos2d-iphone.org/wiki/doku.php/prog_guide:actions_ease
-  * http://msdn.microsoft.com/en-us/library/cc189019%28VS.96%29.aspx
+  * http://msdn.microsoft.com/en-us/library/cc189019%28VS.96%29.aspx#easing_functions
 
 emo-framework supports these kind of easing that called 'Modifier'. Below is the example of moving the sprite from (fromX, fromY) to (toX, toY) in 5 seconds using linear equation. Refer to [Easing] for details of the equations.
 

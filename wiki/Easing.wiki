@@ -12,62 +12,62 @@ The default equations are listed below.
 
 == emo.easing.Linear ==
 
-== emo.easing.CubicIn ==
+== emo.easing.!CubicIn ==
 
-== emo.easing.CubicOut ==
+== emo.easing.!CubicOut ==
 
-== emo.easing.CubicInOut ==
+== emo.easing.!CubicInOut ==
 
-== emo.easing.BackIn ==
+== emo.easing.!BackIn ==
 
-== emo.easing.BackOut ==
+== emo.easing.!BackOut ==
 
-== emo.easing.BackInOut ==
+== emo.easing.!BackInOut ==
 
-== emo.easing.ElasticIn ==
+== emo.easing.!ElasticIn ==
 
-== emo.easing.ElasticOut ==
+== emo.easing.!ElasticOut ==
 
-== emo.easing.ElasticInOut ==
+== emo.easing.!ElasticInOut ==
 
-== emo.easing.BounceOut ==
+== emo.easing.!BounceOut ==
 
-== emo.easing.BounceIn ==
+== emo.easing.!BounceIn ==
 
-== emo.easing.BounceInOut ==
+== emo.easing.!BounceInOut ==
 
-== emo.easing.ExpoIn ==
+== emo.easing.!ExpoIn ==
 
-== emo.easing.ExpoOut ==
+== emo.easing.!ExpoOut ==
 
-== emo.easing.ExpoInOut ==
+== emo.easing.!ExpoInOut ==
 
-== emo.easing.QuadIn == 
+== emo.easing.!QuadIn == 
 
-== emo.easing.QuadOut ==
+== emo.easing.!QuadOut ==
 
-== emo.easing.QuadInOut ==
+== emo.easing.!QuadInOut ==
 
-== emo.easing.SineIn ==
+== emo.easing.!SineIn ==
 
-== emo.easing.SineOut ==
+== emo.easing.!SineOut ==
 
-== emo.easing.SineInOut ==
+== emo.easing.!SineInOut ==
 
-== emo.easing.CircIn ==
+== emo.easing.!CircIn ==
 
-== emo.easing.CircOut ==
+== emo.easing.!CircOut ==
 
-== emo.easing.CircInOut ==
+== emo.easing.!CircInOut ==
 
-== emo.easing.QuintIn ==
+== emo.easing.!QuintIn ==
 
-== emo.easing.QuintOut ==
+== emo.easing.!QuintOut ==
 
-== emo.easing.QuintInOut ==
+== emo.easing.!QuintInOut ==
 
-== emo.easing.QuartIn ==
+== emo.easing.!QuartIn ==
 
-== emo.easing.QuartOut ==
+== emo.easing.!QuartOut ==
 
 == emo.easing.QuartInOut ==

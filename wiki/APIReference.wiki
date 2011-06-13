@@ -62,6 +62,7 @@ This page is emo-framework's API reference index. This page does not contain the
 == Physics ==
 
   * [World]
+  * [Vec2]
   * [Body]
   * [Fixture]
   * [Joint]

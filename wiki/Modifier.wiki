@@ -39,7 +39,7 @@ The default modifiers are listed below.
 !AlphaModifier changes the alpha color of the sprite.
 
 {{{
-// add modifier to fade in the splash sprite.
+// change alpha color 0 to 1 in 1 second with CubicIn equation
 sprite.addModifier(emo.AlphaModifier(0, 1, 1000, emo.easing.CubicIn));
 }}}
 
@@ -48,7 +48,8 @@ sprite.addModifier(emo.AlphaModifier(0, 1, 1000, emo.easing.CubicIn));
 !ScaleModifier changes the scale of the sprite.
 
 {{{
-sprite.addModifier(emo.ScaleModifier(1, 2, 1000, emo.easing.CubicIn));
+// scale the sprite by 1 to 2 in 1 second with CubicOut equation
+sprite.addModifier(emo.ScaleModifier(1, 2, 1000, emo.easing.CubicOut));
 }}}
 
 == emo.!RotateModifier ==
@@ -56,7 +57,8 @@ sprite.addModifier(emo.ScaleModifier(1, 2, 1000, emo.easing.CubicIn));
 !RotateModifier changes the rotation of the sprite.
 
 {{{
-sprite.addModifier(emo.RotateModifier(0, 180, 1000, emo.easing.CubicIn));
+// rotate the sprite 0 degree to 180 degree in 1 second with CubicInOut equation
+sprite.addModifier(emo.RotateModifier(0, 180, 1000, emo.easing.CubicInOut));
 }}}
 
 == emo.!MoveModifier ==
@@ -64,6 +66,7 @@ sprite.addModifier(emo.RotateModifier(0, 180, 1000, emo.easing.CubicIn));
 !MoveModifier changes the position of the sprite.
 
 {{{
+// move the sprite from (fromX, fromY) to (toX, toY) in 5 seconds using linear equation.
 sprite.addModifier(emo.MoveModifier(
   [fromX, fromY],  // from [x, y]
   [toX,   toY],    // to   [x, y]
@@ -75,6 +78,7 @@ sprite.addModifier(emo.MoveModifier(
 !MoveModifier change the position of the sprite using Sprite#moveCenter.
 
 {{{
+// move the sprite center from (fromX, fromY) to (toX, toY) in 5 seconds using linear equation.
 sprite.addModifier(emo.MoveCenterModifier(
   [fromX, fromY],  // from [x, y]
   [toX,   toY],    // to   [x, y]
@@ -85,10 +89,12 @@ sprite.addModifier(emo.MoveCenterModifier(
 
 !ColorModifier changes the color of the sprite.
 
-// modifier for changing colors
+{{{
+// change the color of the sprite in 2 seconds with CubicIn equation
 sprite.addModifier(emo.ColorModifier(
   [1, 1, 0],                  // from [rgb]
   [0.7, 0.13, 0.13],          // to   [rgb]
   2000,                       // duration
   emo.easing.CubicIn         // equation
 ));
+}}}

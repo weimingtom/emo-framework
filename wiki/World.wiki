@@ -19,8 +19,7 @@ Enable the contact listener of the world. The onContact event callback is enable
 
 == setGravity(gravity) ==
 
-Change the global gravity vector. the first parameter is the emo.Vec2 
- instance.
+Change the global gravity vector. the first parameter is the emo.Vec2 instance.
 
 == getGravity ==
 

@@ -1,0 +1,11 @@
+#summary API reference for onContact
+#labels Phase-Implementation
+
+= onContact =
+
+Contacts are objects created by Box2D to manage collision between fixtures. There are different kinds of contacts, derived from b2Contact, for managing contact between different kinds of fixtures. For example there is a contact class for managing polygon-polygon collision and another contact class for managing circle-circle collision.
+
+See Box2D document for details.
+http://www.box2d.org/manual.html#_Toc258082975
+
+emo-framework handles these contacts as onContact event.

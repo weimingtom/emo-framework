@@ -13,7 +13,7 @@ Basically the Fixture class represents the b2Fixture API of Box2D.  The followin
 
 == constructor ==
 
-There is no constructor for Fixture. Use Body#createFixture to create new Fixture instance.
+There is no constructor for Fixture. Use [Body]#createFixture to create new Fixture instance.
 
 == getBody ==
 

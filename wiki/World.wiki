@@ -42,13 +42,21 @@ Adds physics object to the world. The first parameter is the emo.PhysicsInfo obj
 
 Remove physics object from the world.
 
-== createBody ==
+== createBody(bodyDef) ==
 
-== destroyBody ==
+Create a rigid body from given definition. Returns emo.Body instance.
+
+== destroyBody(body) ==
+
+Destory a rigid body.
 
 == createJoint ==
 
+Create a joint to constrain bodies together.
+
 == destroyJoint ==
+
+Destroy a joint. This may cause the connected bodies to begin colliding.
 
 == step ==
 

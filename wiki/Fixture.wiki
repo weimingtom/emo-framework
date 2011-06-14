@@ -19,7 +19,7 @@ There is no constructor for Fixture. Use Body#createFixture to create new Fixtur
 
 Returns body proxy instance for this fixture.
 
-= emo.physics.FixtureDef =
+= emo.physics.!FixtureDef =
 
 A fixture definition is used to create a fixture. This class defines an abstract fixture definition. You can reuse fixture definitions safely.
 

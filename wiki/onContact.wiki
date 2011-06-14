@@ -12,7 +12,7 @@ emo-framework handles contacts as onContact event.
 
 == onContact(state, fixtureA, fixtureB, position, normal, normalImpulse, tangentImpulse) ==
 
-state is a contact point state as known as PointState.
+state is a contact point state as known as !PointState.
 
  state is one of: PHYSICS_STATE_NULL, PHYSICS_STATE_ADD, PHYSICS_STATE_PERSIST or PHYSICS_STATE_REMOVE.
 

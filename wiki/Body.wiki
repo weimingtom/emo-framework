@@ -18,9 +18,9 @@ There's no constructor for Body. Use emo.physics.World#createBody to create a ri
 The functions below are almost all proxy functions of b2Body. Refer to the following link for API details.
    * http://code.google.com/p/box2d/source/browse/trunk/Box2D/Box2D/Dynamics/b2Body.h
 
-== createFixture ==
+== createFixture(fixtureDef) ==
 
-== destroyFixture ==
+== destroyFixture(fixture) ==
 
 == setTransform ==
 

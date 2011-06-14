@@ -52,4 +52,8 @@ Gets the pixel-to-meter scale of the world.
 
 == setAutoClearForces ==
 
+Set flag to control automatic clearing of forces after each time step.
+
 == getAutoClearForces ==
+
+Get the flag that controls automatic clearing of forces after each time step.

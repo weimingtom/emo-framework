@@ -1,0 +1,54 @@
+#summary API reference for emo.physics.BodyDef
+#labels Phase-Implementation
+
+= emo.physics.BodyDef =
+
+A body definition holds all the data needed to construct a rigid body.
+This class is used by via emo.physics.World#createBody.
+
+Basically the BodyDef class implements part of the b2BodyDef API of Box2D.  The following links may help you to understand the Box2d world.
+
+  * http://www.box2d.org/manual.html
+  * http://www.box2d.org/documentation.html
+  * http://code.google.com/p/box2d/source/browse/trunk/Box2D/Box2D/Dynamics/b2Body.h
+
+== constructor ==
+
+Creates BodyDef instance.
+
+== type ==
+
+The body type: static, kinematic, or dynamic. Note: if a dynamic body would have zero mass, the mass is set to one.
+
+== position ==
+
+The world position of the body. Avoid creating bodies at the origin since this can lead to many overlapping shapes.
+
+== angle ==
+
+The world angle of the body in radians.
+
+== linearVelocity ==
+
+The linear velocity of the body's origin in world co-ordinates.
+
+== angularVelocity ==
+
+The angular velocity of the body.
+
+== linearDamping ==
+
+
+== angularDamping ==
+
+== allowSleep ==
+
+== awake ==
+
+== fixedRotation ==
+
+== bullet ==
+
+== active ==
+
+== inertiaScale ==

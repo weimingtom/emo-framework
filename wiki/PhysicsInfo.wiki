@@ -1,0 +1,10 @@
+#summary API reference for emo.PhysicsInfo
+#labels Phase-Implementation
+
+= emo.PhysicsInfo =
+
+PhysicsInfo connects the world of emo-framework and Box2d together. 
+
+== constructor(world, sprite, fixture, type) ==
+
+world is the emo.World instance. The second and third parameter is the emo.Sprite instance and emo.physics.Fixture instance to be connected together. The type parameter is the PHYSICS_BODY_TYPE_STATIC, PHYSICS_BODY_TYPE_KINEMATIC or PHYSICS_BODY_TYPE_DYNAMIC.

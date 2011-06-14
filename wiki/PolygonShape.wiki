@@ -33,6 +33,6 @@ Get a vertex by index. returns emo.Vec2.
 
 Get the vertex count.
 
-== setRadius(radius) ==
+== radius(radius) ==
 
 Set the b2Shape.raduis 

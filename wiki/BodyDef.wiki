@@ -3,7 +3,7 @@
 
 = emo.physics.BodyDef =
 
-A body definition holds all the data needed to construct a rigid body.
+A body definition holds all the data needed to construct a rigid [Body].
 This class is used by via emo.physics.World#createBody.
 
 Basically the BodyDef class implements part of the b2BodyDef API of Box2D.  The following links may help you to understand the Box2d world.

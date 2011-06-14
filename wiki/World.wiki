@@ -50,6 +50,8 @@ Gets the pixel-to-meter scale of the world.
 
 == clearForces ==
 
+Manually clear the force buffer on all bodies. By default, forces are cleared automatically after each call to Step. The default behavior is modified by calling SetAutoClearForces. The purpose of this function is to support sub-stepping. Sub-stepping is often used to maintain a fixed sized time step under a variable frame-rate. When you perform sub-stepping you will disable auto clearing of forces and instead callClearForces after all sub-steps are complete in one pass of your game loop.
+
 == setAutoClearForces ==
 
 Set flag to control automatic clearing of forces after each time step.

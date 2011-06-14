@@ -1,0 +1,29 @@
+#summary API reference for emo.physics.PolygonShape
+#labels Phase-Implementation
+
+= emo.physics.PolygonShape =
+
+Basically the PolygonShape class represents the b2PolygonShape API of Box2D.  The following links may help you to understand the Box2d world.
+
+  * http://www.box2d.org/manual.html
+  * http://www.box2d.org/documentation.html
+  * http://code.google.com/p/box2d/source/browse/trunk/Box2D/Box2D/Collision/Shapes/b2PolygonShape.h
+
+== constructor ==
+
+Creates PolygonShape instance.
+
+
+== set ==
+
+ Copy vertices. This assumes the vertices define a convex polygon. It is assumed that the exterior is the the right of each edge.
+
+== setAsBox(hx, hy, center = null, angle = null) ==
+
+== setAsEdge(v1, v2) ==
+
+== getVertex(index) ==
+
+== getVertexCount ==
+
+== setRadius(radius) ==

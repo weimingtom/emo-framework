@@ -12,4 +12,10 @@ emo-framework handles contacts as onContact event.
 
 == onContact(state, fixtureA, fixtureB, position, normal, normalImpulse, tangentImpulse) ==
 
-state is a contact point state as known as PointState. state is one of: PHYSICS_STATE_NULL, PHYSICS_STATE_ADD, PHYSICS_STATE_PERSIST or PHYSICS_STATE_REMOVE. See http://programanddesign.com/box2d/b2Collision_8h.html#0a894e3715ce8c61b7958dd6e083663d for details. s fixtureA and fixtureB is the emo.physics.[Fixtrue] instance that collides with. position is the global world position vector (emo.[Vec2]) instance that represents the position of collision. normalImpulse is the force applied at a contact point to prevent the shapes from penetrating. For convenience, Box2D works with impulses. The normal impulse is just the normal force multiplied by the time step. tangentImpulse is generated at a contact point to simulate friction. For convenience, this is stored as an impulse.
+state is a contact point state as known as PointState.
+
+ state is one of: PHYSICS_STATE_NULL, PHYSICS_STATE_ADD, PHYSICS_STATE_PERSIST or PHYSICS_STATE_REMOVE.
+
+See http://programanddesign.com/box2d/b2Collision_8h.html#0a894e3715ce8c61b7958dd6e083663d for details.
+
+s fixtureA and fixtureB is the emo.physics.[Fixtrue] instance that collides with. position is the global world position vector (emo.[Vec2]) instance that represents the position of collision. normalImpulse is the force applied at a contact point to prevent the shapes from penetrating. For convenience, Box2D works with impulses. The normal impulse is just the normal force multiplied by the time step. tangentImpulse is generated at a contact point to simulate friction. For convenience, this is stored as an impulse.

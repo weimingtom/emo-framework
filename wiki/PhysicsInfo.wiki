@@ -9,7 +9,7 @@ PhysicsInfo connects the world of emo-framework and Box2d together.
 
 world is the emo.World instance. The second and third parameter is the emo.Sprite instance and emo.physics.Fixture instance to be connected together. The type parameter is the PHYSICS_BODY_TYPE_STATIC, PHYSICS_BODY_TYPE_KINEMATIC or PHYSICS_BODY_TYPE_DYNAMIC.
 
-The following links may help you to understand the Box2d's world.
+The following links may help you to understand the Box2d world.
 
   * http://www.box2d.org/manual.html
   * http://www.box2d.org/documentation.html

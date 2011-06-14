@@ -3,4 +3,95 @@
 
 = emo.physics.Body =
 
-Body represents a rigid body. These are created via emo.physics.woorld#createBody.
+Body represents a rigid body. These are created via emo.physics.World#createBody.
+
+Basically the Body class implements part of the b2Body API of Box2D.  The following links may help you to understand the Box2d world.
+
+  * http://www.box2d.org/manual.html
+  * http://www.box2d.org/documentation.html
+  * http://code.google.com/p/box2d/source/browse/trunk/Box2D/Box2D/Dynamics/b2Body.h
+
+== constructor ==
+
+There's no constructor for Body. Use emo.physics.World#createBody to create a rigid body.
+
+== createFixture ==
+
+The functions below are almost all proxy functions of b2Body. Refer to the following link for API details.
+   * http://code.google.com/p/box2d/source/browse/trunk/Box2D/Box2D/Dynamics/b2Body.h
+
+== destroyFixture ==
+
+== setTransform ==
+
+== getPosition ==
+
+== getAngle ==
+
+== getWorldCenter ==
+
+== getLocalCenter ==
+
+== setLinearVelocity(v) ==
+
+== getLinearVelocity ==
+
+== setAngularVelocity(omega) ==
+
+== getAngularVelocity ==
+
+== applyForce(force, point) ==
+
+== applyTorque ==
+
+== applyLinearImpulse ==
+
+== applyAngularImpulse ==
+
+== getMass ==
+
+== getInertia ==
+
+== getWorldPoint(localPoint) ==
+
+== getWorldVector(localVector) ==
+
+== getLocalPoint(worldPoint) ==
+
+== getLocalVector(worldVector) ==
+
+== getLinearVelocityFromWorldPoint ==
+
+== getLinearVelocityFromLocalPoint ==
+
+== getLinearDamping ==
+
+== setLinearDamping(linearDamping) ==
+
+== getAngularDamping ==
+
+== setAngularDamping(angularDamping) ==
+
+== setType(bodyType) ==
+
+== getType ==
+
+== setBullet(flag) ==
+
+== isBullet ==
+
+== setSleepingAllowed(flag) ==
+
+== isSleepingAllowed ==
+
+== setAwake ==
+
+== isAwake ==
+
+== setActive ==
+
+== isActive ==
+
+== setFixedRotation(flag) ==
+
+== isFixedRotation ==

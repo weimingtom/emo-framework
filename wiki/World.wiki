@@ -13,11 +13,11 @@ emo.physics.World represents the world of physics. Basically the World class imp
 
 Constructs a physics world with given gravity. gravity parameter is the gravity of the world vector. if doSleep equals true it improves performance by not simulating inactive bodies.
 
-== enableContactListener ==
+== enableContactListener(enable) ==
 
 Enable the contact listener of the world. The onContact event callback is enabled after enabling the contact listener.
 
-== setGravity ==
+== setGravity(gravity) ==
 
 Change the global gravity vector. the first parameter is the emo.Vec2 
  instance.
@@ -26,7 +26,7 @@ Change the global gravity vector. the first parameter is the emo.Vec2
 
 Gets the global gravity vector.
 
-== setScale ==
+== setScale(ptm) ==
 
 Sets the pixel-to-meter scale. The default scale is defined by PTM_RATIO constant that equals 32. (1 meter equals 32 pixel)
 
@@ -34,9 +34,13 @@ Sets the pixel-to-meter scale. The default scale is defined by PTM_RATIO constan
 
 Gets the pixel-to-meter scale of the world.
 
-== addPhysicsObject ==
+== addPhysicsObject(physicsInfo) ==
 
-== removePhysicsObject ==
+Adds physics object to the world. The first parameter is the emo.PhysicsInfo object that contains information about box2d body and fixture.
+
+== removePhysicsObject(physicsInfo) ==
+
+Remove physics object from the world.
 
 == createBody ==
 

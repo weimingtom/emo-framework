@@ -12,3 +12,7 @@ Basically the CircleShape class represents the b2CircleShape API of Box2D.  The 
 == constructor ==
 
 Creates CircleShape instance.
+
+== position(position) ==
+
+== radius(radius) ==

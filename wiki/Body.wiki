@@ -1,0 +1,6 @@
+#summary API reference for emo.physics.Body
+#labels Phase-Implementation
+
+= emo.physics.Body =
+
+Body represents a rigid body. These are created via emo.physics.woorld#createBody.

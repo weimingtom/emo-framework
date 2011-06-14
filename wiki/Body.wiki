@@ -3,7 +3,7 @@
 
 = emo.physics.Body =
 
-Body represents a rigid body. These are created via emo.physics.World#createBody.
+Body represents a rigid body. These are created via emo.physics.[World]#createBody.
 
 Basically the Body class implements part of the b2Body API of Box2D.  The following links may help you to understand the Box2d world.
 

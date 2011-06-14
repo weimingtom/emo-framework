@@ -8,4 +8,8 @@ Contacts are objects created by Box2D to manage collision between fixtures. Ther
 See Box2D document for details.
 http://www.box2d.org/manual.html#_Toc258082975
 
-emo-framework handles these contacts as onContact event.
+emo-framework handles contacts as onContact event.
+
+== onContact(state, fixtureA, fixtureB, position, normal, normalImpulse, tangentImpulse) ==
+
+state is a contact point state as known as PointState. See http://programanddesign.com/box2d/b2Collision_8h.html#0a894e3715ce8c61b7958dd6e083663d for details. fixtureA and fixtureB is the emo.physics.Fixtrue instance that collides with. position is the global world position vector (emo.Vec2) instance that represents the position of collision. normalImpulse is the force applied at a contact point to prevent the shapes from penetrating. For convenience, Box2D works with impulses. The normal impulse is just the normal force multiplied by the time step. tangentImpulse is generated at a contact point to simulate friction. For convenience, this is stored as an impulse.

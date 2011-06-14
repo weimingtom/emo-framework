@@ -43,7 +43,7 @@ Remove physics object from the world.
 
 == createBody(bodyDef) ==
 
-Create a rigid body from given definition. See emo.BodyDef for boody definition details. Returns emo.Body instance.
+Create a rigid body from given definition. See emo.BodyDef for body definition details. Returns emo.Body instance.
 
 == destroyBody(body) ==
 

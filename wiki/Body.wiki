@@ -20,7 +20,12 @@ The functions below are almost all proxy functions of b2Body. Refer to the follo
 
 == createFixture(fixtureDef) ==
 
+Creates a fixture and attach it to this body. Use this function if you need to set some fixture parameters, like friction. Otherwise you can create the fixture directly from a shape. If the density is non-zero, this function automatically updates the mass of the body. Contacts are not created until the next time step.
+
 == destroyFixture(fixture) ==
+
+Destroy a fixture. This removes the fixture from the broad-phase and
+ destroys all contacts associated with this fixture. This will automatically adjust the mass of the body if the body is dynamic and the fixture has positive density. All fixtures attached to a body are implicitly destroyed when the body is destroyed.
 
 == setTransform ==
 

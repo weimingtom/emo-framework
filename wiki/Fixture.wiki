@@ -19,4 +19,30 @@ There is no constructor for Fixture. Use Body#createFixture to create new Fixtur
 
 Returns body proxy instance for this fixture.
 
- 
+= emo.physics.FixtureDef =
+
+A fixture definition is used to create a fixture. This class defines an abstract fixture definition. You can reuse fixture definitions safely.
+
+== constructor ==
+
+The constructor sets the default fixture definition values.
+
+== shape ==
+
+can create the shape on the stack.
+
+== friction ==
+
+The friction coefficient, usually in the range [0,1].
+
+== restitution == 
+
+The restitution (elasticity) usually in the range [0,1].
+
+== density ==
+
+The density, usually in kg/m^2.
+
+== isSensor ==
+
+A sensor shape collects contact information but never generates a collision response.

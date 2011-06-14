@@ -20,7 +20,7 @@ The functions below are almost all proxy functions of b2Body. Refer to the follo
 
 == createFixture(fixtureDef) ==
 
-Creates a fixture and attach it to this body. Use this function if you need to set some fixture parameters, like friction. Otherwise you can create the fixture directly from a shape. If the density is non-zero, this function automatically updates the mass of the body. Contacts are not created until the next time step.
+Creates a fixture and attach it to this body from [Fixture FixtureDef]. Use this function if you need to set some fixture parameters, like friction. Otherwise you can create the fixture directly from a shape. If the density is non-zero, this function automatically updates the mass of the body. Contacts are not created until the next time step.
 
 == destroyFixture(fixture) ==
 

@@ -101,3 +101,62 @@ function emo::onLoad() {
     stage.load(Level_1());
 }
 }}}
+
+== Physics with Box2d ==
+
+emo-framework implements physics engine powered by Box2D so you can easily integrate full-scale physics with your game. If you have already experienced Box2D programming you will soon get used to it in a minute because part of Box2D API is ported to emo as it is.
+
+  * [http://code.google.com/p/box2d/source/browse/trunk/Box2D/HelloWorld/HelloWorld.cpp HelloWorld example by Box2D (C++)]
+  * [http://code.google.com/p/emo-framework/source/browse/trunk/iOS-Examples/Resources/box2d_helloworld.nut HelloWorld example by emo]
+
+Looks pretty familiar, right?
+
+{{{
+emo.Runtime.import("physics.nut");
+
+// This is a simple example of building and running a simulation
+// using Box2D. Here we create a large ground box and a small dynamic
+// box.
+// There are no graphics for this example. Box2D is meant to be used
+// with your rendering engine in your game engine.function emo::onLoad() {
+    local gravity = emo.Vec2(0, -10);
+    local world = emo.physics.World(gravity, true);
+    
+    local groundBodyDef = emo.physics.BodyDef();
+    groundBodyDef.position = emo.Vec2(0, -10);
+    
+    local groundBody = world.createBody(groundBodyDef);
+    
+    local groundBox = emo.physics.PolygonShape();
+    groundBox.setAsBox(50, 10);
+    groundBody.createFixture(groundBox, 0);
+
+    local bodyDef = emo.physics.BodyDef();
+    bodyDef.type = PHYSICS_BODY_TYPE_DYNAMIC;
+    bodyDef.position = emo.Vec2(0, 4);
+    local body = world.createBody(bodyDef);
+    
+    local dynamicBox = emo.physics.PolygonShape();
+    dynamicBox.setAsBox(1, 1);
+    
+    local fixtureDef = emo.physics.FixtureDef();
+    fixtureDef.shape = dynamicBox;
+    fixtureDef.density  = 1;
+    fixtureDef.friction = 0.3;
+    body.createFixture(fixtureDef);
+    
+    local timeStep = 1.0 / 60.0;
+    local velocityIterations = 6;
+    local positionIterations  = 2;
+    
+    for (local i = 0; i < 60; ++i) {
+        world.step(timeStep, velocityIterations, positionIterations);
+        world.clearForces();
+        
+        local position = body.getPosition();
+        local angle    = body.getAngle();
+        
+        print(format("%4.2f %4.2f %4.2f", position.x, position.y, angle));
+    }
+}
+}}}

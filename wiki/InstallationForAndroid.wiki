@@ -1,0 +1,4 @@
+#summary Install project template for Android
+#labels Phase-Deploy
+
+= Install project template for Android =

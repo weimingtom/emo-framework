@@ -37,6 +37,6 @@
       * [PhysicsInfo]
       * [onContact]
   * Installation
-    * [InstallationAndroid for Android]
-    * [InstallationiOS for iOS]
+    * [InstallationForAndroid Android]
+    * [InstallationForiOS iOS]
  

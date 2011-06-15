@@ -5,4 +5,10 @@
 
 To create new project for Android, use project template for Eclipse.
 
-Download the latest source distribution from http://code.google.com/p/emo-framework/downloads/list .
+Download the latest source distribution from http://code.google.com/p/emo-framework/downloads/list . The project template for Eclipse is in the Android-Examples directory.
+
+  * Start your eclipse
+  * Select 'File' -> 'Import' menu
+  * Select 'General' -> 'Existing Projects into Workspace'
+  * Choose 'Select root directory' and browse for the parent directory of the Android-Examples directory.
+  * Check the 'Android-Template' directory and press 'Finish' button

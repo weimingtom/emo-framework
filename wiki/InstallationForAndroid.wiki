@@ -2,3 +2,7 @@
 #labels Phase-Deploy
 
 = Install project template for Android =
+
+To create new project for Android, use project template for Eclipse.
+
+Download the latest source distribution from http://code.google.com/p/emo-framework/downloads/list .

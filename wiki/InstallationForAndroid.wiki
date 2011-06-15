@@ -22,7 +22,7 @@ Edit package name in the !AndroidManifest.xml. Otherwise "com.emo_framework.exam
         android:versionName="1.0">
 }}}
 
-The main script file is assets/main.nut. Edit it to write your own game.
+The main script file is *assets/main.nut*. Edit it to create your own game.
 
 {{{
 function emo::onLoad() {
@@ -31,7 +31,6 @@ function emo::onLoad() {
 }
 }}}
 
-That's all!
 
 = Build examples for Android =
 

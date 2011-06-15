@@ -36,10 +36,7 @@
       * [CircleShape]
       * [PhysicsInfo]
       * [onContact]
-  * Project Template
+  * Installation
      * [InstallationForAndroid Android]
      * [InstallationForiOS iOS]
-   * Examples
-     * [ExamplesForAndroid] Android]
-     * [ExamplesForiOS] iOS]
   

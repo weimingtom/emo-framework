@@ -20,7 +20,8 @@ $ cd ~/Downloads/emo-framework-X.X.X-source
 $ ./install-templates-Xcode3.sh -u
 }}}
 
-  * the command above will install the project template into the user's Library directory. if you want to install into global directory, type following.
+  * the command above will install the project template into the user's Library directory.
+  * if you want to install into global directory, type following.
 
 {{{
 $ sudo ./install-templates-Xcode3.sh

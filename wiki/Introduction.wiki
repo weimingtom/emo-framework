@@ -118,8 +118,8 @@ emo.Runtime.import("physics.nut");
 // using Box2D. Here we create a large ground box and a small dynamic
 // box.
 // There are no graphics for this example. Box2D is meant to be used
-// with your rendering engine in your game engine.function
-emo::onLoad() {
+// with your rendering engine in your game engine.
+function emo::onLoad() {
     local gravity = emo.Vec2(0, -10);
     local world = emo.physics.World(gravity, true);
     

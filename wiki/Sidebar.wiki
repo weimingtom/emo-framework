@@ -36,3 +36,7 @@
       * [CircleShape]
       * [PhysicsInfo]
       * [onContact]
+  * Installation
+    * [InstallationAndroid For Android]
+    * [InstallationiOS For iOS]
+ 

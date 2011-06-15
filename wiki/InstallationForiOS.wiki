@@ -8,7 +8,7 @@ Project template for Xcode 3 can be used to create emo project for iOS.
 Download the latest source distribution from http://code.google.com/p/emo-framework/downloads/list . You can install the project template for Xcode 3 by using project template installer.
 
   * Open Terminal
-  * In the terminal cd to the directory where you extract the source distribution. It goes something like below:
+  8 In the terminal cd to the directory where you extract the source distribution. It goes something like below:
 
 {{{
 $ cd ~/Downloads/emo-framework-X.X.X-source
@@ -20,14 +20,15 @@ $ cd ~/Downloads/emo-framework-X.X.X-source
 $ ./install-templates-Xcode3.sh -u
 }}}
 
-  * the command above will install the project template into the user's Library directory.
-  * if you want to install into global directory, type following.
+The -u option installs the project template into the user's Library directory: ~/Library/Application Support/Developer/Shared/Xcode .
+
+If you want to install into global directory, type following. This installs the template into /Library/Application Support/Developer/Shared/Xcode .
 
 {{{
 $ sudo ./install-templates-Xcode3.sh
 }}}
 
-  * if you want to re-install the project template, add -f option.
+If you want to re-install the project template, add -f option.
 
 {{{
 $ ./install-templates-Xcode3.sh -u -f

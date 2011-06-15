@@ -11,7 +11,7 @@ Download the latest source distribution from http://code.google.com/p/emo-framew
   * Select 'File' -> 'Import' menu
   * Select 'General' -> 'Existing Projects into Workspace'
   * Choose 'Select root directory' and browse for the parent directory of the Android-Template directory.
-  * Check the 'copy projects into workspace' if you want to copy them to your workspace. (Normally you may want to check it.)
+  * Check the 'copy projects into workspace' if you want to copy them to your workspace. (Normally you may need to check it.)
   * Check the 'Android-Template' directory and press 'Finish' button
 
 That's all!

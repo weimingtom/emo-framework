@@ -3,7 +3,7 @@
 
 = Install project template for Android =
 
-Project template for Eclipse can be used to create new emo project for Android.
+Use Eclipse project template to create new emo project for Android.
 
 Download the latest source distribution from http://code.google.com/p/emo-framework/downloads/list . The project template for Eclipse is in the Android-Template directory.
 

@@ -1,0 +1,24 @@
+#summary Tips
+#labels Phase-Implementation
+
+= Tips =
+
+== Keeping the portrait mode ==
+
+To keep the orientation to portrait, set orientation option using Runtime.
+
+{{{
+local runtime = emo.Runtime();
+runtime.setOptions(OPT_ORIENTATION_PORTRAIT);
+}}}
+
+For Android, edit the AndroidManifest.xml and set the screenOrientation option.
+
+{{{
+<application android:icon="@drawable/icon" android:label="@string/app_name">
+  <activity android:name=".Launcher"
+    android:label="@string/app_name"
+    android:screenOrientation="portrait">
+}}}
+
+For iOS, Open Info.plist of your application.

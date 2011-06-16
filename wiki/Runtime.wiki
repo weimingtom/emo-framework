@@ -71,11 +71,6 @@ runtime.setLogLevel(LOG_WARN);
 
 Runtime#setOptions sets options for framework. Available options are listed below.
 
-  * OPT_ORIENTATION_PORTRAIT
-  * OPT_ORIENTATION_LANDSCAPE
-  * OPT_ENABLE_BACK_KEY *Android Only*
-  * OPT_DISABLE_BACK_KEY *Android Only*
-
 {{{
 local runtime = emo.Runtime();
 
@@ -85,6 +80,26 @@ runtime.setOptions(OPT_ORIENTATION_PORTRAIT);
 // multiple options are able to set at once
 runtime.setOptions(OPT_ORIENTATION_PORTRAIT, OPT_ENABLE_BACK_KEY);
 }}}
+
+=== OPT_ORIENTATION_PORTRAIT ===
+
+Set the current orientation to portrait. This option tells framework the current orientation is portrait. To keep the current orientation additional setting must be set. See [Tips] for details.
+
+=== OPT_ORIENTATION_LANDSCAPE ===
+
+Set the current orientation to landscape. This option tells framework the current orientation is landscape. To keep the current orientation additional setting must be set. See [Tips] for details.
+
+=== OPT_ENABLE_BACK_KEY ===
+
+*Android Only*
+
+This option sets the default behavior when back key is pressed. If back key is enabled emo-framework catches the back key event and finish the current activity if no function catches the back key in your script.
+
+=== OPT_DISABLE_BACK_KEY ===
+
+ *Android Only*
+
+This option sets the default behavior when back key is pressed. emo-framework does not catch the back key and delegate it to the Android runtime if no function catches the back key in your script.
 
 === os ===
 

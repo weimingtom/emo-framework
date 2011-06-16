@@ -39,4 +39,4 @@
   * Installation
      * [InstallationForAndroid Android]
      * [InstallationForiOS iOS]
-  
+  * Tips

@@ -23,6 +23,8 @@ For Android, edit the AndroidManifest.xml and set the screenOrientation option.
 
 For iOS, Open Info.plist of your application and set "Initial interface orientation to portrait(bottom home button).
 
+http://www.emo-framework.com/images/xcode_ori_portrait.png
+
 == Keeping the lanscape mode ==
 
 To keep the orientation to landscape, set orientation option using Runtime.
@@ -42,3 +44,5 @@ For Android, edit the AndroidManifest.xml and set the screenOrientation option.
 }}}
 
 For iOS, Open Info.plist of your application and set "Initial interface orientation to portrait(bottom home button).
+
+http://www.emo-framework.com/images/xcode_ori_landscape.png

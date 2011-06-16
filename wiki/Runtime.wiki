@@ -83,8 +83,10 @@ runtime.setOptions(OPT_ORIENTATION_PORTRAIT);
 Set the current orientation to portrait. This option tells framework the current orientation is portrait. To keep the current orientation additional setting is required. See [Tips] for details.
 
 === OPT_ORIENTATION_LANDSCAPE ===
+=== OPT_ORIENTATION_LANDSCAPE_LEFT (*iOS Only*) ===
+=== OPT_ORIENTATION_LANDSCAPE_RIGHT (*iOS Only*) ===
 
-Set the current orientation to landscape. This option tells framework the current orientation is landscape. To keep the current orientation additional setting is required. See [Tips] for details.
+Set the current orientation to landscape. This option tells framework the current orientation is landscape. OPT_ORIENTATION_LANDSCAPE_RIGHT and OPT_ORIENTATION_LANDSCAPE_RIGHT are only supported by iOS. RIGHT and LEFT options are ignored by Android and OPT_ORIENTATION_LANDSCAPE is used instead. To keep the current orientation additional setting is required. See [Tips] for details.
 
 === os ===
 

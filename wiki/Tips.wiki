@@ -3,7 +3,7 @@
 
 = Tips =
 
-== Keeping your app in portrait mode ==
+== Keeping the orientation in portrait mode ==
 
 To keep the orientation in portrait mode, set orientation option using Runtime.
 
@@ -24,7 +24,7 @@ For iOS, Open Info.plist of your application and set "Initial interface orientat
 
 http://www.emo-framework.com/images/xcode_ori_portrait.png
 
-== Keeping your app in landscape mode ==
+== Keeping the orientation in landscape mode ==
 
 To keep the orientation in landscape mode, set orientation option using Runtime.
 

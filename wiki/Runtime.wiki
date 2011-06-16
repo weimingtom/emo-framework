@@ -16,7 +16,7 @@ runtime.import("stage2.nut");
 // emo.Runtime.import("stage2.nut");
 }}}
 
-=== log ===
+== log ==
 
 Runtime#log is useful for print debug message into the log console. Loggin message can be seen at logcat(Android) or console(iOS). Runtime#log needs log level parameter and message string.
 
@@ -27,7 +27,7 @@ runtime.log(LOG_ERROR, "error message");
 runtime.log(LOG_WARN, "warn message");
 }}} 
 
-=== info ===
+== info ==
 
 Runtime#info is useful for print debug information message into the log console. Logging message can be seen at logcat(Android) or console(iOS). 
 
@@ -36,7 +36,7 @@ local runtime = emo.Runtime();
 runtime.info("info message");
 }}}
 
-=== error ===
+== error ==
 
 Runtime#info is useful for print error message into the log console. Logging message can be seen at logcat(Android) or console(iOS). 
 
@@ -45,7 +45,7 @@ local runtime = emo.Runtime();
 runtime.error("error message");
 }}}
 
-=== warn ===
+== warn ==
 
 Runtime#info is useful for print warning message into the log console. Logging message can be seen at logcat(Android) or console(iOS). 
 
@@ -54,7 +54,7 @@ local runtime = emo.Runtime();
 runtime.warn("warn message");
 }}}
 
-=== setLogLevel ==
+== setLogLevel ==
 
 Runtime#setLogLevel sets the current log level. Log level is used to suppress unnecessary log message sent from the application. If the log level equals 'LOG_INFO', all messages are logged, if the log level equals LOG_WARN 'warn' and 'error' messages are logged. If the log level equals LOG_ERROR only the 'error' messages are logged. The default log level is 'LOG_INFO'.
 
@@ -65,6 +65,25 @@ runtime.setLogLevel(LOG_WARN);
 
 // suppress the 'info' and 'warn' message
 //runtime.setLogLevel(LOG_ERROR);
+}}}
+
+== setOptions ==
+
+Runtime#setOptions sets options for framework. Available options are listed below.
+
+  * OPT_ORIENTATION_PORTRAIT
+  * OPT_ORIENTATION_LANDSCAPE
+  * OPT_ENABLE_BACK_KEY *Android Only*
+  * OPT_DISABLE_BACK_KEY *Android Only*
+
+{{{
+local runtime = emo.Runtime();
+
+// set oriantation option
+runtime.setOptions(OPT_ORIENTATION_PORTRAIT);
+
+// multiple options are able to set at once
+runtime.setOptions(OPT_ORIENTATION_PORTRAIT, OPT_ENABLE_BACK_KEY);
 }}}
 
 === os ===
@@ -81,7 +100,7 @@ if (os == OS_ANDROID) {
 }
 }}}
 
-=== device ===
+== device ==
 
 Runtime#device returns device type that emo-framework is running on. For iPhone this function returns the "hw.machine" value of sysctlbyname. For Android this function returns the value of android.os.Build.DEVICE constant;
 
@@ -92,7 +111,7 @@ local device = runtime.device();
 // returns 'generic' if it runs on Android Simulator
 }}}
 
-=== isSimulator ===
+== isSimulator ==
 
 Runtime#isSimulator returns if the emo-framework runs on the simulator. This function is useful for developing and debugging.
 
@@ -105,7 +124,7 @@ if (runtime.isSimulator()) {
 }
 }}}
 
-=== finish ===
+== finish ==
 
 Runtime#finish finishes the current activity. *Runtime#finish works only on the Android platform*. Nothing is happened if finish() is called from iOS because the 'Home' button is the only way to finish the application.
 

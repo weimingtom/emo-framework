@@ -21,7 +21,7 @@ For Android, edit the AndroidManifest.xml and set the screenOrientation option.
     android:screenOrientation="portrait">
 }}}
 
-For iOS, Open Info.plist of your application and "Initial interface orientation to portrait(bottom home button).
+For iOS, Open Info.plist of your application and set "Initial interface orientation to portrait(bottom home button).
 
 == Keeping the lanscape mode ==
 
@@ -41,4 +41,4 @@ For Android, edit the AndroidManifest.xml and set the screenOrientation option.
     android:screenOrientation="landscape">
 }}}
 
-For iOS, Open Info.plist of your application and "Initial interface orientation to portrait(bottom home button).
+For iOS, Open Info.plist of your application and set "Initial interface orientation to portrait(bottom home button).

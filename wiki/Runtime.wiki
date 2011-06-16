@@ -76,9 +76,6 @@ local runtime = emo.Runtime();
 
 // set oriantation option
 runtime.setOptions(OPT_ORIENTATION_PORTRAIT);
-
-// multiple options are able to set at once
-runtime.setOptions(OPT_ORIENTATION_PORTRAIT, OPT_ENABLE_BACK_KEY);
 }}}
 
 === OPT_ORIENTATION_PORTRAIT ===

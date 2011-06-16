@@ -38,6 +38,7 @@ http://www.emo-framework.com/images/eclipse_install4.png
 function emo::onLoad() {
   // print log into the logcat
   print("It works!");
+  emo.Stage().load(Main());
 }
 }}}
 

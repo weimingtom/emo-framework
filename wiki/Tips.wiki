@@ -5,7 +5,7 @@
 
 == Keeping your app in portrait mode ==
 
-To keep the orientation to portrait, set orientation option using Runtime.
+To keep the orientation in portrait mode, set orientation option using Runtime.
 
 {{{
 local runtime = emo.Runtime();
@@ -26,7 +26,7 @@ http://www.emo-framework.com/images/xcode_ori_portrait.png
 
 == Keeping your app in landscape mode ==
 
-To keep the orientation to landscape, set orientation option using Runtime.
+To keep the orientation in landscape mode, set orientation option using Runtime.
 
 {{{
 local runtime = emo.Runtime();

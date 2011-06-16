@@ -97,7 +97,7 @@ This option sets the default behavior when back key is pressed. If back key is e
 
 === OPT_DISABLE_BACK_KEY ===
 
- *Android Only*
+*Android Only*
 
 This option sets the default behavior when back key is pressed. emo-framework does not catch the back key and delegate it to the Android runtime if no function catches the back key in your script.
 

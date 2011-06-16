@@ -43,6 +43,6 @@ For Android, edit the AndroidManifest.xml and set the screenOrientation option.
     android:screenOrientation="landscape">
 }}}
 
-For iOS, Open Info.plist of your application and set "Initial interface orientation to landscape(left home button).
+For iOS, Open Info.plist of your application and set "Initial interface orientation to landscape(left home button). Only 'left home button' optioins is supported for landscape.
 
 http://www.emo-framework.com/images/xcode_ori_landscape.png

@@ -12,7 +12,7 @@ local runtime = emo.Runtime();
 runtime.setOptions(OPT_ORIENTATION_PORTRAIT);
 }}}
 
-For Android, edit the AndroidManifest.xml and set the screenOrientation option.
+For Android, edit the !AndroidManifest.xml and set the screenOrientation option.
 
 {{{
 <application android:icon="@drawable/icon" android:label="@string/app_name">
@@ -21,7 +21,7 @@ For Android, edit the AndroidManifest.xml and set the screenOrientation option.
     android:screenOrientation="portrait">
 }}}
 
-For iOS, Open Info.plist of your application and set "Initial interface orientation to portrait(bottom home button).
+For iOS, Open Info.plist of your application and set "Initial interface orientation to portrait(bottom home button). Only 'bottom home button' option is supported for portrait.
 
 http://www.emo-framework.com/images/xcode_ori_portrait.png
 
@@ -34,7 +34,7 @@ local runtime = emo.Runtime();
 runtime.setOptions(OPT_ORIENTATION_LANDSCAPE);
 }}}
 
-For Android, edit the AndroidManifest.xml and set the screenOrientation option.
+For Android, edit the !AndroidManifest.xml and set the screenOrientation option.
 
 {{{
 <application android:icon="@drawable/icon" android:label="@string/app_name">

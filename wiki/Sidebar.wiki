@@ -1,5 +1,8 @@
 #labels Phase-Implementation
   * [Introduction Introduction]
+  * Installation
+     * [InstallationForAndroid Android]
+     * [InstallationForiOS iOS]
   * [APIReference API Reference]
     * [Runtime]
     * [Stage]
@@ -36,7 +39,4 @@
       * [CircleShape]
       * [PhysicsInfo]
       * [onContact]
-  * Installation
-     * [InstallationForAndroid Android]
-     * [InstallationForiOS iOS]
   * [Tips]

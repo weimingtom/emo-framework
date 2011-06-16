@@ -80,11 +80,11 @@ runtime.setOptions(OPT_ORIENTATION_PORTRAIT);
 
 === OPT_ORIENTATION_PORTRAIT ===
 
-Set the current orientation to portrait. This option tells framework the current orientation is portrait. To keep the current orientation additional setting must be set. See [Tips] for details.
+Set the current orientation to portrait. This option tells framework the current orientation is portrait. To keep the current orientation additional setting is required. See [Tips] for details.
 
 === OPT_ORIENTATION_LANDSCAPE ===
 
-Set the current orientation to landscape. This option tells framework the current orientation is landscape. To keep the current orientation additional setting must be set. See [Tips] for details.
+Set the current orientation to landscape. This option tells framework the current orientation is landscape. To keep the current orientation additional setting is required. See [Tips] for details.
 
 === os ===
 

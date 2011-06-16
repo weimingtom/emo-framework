@@ -1,5 +1,5 @@
-#summary Install project template for Android
 #labels Phase-Deploy
+ #summary Install project template for Android
 
 = Install project template for Android =
 
@@ -49,6 +49,12 @@ The example for Eclipse is in the Android-Examples directory.
   * Start your Eclipse
   * Select 'File' -> 'Import' menu
   * Select 'General' -> 'Existing Projects into Workspace'
+
+http://www.emo-framework.com/images/eclipse_install1.png
+
   * Choose 'Select root directory' and browse for the parent directory of the Android-Examples directory.
+
+http://www.emo-framework.com/images/eclipse_install2.png
+
   * Check the 'copy projects into workspace' if you want to copy them to your workspace. (Normally you may need to check it.)
   * Check the 'Android-Examples' directory and press 'Finish' button

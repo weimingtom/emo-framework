@@ -12,6 +12,8 @@
     * [TextSprite]
     * [SpriteSheet]
     * [MapSprite]
+    * AnalogOnScreenController
+    * DigitalOnScreenController
     * Easing
       * [Modifier]
       * [Easing]

@@ -31,6 +31,11 @@ This page is emo-framework's API reference index. This page does not contain the
 
   * [TextSprite]
 
+== On-Screen Controller ==
+
+  * AnalogOnScreenController
+  * DigitalOnScreenController
+
 == Modifiers and Easing ==
 
   * [Modifier]

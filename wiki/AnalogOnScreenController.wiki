@@ -1,0 +1,6 @@
+#summary API reference for emo.AnalogOnScreenController
+#labels Phase-Implementation
+
+= emo.AnalogOnScreenController =
+
+emo.AnalogOnScreenController represents virtual analog stick controller that accepts user screen input. The controller raises onControlEvent events when the input event occurs.

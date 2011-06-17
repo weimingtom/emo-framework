@@ -1,0 +1,6 @@
+#summary API reference for emo.DigitalOnScreenController
+#labels Phase-Implementation
+
+= emo.DigitalOnScreenController =
+
+emo.DigitalOnScreenController represents virtual digital stick controller that accepts user screen input. The controller raises onControlEvent events when the input event occurs.

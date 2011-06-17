@@ -30,4 +30,8 @@ controller.updateInterval = 16;
 
 onControlEvent is a callback for the controller. The first parameter controller is the Controller instance that you can decide which controller is used when you place multiple controllers into the screen. The controlX and controlY parameters are values of user input. controlX and controlY takes values between -100 to 100. hasChanged is the flag (boolean value) that tells whether the controller value has changed or not. For example, if the previous controller values (X and Y) equals 100 and current controller values remains same, hasChanged equals false. If the controller values (X and Y) has changed due to user input, hasChanged equals true.
 
-
+{{{
+function onControlEvent(controller, controlX, controlY, hasChanged) {
+    print(format("controller input: X=%d, Y=%d", controlX, controlY));
+}
+}}}

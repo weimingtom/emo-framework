@@ -4,3 +4,22 @@
 = emo.AnalogOnScreenController =
 
 emo.AnalogOnScreenController represents virtual analog stick controller that accepts user screen input. The controller raises onControlEvent events when the input event occurs.
+
+== constructor(base_name, knob_name, alpha=0.5) == 
+
+{{{
+controller = emo.AnalogOnScreenController(
+    "controller_base.png", "controller_knob.png");
+}}}
+
+== updateInterval ==
+
+updateInterval represents update interval milliseconds for the controller. The controller event is fired every updateInterval milliseconds at most. The default update interval equals 100 milliseconds.
+
+{{{
+controller = emo.AnalogOnScreenController(
+    "controller_base.png", "controller_knob.png");
+
+// onControlEvent is fired on every 16 milliseconds at most.
+controller.updateInterval = 16;
+}}}

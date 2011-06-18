@@ -5,7 +5,7 @@
 
 == Will emo-framework replace [http://www.e3roid.com/ e3roid]? ==
 
-I guess emo will not replace e3roid. Here's some comparison.
+emo carried some principles from e3roid. I guess emo will not replace e3roid. Here's some comparison.
 
 === e3roid ===
   * works on Android only

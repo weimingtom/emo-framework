@@ -9,17 +9,17 @@ emo carried some principles from e3roid. I guess emo will not replace e3roid. He
 
 === e3roid ===
   * works on Android only
-  * for Android 2.1 and above
+  * Android 2.1 and above
   * uses Java to develop your game
   * uses Java to extend the framework
   * all of the Android API can be used
   * use Eclipse IDE and Java to build your game
 
 === emo ===
-  * works on Android and iOS
-  * for Android 2.3 and above (!NativeActivity)
-    * this means there's no GC with emo
-  * for Xcode 3.1 and above
+  * works on both Android and iOS
+  * Android 2.3 and above (!NativeActivity)
+    * this means *there's no GC with emo*
+  * Xcode 3.1 and above
   * uses Scripting language to develop your game
   * uses C/C++, Objective-C to extend the framework
   * emo has simple and limited API

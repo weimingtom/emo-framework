@@ -17,7 +17,7 @@ I guess emo will not replace e3roid. Here's some comparison.
 
 === emo ===
   * works on Android and iOS
-  * for Android 2.3 and above (NativeActivity)
+  * for Android 2.3 and above (!NativeActivity)
     * this means there's no GC with emo
   * for Xcode 3.1 and above
   * uses Scripting language to develop your game
@@ -28,4 +28,4 @@ I guess emo will not replace e3roid. Here's some comparison.
     * (this means you have to buy Mac :|)
 
 With e3roid, you can use all of the power of Java and Android. emo has simple API compared to Android, and unlike e3roid extending emo
-by yourself might be hard because you have to play with five languages: C, C++, Objective-C, Java and Squirrel. If you would like to write your game for iOS and Android, emo is your choice.
+by yourself might be hard because you have to play with five languages: C, C++, Objective-C, Java and Squirrel. If you would like to write a game that works on both iOS and Android, emo is your choice.

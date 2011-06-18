@@ -1,0 +1,34 @@
+#summary FAQ
+#labels Phase-QA
+
+= FAQ =
+
+== Will emo-framework replace [http://www.e3roid.com/ e3roid]? ==
+
+I guess emo will not replace e3roid. Here's some comparison.
+
+=== e3roid ===
+  * works on Android only
+  * for Android 2.1 and above
+  * uses Java to develop your game
+  * uses Java to extend the framework
+  * all of the Android API can be used
+  * use Eclipse IDE and Java to build your game
+
+=== emo ===
+  * works on Android and iOS
+  * for Android 2.3 and above (NativeActivity)
+    * this means there's no GC with emo
+  * for Xcode 3.1 and above
+  * uses Scripting language to develop your game
+  * uses C/C++, Objective-C to extend the framework
+  * emo has simple and limited API
+  * use Eclipse IDE and Java to build your game for Android
+  * use Xcode to build your game for iOS
+    * (this means you have to buy Mac :|)
+
+With e3roid, you can use all of the power of Java and Android. emo has
+ simple API compared to Android, and unlike e3roid extending emo
+by yourself may be hard because you have to play with five languages:
+C, C++, Objective-C, Java and Squirrel. I created emo because I
+believe simplicity is the key of future games for indies. 

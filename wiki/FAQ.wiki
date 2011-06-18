@@ -18,7 +18,7 @@ emo carried some principles from e3roid. Yet, I guess emo will not replace e3roi
 === emo ===
   * works on both Android and iOS
   * Android 2.3 and above (!NativeActivity)
-    * this means *there's no GC with emo*
+    * this means _there's no GC with emo_
   * Xcode 3.1 and above
   * *uses Scripting language to develop your game*
   * uses C/C++, Objective-C to extend the framework

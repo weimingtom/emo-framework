@@ -27,8 +27,5 @@ I guess emo will not replace e3roid. Here's some comparison.
   * use Xcode to build your game for iOS
     * (this means you have to buy Mac :|)
 
-With e3roid, you can use all of the power of Java and Android. emo has
- simple API compared to Android, and unlike e3roid extending emo
-by yourself may be hard because you have to play with five languages:
-C, C++, Objective-C, Java and Squirrel. I created emo because I
-believe simplicity is the key of future games for indies. 
+With e3roid, you can use all of the power of Java and Android. emo has simple API compared to Android, and unlike e3roid extending emo
+by yourself might be hard because you have to play with five languages: C, C++, Objective-C, Java and Squirrel. If you would like to write your game for iOS and Android, emo is your choice.

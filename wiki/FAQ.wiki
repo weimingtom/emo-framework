@@ -32,10 +32,10 @@ by yourself might be hard because you have to play with five languages: C, C++, 
 
 == Is the engine free to use? ==
 
-Yes, of course! Because emo is released under terms of New BSD License, you can use emo at absolutely no charge. See [http://code.google.com/p/emo-framework/source/browse/trunk/LICENSE.txt license document] for details.
+Yes, of course! Because emo is released under terms of New BSD License, you can use emo at absolutely no charge. You can even sell it under terms of the license (I guess you won't..) :-) See [http://code.google.com/p/emo-framework/source/browse/trunk/LICENSE.txt license document] for details.
 
 == What information would we need to display when distributing our game, logo etc? ==
 
 You don't have to show any logo of emo in your game, and you
 don't have to include full license documents in your app. But note
-that the New BSD License says 'Redistributions in binary form must reproduce the copyright notice'. The copyright notice must reproduce 'somewhere' else. It is totally all up to you to decide where you place the copyright (webiste, link, etc..), by the your own good faith.
+that the New BSD License says 'Redistributions in binary form must reproduce the copyright notice'. The copyright notice must reproduce 'somewhere' else. It is totally all up to you to decide where you place the copyright of emo (webiste, link, etc..), by the your own good faith.

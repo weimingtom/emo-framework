@@ -40,7 +40,8 @@ Integrating with the Apple's iAd requires knowledge of Objective-C and Apples Fo
     [self.viewController onLoad];
 
    /* 
-     iAd banner should be added after viewController.onLoad.
+     iAd banner should be added after viewController.onLoad
+     because your main.nut tells app about the current orientation.
     */
     adBannerView = [[ADBannerView alloc] initWithFrame:CGRectZero];
 
@@ -59,11 +60,12 @@ Integrating with the Apple's iAd requires knowledge of Objective-C and Apples Fo
         ADBannerContentSizeIdentifierPortrait,
         ADBannerContentSizeIdentifierLandscape,
         nil];
+
     return YES;
 }
 
 /*
- * Called when loading ad banner fails.
+ * Called when ad banner fails.
  */
 - (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error{
     CGRect rectForHide = self.viewController.view.frame;

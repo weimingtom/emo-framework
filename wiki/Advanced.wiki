@@ -101,3 +101,5 @@ function onLoad() {
 ...snip
 }
 }}}
+
+http://www.emo-framework.com/images/xcode_iad_framework.png

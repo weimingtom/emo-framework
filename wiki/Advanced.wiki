@@ -102,4 +102,4 @@ function onLoad() {
 }
 }}}
 
-http://www.emo-framework.com/images/xcode_iad_framework.png
+http://www.emo-framework.com/images/xcode_with_iad.png

@@ -8,6 +8,7 @@
 Integrating with the Apple's iAd requires knowledge of Objective-C and Apples Foundation Framework. For more information about iAd, please refer to the Apple's document. emo uses [http://developer.apple.com/library/ios/#documentation/userexperience/Reference/ADBannerView_Ref/Reference/Reference.html ADBannerView] and your !ApplicationDelegate. Here's some ideas.
 
   * First add *iAd.framework* and *!CoreGraphics.framework* to your Frameworks.
+http://www.emo-framework.com/images/xcode_iad_framework.png
   * Add ADBannerView member to your applicatoin delegate. Also, your application delegate should implement ADBannerViewDelegate.
 {{{
 #import <UIKit/UIKit.h>

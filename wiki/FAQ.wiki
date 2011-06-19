@@ -28,7 +28,7 @@ Some developers might notice that emo carried some principles from e3roid. Yet, 
     * (this means you have to buy Mac :|)
 
 With e3roid, you can use all power of Java and Android. emo has simple API compared to Android, and unlike e3roid extending emo
-by yourself might be hard because you have to play with five languages: C, C++, Objective-C, Java and Squirrel. emo has simple but powerful API that you can easily write your game with it. If you would like to write a game that works on both iOS and Android, emo is your choice.
+by yourself might be hard because you have to play with five languages: C, C++, Objective-C, Java and Squirrel to extend emo. I am sure that emo has simple but powerful API that you can easily write your game with it. If you would like to write a game that works on both iOS and Android, emo is your choice.
 
 == Is the engine free to use? ==
 

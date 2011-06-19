@@ -45,7 +45,7 @@ Integrating with the Apple's iAd requires knowledge of Objective-C and Apples Fo
     */
     adBannerView = [[ADBannerView alloc] initWithFrame:CGRectZero];
 
-    NSInteger orientation = [self.viewController getOrientation];
+    NSInteger orientation = [self.viewController getOrientationOption];
     if (orientation == OPT_ORIENTATION_PORTRAIT) {
         adBannerView.currentContentSizeIdentifier = ADBannerContentSizeIdentifierPortrait;
     } else if (orientation == OPT_ORIENTATION_LANDSCAPE      ||

@@ -7,7 +7,7 @@
 
 Integrating with the Apple's iAd requires knowledge of Objective-C and Apples Foundation Framework. For more information about iAd, please refer to the Apple's document. emo uses [http://developer.apple.com/library/ios/#documentation/userexperience/Reference/ADBannerView_Ref/Reference/Reference.html ADBannerView] that can  integrate with iAd by editing your !ApplicationDelegate by yourself. Here's some ideas.
 
-  * Add ADBannerView to your applicatoin delegate
+  * Add !ADBannerView member to your applicatoin delegate.
 {{{
 #import <UIKit/UIKit.h>
 #import <iAd/iAd.h>
@@ -22,8 +22,7 @@ Integrating with the Apple's iAd requires knowledge of Objective-C and Apples Fo
 // .. snip
 }}}
 
-  * Add your ad banner to the EmoView.
-
+  * Add your ad banner to the !EmoView.
 {{{
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -38,9 +37,19 @@ Integrating with the Apple's iAd requires knowledge of Objective-C and Apples Fo
     [window makeKeyAndVisible];
 
     [self.viewController onLoad];
-	
+
+   /* 
+     iAd banner should be added after viewController.onLoad.
+    */
     adBannerView = [[ADBannerView alloc] initWithFrame:CGRectZero];
+
+    // If the orientation is portrait, 
+    // set the content size to portrait
     adBannerView.currentContentSizeIdentifier = ADBannerContentSizeIdentifierPortrait;
+    // If the orientation is landscape
+    // set the content size to landscape
+    // adBannerView.currentContentSizeIdentifier = ADBannerContentSizeIdentifierLandscape;
+
     [self.viewController.view addSubview:adBannerView];
 	
     adBannerView.delegate = self;
@@ -49,6 +58,9 @@ Integrating with the Apple's iAd requires knowledge of Objective-C and Apples Fo
     return YES;
 }
 
+/*
+ * Called when loading ad banner fails.
+ */
 - (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error{
     CGRect rectForHide = self.viewController.view.frame;
     rectForHide.origin.y = self.viewController.view.frame.size.height;

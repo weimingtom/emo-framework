@@ -86,7 +86,7 @@ Integrating with the Apple's iAd requires knowledge of Objective-C and Apples Fo
 
 }}}
 
-  * To tell iAd about the orientation, current orientation should be set in your main.nut.
+  * To tell view controller about the orientation, current orientation option should be set in your main.nut at onLoad.
 {{{
 /*
  * Called when this class is loaded

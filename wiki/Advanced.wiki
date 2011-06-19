@@ -55,7 +55,10 @@ Integrating with the Apple's iAd requires knowledge of Objective-C and Apples Fo
 	
     adBannerView.delegate = self;
 	
-    adBannerView.requiredContentSizeIdentifiers = [NSSet setWithObjects: ADBannerContentSizeIdentifierPortrait, ADBannerContentSizeIdentifierLandscape, nil];
+    adBannerView.requiredContentSizeIdentifiers = [NSSet setWithObjects: 
+        ADBannerContentSizeIdentifierPortrait,
+        ADBannerContentSizeIdentifierLandscape,
+        nil];
     return YES;
 }
 

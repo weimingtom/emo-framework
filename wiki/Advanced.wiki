@@ -41,7 +41,7 @@ Integrating with the Apple's iAd requires knowledge of Objective-C and Apples Fo
 
    /* 
      iAd banner should be added after viewController.onLoad
-     because your main.nut sets the current orientation.
+     because the view controller returns the current orientation option from main.nut.
     */
     adBannerView = [[ADBannerView alloc] initWithFrame:CGRectZero];
 

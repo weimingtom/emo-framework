@@ -24,7 +24,7 @@ http://www.emo-framework.com/images/xcode_iad_framework.png
 // .. snip
 }}}
 
-  * In your application delegate, add your ad banner.
+  * In your application delegate, add your ad banner and implement the delgates. 
 {{{
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {

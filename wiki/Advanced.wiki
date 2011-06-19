@@ -95,7 +95,7 @@ http://www.emo-framework.com/images/xcode_iad_framework.png
 function onLoad() {
     print("onLoad"); 
 
-    // emo.Runtime.setOptions(OPT_ORIENTATION_LANDSCAPE_RIGHT);
+    // emo.Runtime.setOptions(OPT_ORIENTATION_LANDSCAPE);
     emo.Runtime.setOptions(OPT_ORIENTATION_PORTRAIT);
 
 ...snip

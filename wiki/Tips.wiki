@@ -51,3 +51,11 @@ If you want the orientation to landscape(*right home button*), set "Initial inte
 local runtime = emo.Runtime();
 runtime.setOptions(OPT_ORIENTATION_LANDSCAPE_RIGHT);
 }}}
+
+== Changing application life cycle ==
+
+By default, emo for iOS has shipped as 'single task' application. This is because iOS does not properly dispose the application and kill the app unexpectedly at termination when application multitasking is on. For emo, this means *"onDispose" function never called by iOS* when application multitasking is enabled.
+
+In spite of this fact, you can change application life cycle as multi tasking application. Edit info.plist and un-check "Application does not run in background".
+
+http://www.emo-framework.com/images/xcode_enable_multitask.png

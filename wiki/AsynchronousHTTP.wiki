@@ -53,7 +53,7 @@ function onCallback(name, response, err) {
 
 == Enabling Internet Access (Android) ==
 
-To use Internet access for Android, "android.permission.INTERNET" permission should be enabled in the AndroidManifest.xml. 
+To use Internet access for Android, "android.permission.INTERNET" permission should be enabled in !AndroidManifest.xml. 
 
 {{{
 <uses-permission android:name="android.permission.INTERNET" />

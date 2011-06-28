@@ -26,7 +26,7 @@ emo.Net.request(MY_REQUEST_NAME_BY_POST, "http://www.example.com/",
 
 }}}
 
-== onCallback(name, response, error) ==
+== onNetCallback(name, response, error) ==
 
 Called when the server returns their content. The first parameter 'name' is the parameter that you have set to the emo.Net.request function. If the http request error has occured the name equals 'HTTP_ERROR'. The second parameter 'response' is the response content from the server. The last parameter 'error' is the error details that can use when the http request error occurs.
 
@@ -34,7 +34,7 @@ Called when the server returns their content. The first parameter 'name' is the 
 /*
  * Asynchronous http request callback
  */
-function onCallback(name, response, err) {
+function onNetCallback(name, response, err) {
   if (name == MY_REQUEST_NAME) {
     print("ACCESS: OK!");
     print(format("============ RESPONSE FROM %s ============", name));

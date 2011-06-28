@@ -29,3 +29,9 @@ function onFps(fps) {
 == emo.Event.disableOnFpsCallback ==
 
 Disable the fps callback event. After disabling the fps callback, onFps event will be never called.
+
+{{{
+// disable onFps event callback
+local event = emo.Event();
+event.disableOnFpsCallback(); 
+}}}

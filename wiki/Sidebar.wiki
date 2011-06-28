@@ -27,6 +27,7 @@
       * [MotionEvent]
       * [KeyEvent]
       * [SensorEvent]
+      * [onDrawFrame]
       * [onLowMemory]
       * [onError]
       * [onFps]

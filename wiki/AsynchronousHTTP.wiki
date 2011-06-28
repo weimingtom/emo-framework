@@ -3,7 +3,7 @@
 
 = Asynchronous HTTP request and callback =
 
-== Note: This is experimental feature and may not work well. ==
+== Note: This is experimental feature and may not work well in some situations. ==
 
 emo-framework has simple interface to retrieve the content from the web. Because http request is heavier operation generally and it has no guarantee when the response will return, emo-framework implement the http request as asynchronous callback. 
 

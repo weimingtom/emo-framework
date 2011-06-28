@@ -24,3 +24,13 @@ function onDrawFrame(dt) {
   print(format("onDrawFrame: %d", dt));
 }
 }}}
+
+== emo.Event.disableOnDrawCallback ==
+
+Disable the onDraw callback event. After disabling the callback, onDrawFrame will be never called.
+
+{{{
+// disable onDrawFrame callback
+local event = emo.Event();
+event.disableOnDrawCallback(); 
+}}}

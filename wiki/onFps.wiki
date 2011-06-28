@@ -25,3 +25,7 @@ function onFps(fps) {
   print(format("FPS: %4.2f", fps));
 }
 }}}
+
+== emo.Event.disableOnFpsCallback ==
+
+Disable the fps callback event. After disabling the fps callback, onFps event will be never called.

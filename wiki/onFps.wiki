@@ -4,7 +4,7 @@
 
 = onFps =
 
-Called when the FPS(Frame Per Second) callback event is called by the application. Call emo.Event.enableOnFpsCallback function to retrieve this event.
+Called when the FPS(Frame Per Second) callback event occurs. Use emo.Event.enableOnFpsCallback function to enable this event.
 
 == emo.Event.enableOnFpsCallback(msec) ==
 
@@ -18,7 +18,7 @@ event.enableOnFpsCallback(5000);
 
 == function onFps(fps) ==
 
-Called when the fps callback event is called. The first parameter is the frame per second.
+Called when the fps callback event occurs. The first parameter is the frame per second.
 
 {{{
 function onFps(fps) {

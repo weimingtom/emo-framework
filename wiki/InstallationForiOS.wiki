@@ -61,9 +61,14 @@ http://www.emo-framework.com/images/xcode_install4.png
 emo-framework version 0.1 alpha does not delivers the project template for Xcode 4. Use the default xcode project file to create new games with emo like below.
 
   * Copy Emo-iOS folder to your workspace
+
+http://www.emo-framework.com/images/xcode4_install1.png
+
   * Open Emo-iOS.xcodeproj with Xcode 4
 
 The main script file is *Resources/main.nut*. Edit main.nut to create your own game. 
+
+http://www.emo-framework.com/images/xcode4_install2.png
 
 {{{
 function emo::onLoad() {

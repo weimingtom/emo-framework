@@ -65,8 +65,6 @@ emo-framework version 0.1 alpha does not delivers the project template for Xcode
 
 The main script file is *Resources/main.nut*. Edit main.nut to create your own game. 
 
-http://www.emo-framework.com/images/xcode_install3.png
-
 {{{
 function emo::onLoad() {
   // print log into the console

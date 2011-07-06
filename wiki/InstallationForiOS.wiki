@@ -55,3 +55,24 @@ function emo::onLoad() {
 Have fun with emo!
 
 http://www.emo-framework.com/images/xcode_install4.png
+
+= Using with Xcode 4 =
+
+emo-framework version 0.1 alpha does not delivers the project template for Xcode 4. Use the default xcode project file to create new games with emo like below.
+
+  * Copy Emo-iOS folder to your workspace
+  * Open Emo-iOS.xcodeproj with Xcode 4
+
+The main script file is *Resources/main.nut*. Edit main.nut to create your own game. 
+
+http://www.emo-framework.com/images/xcode_install3.png
+
+{{{
+function emo::onLoad() {
+  // print log into the console
+  print("It works!");
+  emo.Stage().load(Main());
+}
+}}}
+
+Have fun with emo!

@@ -26,3 +26,12 @@ local ch2   = audio.createChannel(2);
 }}}
 
 See AudioChannel document for details.
+
+== vibrate ==
+
+Audio#vibrate vibrates the device. If the device does not support the vibration, it does nothing.
+
+{{{
+// vibrate the device
+emo.Audio.vibrate();
+}}}

@@ -35,3 +35,9 @@ Audio#vibrate vibrates the device. If the device does not support the vibration,
 // vibrate the device
 emo.Audio.vibrate();
 }}}
+
+*Note:* On Android platform, vibration requires android.permission.VIBRATE permission. android.permission.VIBRATE should be defined in your AndroidManifest.xml.
+
+{{{
+<uses-permission android:name="android.permission.VIBRATE"/>
+}}}

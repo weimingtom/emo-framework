@@ -134,3 +134,13 @@ Runtime#finish finishes the current activity. *Runtime#finish works only on the 
 local runtime = emo.Runtime();
 runtime.finish(); // finishes the current activity
 }}}
+
+emo.Event represents interfaces to handle events
+
+== clearTextureCache ==
+
+Clears all texture cache in the game engine. The engine caches all textures when creating sprites and clearTextureCache() clears the cache from the memory. This function works only on iOS and does not work on Android. Use this function to avoid low memory warnings.
+
+{{{
+emo.Runtime.clearTextureCache();
+}}}

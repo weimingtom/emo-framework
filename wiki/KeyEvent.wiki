@@ -31,8 +31,8 @@ Returns the key code of the key event. The key code has the same name compared t
 {{{
 function onKeyEvent(kevent) {
   if (kevent.getAction() == KEY_EVENT_ACTION_DOWN) {
-    if (kevent.getKeyCode() == KEYCODE_HOME) {
-      print("Home button is pressed!");
+    if (kevent.getKeyCode() == KEYCODE_BACK) {
+      print("Back button is pressed!");
     }
   }
   return false;

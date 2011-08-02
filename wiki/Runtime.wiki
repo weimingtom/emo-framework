@@ -170,10 +170,20 @@ emo.Runtime.compile("user_script.nut", TYPE_DOCUMENT);
 emo.Runtime.compile("/Library/user_script.nut"); 
 }}}
 
- The user document directory is: NSDocumentDirectory on iOS.
+The user document directory is: NSDocumentDirectory on iOS.
+
 {{{
 NSString* docDir = [NSSearchPathForDirectoriesInDomains(
       NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
 }}}
+
 On Android, the user document directory equas context.getFilesDir().
 e.g. /data/com.emo_framework/files/user_script.nut 
+
+== getDocumentDir ==
+
+Returns the user document directory for the platform.
+
+{{{
+print(format("document directory: %s", emo.Runtime.getDocumentDir()));
+}}}

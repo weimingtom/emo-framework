@@ -144,3 +144,36 @@ Clears all texture cache in the game engine. The engine caches all textures when
 {{{
 emo.Runtime.clearTextureCache();
 }}}
+
+== compilebuffer ==
+
+Compiles a squirrel program with given string. 
+
+{{{
+local script = "function run() { local index=0; print(index); }";
+emo.Runtime.compilebuffer(script);
+run(); // it prints '0' 
+}}}
+
+== compile ==
+
+Compiles a squirrel program with given file name. There are three ways to read scripts from the directory: TYPE_ASSET, TYPE_DOCUMENT and with absolute path to the script file.
+
+{{{
+// compiles script from resource (same as emo.Runtime.import)
+emo.Runtime.compile("user_script.nut", TYPE_ASSET);
+
+// compiles script from user document directory.
+emo.Runtime.compile("user_script.nut", TYPE_DOCUMENT);
+
+// compiles script specified by full path (not recommended)
+emo.Runtime.compile("/Library/user_script.nut"); 
+}}}
+
+ The user document directory is: NSDocumentDirectory on iOS.
+{{{
+NSString* docDir = [NSSearchPathForDirectoriesInDomains(
+      NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+}}}
+On Android, the user document directory equas context.getFilesDir().
+e.g. /data/com.emo_framework/files/user_script.nut 

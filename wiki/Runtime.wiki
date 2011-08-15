@@ -147,7 +147,7 @@ emo.Runtime.clearTextureCache();
 
 == compilebuffer ==
 
-Compiles a squirrel program with given string. 
+Compiles a squirrel program with given string. *Note:* compilebuffer is disabled by default on iOS. Remove EMO_WITH_SANDBOX constant in emo/Constants.h to enable this function.
 
 {{{
 local script = "function run() { local index=0; print(index); }";
@@ -157,7 +157,7 @@ run(); // it prints '0'
 
 == compile ==
 
-Compiles a squirrel program with given file name. There are three ways to read scripts from the directory: TYPE_ASSET, TYPE_DOCUMENT and with absolute path to the script file.
+Compiles a squirrel program with given file name. There are three ways to read scripts from the directory: TYPE_ASSET, TYPE_DOCUMENT and with absolute path to the script file. *Note:* compilebuffer is disabled by default on iOS. Remove EMO_WITH_SANDBOX constant in emo/Constants.h to enable this function.
 
 {{{
 // compiles script from resource (same as emo.Runtime.import)

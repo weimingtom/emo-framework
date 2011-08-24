@@ -8,6 +8,7 @@
 {{{
 function onKeyEvent(kevent) {
   print("key event!");
+  return false;
 }
 }}}
 
@@ -33,6 +34,8 @@ function onKeyEvent(kevent) {
   if (kevent.getAction() == KEY_EVENT_ACTION_DOWN) {
     if (kevent.getKeyCode() == KEYCODE_BACK) {
       print("Back button is pressed!");
+      // if you want to disable the back button, uncomment below
+      // return true;
     }
   }
   return false;

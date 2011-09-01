@@ -139,7 +139,7 @@ emo.Event represents interfaces to handle events
 
 == clearTextureCache ==
 
-Clears all texture cache in the game engine. The engine caches all textures when creating sprites and clearTextureCache() clears the cache from the memory. This function works only on iOS and does not work on Android. Use this function to avoid low memory warnings.
+Clears all texture cache in the game engine. The engine caches all textures when creating sprites and clearTextureCache() clears all cache from the memory. Use this function to avoid low memory warnings.
 
 {{{
 emo.Runtime.clearTextureCache();

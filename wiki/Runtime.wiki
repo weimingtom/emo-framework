@@ -139,7 +139,7 @@ emo.Event represents interfaces to handle events
 
 == clearTextureCache ==
 
-Clears all texture cache in the game engine. The engine caches all textures when creating sprites and clearTextureCache() clears all cache from the memory. Use this function to avoid low memory warnings.
+Clears all texture cache in the game engine. The engine caches all textures when loading sprites and clearTextureCache() clears all texture cache from the memory. Use this function to avoid low memory warnings.
 
 {{{
 emo.Runtime.clearTextureCache();

@@ -222,7 +222,7 @@ print("log with tag and level");
 
 // enable simple log output with log level
 emo.Runtime.enableSimpleLogWithLevel();
-// prints "INFO log without tag and level"
+// prints "INFO log without tag"
 print("log without tag");
 
 // disable simple log output with log level
@@ -232,7 +232,7 @@ print("log with tag and level");
 
 // enable simple log output with log level
 emo.Runtime.enableSimpleLogWithLevel(true);
-// prints "INFO log without tag and level"
+// prints "INFO log without tag"
 print("log without tag");
 }}}
 

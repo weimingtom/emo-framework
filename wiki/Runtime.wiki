@@ -221,3 +221,14 @@ print("log with tag and level"); // prints "EmoFramework INFO log with tag and l
 emo.Runtime.enableSimpleLogWithLevel(true); // enable simple log output
 print("log without tag"); // prints "INFO log without tag and level"
 }}}
+
+== random() ==
+== random(max) ==
+
+Returns pseudorandom integer value with a positive sign, greater than or equal to 0 and less than max. if max parameter can be omitted.
+
+{{{
+print(emo.Runtime.random()); // prints random integer with a positive sign
+
+print(emo.Runtime.random(10)); // returns random integer which greater or equal to 0 and less than 10. (0 - 9)
+}}}

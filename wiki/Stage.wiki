@@ -6,7 +6,7 @@
 
 emo.Stage class represents one and only stage for your game. Stage class can be used to load the new level and enter the game loop, dispose the level and proceed to the next level.
 
-== load ==
+== load(nextScene) ==
 
 Stage#load load the level and delegates the event loop to the level. The loaded class can receive the event throught the event delegate functions like onLoad, onGainedFocus, onLostFocus and onDispose. It goes something like this:
 
@@ -53,6 +53,21 @@ It prints like below:
 Level1:onLoad
 Level1:onDispose
 Level2:onLoad
+}}}
+
+== load(nextScene, currentSceneModifier, nextSceneModifier, immediate) ==
+
+
+*From emo version 0.1.5*, Stage#load can apply transition effects to the scene. The second parameter currentSceneModifier is the modifier that effects to the current scene transition. The third parameter nextSceneModifier is the modifier that effects to the next scene transition. The last parameter is the flag that indicates the next scene will be loaded immediately. if the immediate flag equals false, the next scene will be loaded after the current scene transition has been ended.
+
+{{{
+// fade out current scene and move in next scene
+local currentSceneModifier = emo.AlphaModifier(1, 0, 1000, emo.easing.Linear);
+local nextSceneModifier = emo.MoveModifier(
+    [0, stage.getWindowHeight()],
+    [0, 0],
+    2000, emo.easing.BackOut);
+stage.load(SceneA(), currentSceneModifier, nextSceneModifier, false);
 }}}
 
 == windowWidth ==

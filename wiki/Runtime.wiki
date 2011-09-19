@@ -193,16 +193,23 @@ print(format("document directory: %s", emo.Runtime.getDocumentDir()));
 *For iOS only*: Remove tag and log level strings from the logging console output. works only on iOS with emo-framework version 0.1.5 and above.
 
 {{{
-print("log with tag and level"); // prints "EmoFramework INFO log with tag and level"
+// prints "EmoFramework INFO log with tag and level"
+print("log with tag and level");
 
-emo.Runtime.enableSimpleLog(); // enable simple log output
-print("log without tag and level"); // prints "log without tag and level"
+// enable simple log output
+emo.Runtime.enableSimpleLog();
+// prints "log without tag and level"
+print("log without tag and level");
 
-emo.Runtime.enableSimpleLog(false); // disable simple log output
-print("log with tag and level"); // prints "EmoFramework INFO log with tag and level"
+// disable simple log output
+emo.Runtime.enableSimpleLog(false);
+// prints "EmoFramework INFO log with tag and level"
+print("log with tag and level");
 
-emo.Runtime.enableSimpleLog(true); // enable simple log output
-print("log without tag and level"); // prints "log without tag and level"
+// enable simple log output
+emo.Runtime.enableSimpleLog(true);
+// prints "log without tag and level"
+print("log without tag and level");
 }}}
 
 == enableSimpleLogWithLevel(enable = true) ==
@@ -210,16 +217,23 @@ print("log without tag and level"); // prints "log without tag and level"
 *For iOS only*: Remove tag strings from the logging console output. works only on iOS with emo-framework version 0.1.5 and above.
 
 {{{
-print("log with tag and level"); // prints "EmoFramework INFO log with tag and level"
+// prints "EmoFramework INFO log with tag and level"
+print("log with tag and level");
 
-emo.Runtime.enableSimpleLogWithLevel(); // enable simple log output
-print("log without tag"); // prints "INFO log without tag and level"
+// enable simple log output with log level
+emo.Runtime.enableSimpleLogWithLevel();
+// prints "INFO log without tag and level"
+print("log without tag");
 
-emo.Runtime.enableSimpleLogWithLevel(false); // disable simple log output
-print("log with tag and level"); // prints "EmoFramework INFO log with tag and level"
+// disable simple log output with log level
+emo.Runtime.enableSimpleLogWithLevel(false);
+// prints "EmoFramework INFO log with tag and level"
+print("log with tag and level");
 
-emo.Runtime.enableSimpleLogWithLevel(true); // enable simple log output
-print("log without tag"); // prints "INFO log without tag and level"
+// enable simple log output with log level
+emo.Runtime.enableSimpleLogWithLevel(true);
+// prints "INFO log without tag and level"
+print("log without tag");
 }}}
 
 == random() ==

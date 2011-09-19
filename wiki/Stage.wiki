@@ -57,8 +57,11 @@ Level2:onLoad
 
 == load(nextScene, currentSceneModifier, nextSceneModifier, immediate) ==
 
-
 *From emo version 0.1.5*, Stage#load can apply transition effects to the scene. The second parameter currentSceneModifier is the modifier that effects to the current scene transition. The third parameter nextSceneModifier is the modifier that effects to the next scene transition. The last parameter is the flag that indicates the next scene will be loaded immediately. if the immediate flag equals false, the next scene will be loaded after the current scene transition has been ended.
+
+for introduction about the scene transition, see the video below.
+
+http://www.youtube.com/watch?v=_zpzQu3ssyE&
 
 {{{
 // fade out current scene and move in next scene

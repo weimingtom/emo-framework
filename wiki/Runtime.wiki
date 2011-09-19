@@ -239,7 +239,7 @@ print("log without tag");
 == random() ==
 == random(max) ==
 
-Returns pseudorandom integer value with a positive sign, greater than or equal to 0 and less than max. if max parameter can be omitted.
+Returns pseudorandom integer value with a positive sign, greater than or equal to 0 and less than max.
 
 {{{
 print(emo.Runtime.random()); // prints random integer with a positive sign

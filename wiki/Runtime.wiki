@@ -230,5 +230,5 @@ Returns pseudorandom integer value with a positive sign, greater than or equal t
 {{{
 print(emo.Runtime.random()); // prints random integer with a positive sign
 
-print(emo.Runtime.random(10)); // returns random integer which greater or equal to 0 and less than 10. (0 - 9)
+print(emo.Runtime.random(10)); // returns random integer, greater or equal to 0 and less than 10. (0 - 9)
 }}}

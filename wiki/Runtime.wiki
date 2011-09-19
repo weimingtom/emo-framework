@@ -187,3 +187,37 @@ Returns the user document directory for the platform.
 {{{
 print(format("document directory: %s", emo.Runtime.getDocumentDir()));
 }}}
+
+== enableSimpleLog(enable = true) ==
+
+*For iOS only*: Remove tag and log level strings from the logging console output. works only on iOS with emo-framework version 0.1.5 and above.
+
+{{{
+print("log with tag and level"); // prints "EmoFramework INFO log with tag and level"
+
+emo.Runtime.enableSimpleLog(); // enable simple log output
+print("log without tag and level"); // prints "log without tag and level"
+
+emo.Runtime.enableSimpleLog(false); // disable simple log output
+print("log with tag and level"); // prints "EmoFramework INFO log with tag and level"
+
+emo.Runtime.enableSimpleLog(true); // enable simple log output
+print("log without tag and level"); // prints "log without tag and level"
+}}}
+
+== enableSimpleLogWithLevel(enable = true) ==
+
+*For iOS only*: Remove tag strings from the logging console output. works only on iOS with emo-framework version 0.1.5 and above.
+
+{{{
+print("log with tag and level"); // prints "EmoFramework INFO log with tag and level"
+
+emo.Runtime.enableSimpleLogWithLevel(); // enable simple log output
+print("log without tag"); // prints "INFO log without tag and level"
+
+emo.Runtime.enableSimpleLogWithLevel(false); // disable simple log output
+print("log with tag and level"); // prints "EmoFramework INFO log with tag and level"
+
+emo.Runtime.enableSimpleLogWithLevel(true); // enable simple log output
+print("log without tag"); // prints "INFO log without tag and level"
+}}}

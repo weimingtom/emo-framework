@@ -118,7 +118,7 @@ stage.ortho(width, height);
 
 == interval ==
 
-Stage#interval updates the draw interval(millisecond) of the screen. This can be used to debug the game or limit the fps(frame per second) while loading the heavy assets.
+Stage#interval updates the draw interval(millisecond) of the screen. This can be used to debug the game or limit the fps(frame per second) while loading heavy assets.
 
 {{{
 local stage = emo.Stage();
@@ -127,7 +127,7 @@ stage.interval(100); // change update interval to 100 milliseconds
 
 == getCenterX ==
 
-Stage#getCenterX returns the center coordinate X of the current screen. This function is equivalent to Stage#getWindowWidth() * 0.5.
+Stage#getCenterX returns the center coordinate X of the current screen. This function is equivalent to Stage#getWindowWidth() x 0.5.
 
 {{{
 local stage = emo.Stage();
@@ -136,7 +136,7 @@ local centerX = stage.getCenterX();
 
 == getCenterY ==
 
-Stage#getCenterY returns the center coordinate Y of the current screen. This function is equivalent to Stage#getWindowHeight() * 0.5.
+Stage#getCenterY returns the center coordinate Y of the current screen. This function is equivalent to Stage#getWindowHeight() x 0.5.
 
 {{{
 local stage = emo.Stage();

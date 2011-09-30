@@ -24,3 +24,5 @@ Basically the Joint class represents the b2Joint API of Box2D.  The following li
 == emo.physics.!RevoluteJoint ==
 
 == emo.physics.!WeldJoint ==
+
+== emo.physics.!MouseJoint ==

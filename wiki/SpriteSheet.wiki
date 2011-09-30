@@ -43,6 +43,18 @@ explosion.animates(1, 5, 500);
 explosion.animates(1, 5, 1);
 }}}
 
+== animate([frame indices], null, interval, loopCount = 0) ==
+
+From emo version 0.1.6, animate() accepts individual frame index. the second parameter is not used and ignored when the first parameter is an array.
+
+{{{
+local explosion = emo.SpriteSheet("explosion.png", 19, 19, 3, 2, 0);
+explosion.load();
+
+// animate the sprite, frame indices are [0,2,4,6], frame interval equals 500 milliseconds(0.5sec) once.  
+explosion.animates([0,2,4,6], 0, 500);
+}}}
+
 == pause ==
 
 SpriteSheet#pause pauses the animation and stop at the current frame index.

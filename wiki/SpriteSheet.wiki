@@ -43,7 +43,7 @@ explosion.animates(1, 5, 500);
 explosion.animates(1, 5, 1);
 }}}
 
-== animate([frame indices], null, interval, loopCount = 0) ==
+== animate(frame indices, null, interval, loopCount = 0) ==
 
 From emo version 0.1.6, animate() accepts individual frame index. the second parameter is not used and ignored when the first parameter is an array.
 

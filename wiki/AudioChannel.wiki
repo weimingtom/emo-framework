@@ -213,3 +213,17 @@ ch0.setVolume(ch0.getMaxVolume());
 // set volume to the min (mute)
 ch0.setVolume(ch0.getMinVolume());
 }}}
+
+== close ==
+
+Close the audio channel. Audio resource associated with the channel is released after calling close().
+
+{{{
+local audio = emo.Audio(3);
+local ch0   = audio.craeteChannel(0);
+
+ch0.load("bang.wav");
+
+// close audio channel 0
+ch0.close();
+}}}

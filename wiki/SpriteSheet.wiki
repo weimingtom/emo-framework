@@ -17,6 +17,15 @@ local sprite = emo.SpriteSheet("dog.png", 34, 42);
 local explosion = emo.SpriteSheet("explosion.png", 19, 19, 3, 2, 0);
 }}}
 
+== constructor(xml_formatted_texture_atlas_data) ==
+
+*From version 0.1.7*, sprite sheets accepts xml formatted texture atlas data file that is made by texture packing tool like [http://www.texturepacker.com/ TexturePacker]. Currently Sparrow and CEGUI/OGRE data file format is supported.
+
+{{{
+// create new spritesheet from texture atlas data file
+local sprite = emo.SpriteSheet("texture_atlas.xml");
+}}}
+
 == setFrame(index) ==
 
 SpriteSheet#setFrame sets the current frame index of the sprite sheet. The default frame index equals 0. Note that this function is only available AFTER sprite is loaded and this function stops the current animation.
@@ -28,6 +37,17 @@ sprite.load();
 
 // sets the frame index equals 1.
 sprite.setFrame(1);
+}}}
+
+== selectFrame(frameName) ==
+
+*From version 0.1.7*, sprite sheets accepts texture atlas that is packed with different sprite with different regions. SpriteSheet#selectFrame selects the sprite with name that is defined by the texture atlas data file.
+
+{{{
+// create new spritesheet from texture atlas data file
+local sprite = emo.SpriteSheet("texture_atlas.xml");
+// select sprite with name
+sprite.selectFrame("ball");
 }}}
 
 == animate(startFrame, frameCount, interval, loopCount = 0) ==

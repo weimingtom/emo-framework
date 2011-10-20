@@ -25,15 +25,12 @@
 // OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, 
 // EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // 
-#import <OpenGLES/ES2/glext.h>
-
 #include <EmoDrawable.h>
 #include <squirrel.h>
 #include <Constants.h>
 #include <VmFunc.h>
 #include <EmoEngine.h>
 #include <EmoEngine_glue.h>
-#include <Util.h>
 
 extern EmoEngine* engine;
 
@@ -41,7 +38,6 @@ extern EmoEngine* engine;
 @synthesize name;
 @synthesize start, count, loop, interval;
 @synthesize lastOnAnimationInterval;
-@synthesize frames;
 - (id)init {
     self = [super init];
     if (self != nil) {
@@ -52,25 +48,12 @@ extern EmoEngine* engine;
         currentLoopCount = 0;
         currentCount = 0;
         lastOnAnimationInterval = [engine uptime];
-        frames = nil;
     }
     return self;
 }
 
 -(BOOL)isFinished {
 	return (loop >= 0 && currentLoopCount > loop);
-}
-
--(void)initializeFrames {
-    if (frames != nil) free(frames);
-    frames = (NSInteger *)malloc(sizeof(NSInteger) * count);
-    for (int i = 0; i < count; i++) {
-        frames[i] = 0;
-    }
-}
-
--(void)setFrame:(NSInteger)index withValue:(NSInteger)value {
-    frames[index] = value;
 }
 
 -(NSInteger)getNextIndex:(NSInteger)frameCount withIndex:(NSInteger)currentIndex {
@@ -94,99 +77,35 @@ extern EmoEngine* engine;
 		currentCount = 0;
 	}
 	
-    if (frames != nil) {
-        return frames[currentCount];
-    } else {
-        return currentCount + start;
-	}
+	int nextIndex = currentCount + start;
+	
+	return nextIndex;
 }
 -(NSTimeInterval)getLastOnAnimationDelta:(NSTimeInterval)uptime {
 	return (uptime - lastOnAnimationInterval) * 1000;
 }
--(void)dealloc {
-	[name release];
+-(void)garbage {
+	NSInteger retainCount = [name retainCount];
+	if (retainCount > 0 && retainCount < NSIntegerMax) {
+		[name release];
+	}
 	name = nil;
-    
-    if (frames != nil) free(frames);
-    
+}
+-(void)dealloc {
+	[self garbage];
 	[super dealloc];
 }
 
 @end
 
-@implementation EmoImagePackInfo 
-@synthesize name;
-@synthesize x, y, width, height, index;
--(void)dealloc {
-    [name release];
-    name = nil;
-    [super dealloc];
-}
-@end
-
-@implementation EmoImagePackParser
-@synthesize drawable;
-@synthesize frameIndex;
-
-- (id)init {
-    self = [super init];
-    if (self != nil) {
-        itemCount  = 0;
-        frameIndex = 0;
-    }
-    return self;
-}
-
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName
-  namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName
-    attributes:(NSDictionary *)attributeDict {
-    if ([elementName isEqualToString:@"Imageset"] || [elementName isEqualToString:@"TextureAtlas"]) {
-        for (id key in attributeDict) {
-            if ([key isEqualToString:@"Imagefile"] || [key isEqualToString:@"imagePath"]) {
-                drawable.name = [attributeDict objectForKey:key];
-                break;
-            }
-        }
-    } else if ([elementName isEqualToString:@"Image"] || [elementName isEqualToString:@"SubTexture"]) {
-        EmoImagePackInfo* info = [[EmoImagePackInfo alloc]init];
-        
-        for (id key in attributeDict) {
-            if ([key isEqualToString:@"name"] || [key isEqualToString:@"Name"]) {
-                info.name = [attributeDict objectForKey:key];
-            } else if ([key isEqualToString:@"x"] || [key isEqualToString:@"XPos"]) {
-                info.x = [[attributeDict objectForKey:key] intValue];
-            } else if ([key isEqualToString:@"y"] || [key isEqualToString:@"YPos"]) {
-                info.y = [[attributeDict objectForKey:key] intValue];
-            } else if ([key isEqualToString:@"width"] || [key isEqualToString:@"Width"]) {
-                info.width = [[attributeDict objectForKey:key] intValue];
-            } else if ([key isEqualToString:@"height"] || [key isEqualToString:@"Height"]) {
-                info.height = [[attributeDict objectForKey:key] intValue];
-            }
-        }
-        if ([info.name length] > 0) {
-            info.index = itemCount;
-            if (info.index == frameIndex) {
-                drawable.width  = info.width;
-                drawable.height = info.height;
-                drawable.frameWidth  = info.width;
-                drawable.frameHeight = info.height;
-                drawable.margin = 0;
-                drawable.border = 0;
-            }
-            [drawable addImagePack:info];
-            [info release];
-            itemCount++;
-        }
-    }
-}
-
-@end
 
 @interface EmoDrawable (PrivateMethods)
 -(NSInteger)tex_coord_frame_startX;
--(NSInteger)tex_coord_frame_startY;
--(float)getTexelHalfX;
--(float)getTexelHalfY;
+-(NSInteger) tex_coord_frame_startY;
+-(float)getTexCoordStartX;
+-(float)getTexCoordEndX;
+-(float)getTexCoordStartY;
+-(float)getTexCoordEndY;
 @end
 
 @implementation EmoDrawable
@@ -199,75 +118,6 @@ extern EmoEngine* engine;
 @synthesize frameCount, frame_index, border, margin;
 @synthesize independent;
 @synthesize loaded;
-@synthesize isScreenEntity;
-@synthesize isPackedAtlas;
-@synthesize useFont;
-
--(BOOL)loadPackedAtlasXml:(NSInteger)initialFrameIndex {
-    // check if the length is shorter than the length of ".xml"
-    if ([name length] <= 4) return false;
-
-    NSString* path = [[NSBundle mainBundle] pathForResource:name ofType:nil];
-    
-    if (path == nil) {
-        NSLOGE(@"Requested resource is not found:");
-        NSLOGE(name);
-        return FALSE;
-    }
-    NSURL *url = [NSURL fileURLWithPath:path];
-    
-    EmoImagePackParser* pack = [[EmoImagePackParser alloc]init];
-    pack.drawable = self;
-    pack.frameIndex = initialFrameIndex;
-    
-    NSXMLParser *parser = [[NSXMLParser alloc] initWithContentsOfURL:url];
-    [parser setDelegate:pack];
-    [parser parse];
-    [parser release];
-    
-    [pack release];
-
-    frameCount = [imagepacks_names count];
-    
-    return TRUE;
-}
-
--(BOOL)selectFrame:(NSString*)_name {
-    EmoImagePackInfo* info = [self getImagePack:_name];
-    if (info == nil) return FALSE;
-    
-    return [self setFrameIndex:info.index];
-}
-
--(void)addImagePack:(EmoImagePackInfo*) info {
-	[info retain];
-	[self deleteImagePack:info.name];
-	[imagepacks setObject:info forKey:info.name];
-    [imagepacks_names addObject:info.name];
-}
-
--(EmoImagePackInfo*)getImagePack:(NSString*)_name {
-	return [imagepacks objectForKey:_name];
-}
-
--(BOOL)deleteImagePack:(NSString*)_name {
-	EmoImagePackInfo* info = [self getImagePack:_name];
-    
-	if (info == nil) return FALSE;
-	
-	[info release];
-	[imagepacks removeObjectForKey:_name];
-	
-	return TRUE;
-}
-
--(void)deleteImagePacks {
-	for (NSString* key in imagepacks) {
-		[[imagepacks objectForKey:key] release];
-	}
-	[imagepacks removeAllObjects];
-}
-
 
 -(BOOL)onDrawFrame:(NSTimeInterval)dt withStage:(EmoStage*)stage {
     if (!loaded) return FALSE;
@@ -297,7 +147,7 @@ extern EmoEngine* engine;
     glColor4f(param_color[0], param_color[1], param_color[2], param_color[3]);
 	
     // update position
-    glTranslatef(x * orthFactorX, y * orthFactorY, 0);
+    glTranslatef(x, y, 0);
 	
     // rotate
     glTranslatef(param_rotate[1], param_rotate[2], 0);
@@ -359,7 +209,6 @@ extern EmoEngine* engine;
 	hasSheet   = FALSE;
 	animating  = FALSE;
 	independent = TRUE;
-    isPackedAtlas = FALSE;
 
 	// color param RGBA
     param_color[0] = 1.0f;
@@ -388,55 +237,24 @@ extern EmoEngine* engine;
 	nextFrameIndex    = 0;
 	frameIndexChanged = FALSE;
 	currentAnimation  = nil;
-    
-    orthFactorX = 1.0;
-    orthFactorY = 1.0;
-    
-    isScreenEntity = TRUE;
-    useFont = FALSE;
-    
-    imagepacks = [[NSMutableDictionary alloc]init];
-    imagepacks_names = [[NSMutableArray alloc]init];
 }
 
 -(NSInteger)tex_coord_frame_startX {
-    if (isPackedAtlas) {
-        return [self getImagePack:[imagepacks_names objectAtIndex:frame_index]].x;
-    }
 	int xcount = (int)round((texture.width - (margin * 2) + border) / (float)(frameWidth  + border));
 	int xindex = frame_index % xcount;
 	return ((border + frameWidth) * xindex) + margin;
 }
 
 -(NSInteger) tex_coord_frame_startY {
-    if (isPackedAtlas) {
-        return texture.height - frameHeight - [self getImagePack:[imagepacks_names objectAtIndex:frame_index]].y;
-    }
 	int xcount = (int)round((texture.width - (margin * 2) + border) / (float)(frameWidth  + border));
 	int ycount = (int)round((texture.height - (margin * 2) + border) / (float)(frameHeight + border));
 	int yindex = ycount - (frame_index / xcount) - 1;
 	return ((border + frameHeight) * yindex) + margin;
 }
 
--(float) getTexelHalfX {
-    if (hasTexture) {
-        return (1.0 / texture.glWidth) * 0.5;
-    } else {
-        return 0;
-    }   
-}   
-
--(float) getTexelHalfY {
-    if (hasTexture) {
-        return (1.0 / texture.glHeight) * 0.5;
-    } else {
-        return 0;
-    }   
-}   
-
 -(float)getTexCoordStartX {
 	if (hasSheet) {
-        return [self tex_coord_frame_startX] / (float)texture.glWidth + [self getTexelHalfX];
+        return [self tex_coord_frame_startX] / (float)texture.glWidth;
     } else {
         return 0;
     }
@@ -444,27 +262,27 @@ extern EmoEngine* engine;
 
 -(float)getTexCoordEndX {
 	if (!hasTexture) {
-		return 1 - [self getTexelHalfX];
+		return 1;
     } else if (hasSheet) {
-        return (float)([self tex_coord_frame_startX] + frameWidth) / (float)texture.glWidth - [self getTexelHalfX];
+        return (float)([self tex_coord_frame_startX] + frameWidth) / (float)texture.glWidth;
     } else {
-        return (float)texture.width / (float)texture.glWidth - [self getTexelHalfX];
+        return (float)texture.width / (float)texture.glWidth;
     }
 }
 
 -(float)getTexCoordStartY {
 	if (!hasTexture) {
-		return 1 - [self getTexelHalfY];
+		return 1;
 	} else if (hasSheet) {
-        return (float)([self tex_coord_frame_startY] + frameHeight) / (float)texture.glHeight - [self getTexelHalfY];
+        return (float)([self tex_coord_frame_startY] + frameHeight) / (float)texture.glHeight;
     } else {
-        return (float)texture.height / (float)texture.glHeight - [self getTexelHalfY];
+        return (float)texture.height / (float)texture.glHeight;
     }
 }
 
 -(float)getTexCoordEndY {
     if (hasSheet) {
-        return [self tex_coord_frame_startY] / (float)texture.glHeight + [self getTexelHalfY];
+        return [self tex_coord_frame_startY] / (float)texture.glHeight;
     } else {
         return 0;
     }
@@ -523,7 +341,6 @@ extern EmoEngine* engine;
         printGLErrors("Could not bind OpenGL textures");
     }
 	
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
 	loaded = TRUE;
 	
 	return TRUE;
@@ -572,19 +389,16 @@ extern EmoEngine* engine;
 	}
 	glGenBuffers (1, &frames_vbos[frame_index]);
 }
--(void)doUnload:(BOOL)doAll {
+-(void)doUnload {
 	if (!loaded) return;
 	if (hasTexture) {
 		texture.referenceCount--;
 		if (texture.referenceCount <= 0) {
 			[texture doUnload];
-            texture.loaded = FALSE;
-			if (name != nil) [engine removeCachedImage:name];
+			[engine removeCachedImage:name];
 		}
-		if (doAll) {
-            [texture release];
-            hasTexture = FALSE;
-        }
+		[texture release];
+		hasTexture = FALSE;
 	}
 	for (int i = 0; i < frameCount; i++) {
 		if (frames_vbos[i] > 0) {
@@ -595,37 +409,17 @@ extern EmoEngine* engine;
 	frame_index = 0;
 	free(frames_vbos);
 	
-    if (doAll) {
-        [self deleteAnimations];
-        [self deleteImagePacks];
-    }
+	[self deleteAnimations];
 	
 	loaded = FALSE;
 }
--(BOOL)setFrameIndex:(NSInteger)index force:(BOOL)force {
+-(BOOL)setFrameIndex:(NSInteger)index {
 	if (index < 0 || frameCount <= index) {
 		return FALSE;
 	}
-    if (force) {
-        frame_index = index;
-    } else {
-        nextFrameIndex = index;
-        frameIndexChanged = TRUE;
-    }
-    
-    if (isPackedAtlas) {
-        EmoImagePackInfo* info = [self getImagePack:[imagepacks_names objectAtIndex:index]];
-        self.width  = info.width;
-        self.height = info.height;
-        self.frameWidth  = info.width;
-        self.frameHeight = info.height;
-    }
-    
+	nextFrameIndex = index;
+	frameIndexChanged = TRUE;
 	return TRUE;
-}
-
--(BOOL)setFrameIndex:(NSInteger)index {
-    return [self setFrameIndex:index force:FALSE];
 }
 -(BOOL)pauseAt:(NSInteger)index {
 	if (![self setFrameIndex:index]) {
@@ -694,7 +488,6 @@ extern EmoEngine* engine;
 		} else {
 			currentAnimation = animation;
 			animation.lastOnAnimationInterval = [engine uptime];
-			[self setFrameIndex:animation.start];
 		}
 	}
 	return TRUE;
@@ -708,13 +501,17 @@ extern EmoEngine* engine;
 		return NSOrderedSame;
 	}
 }
+-(void)garbage {
+	int retainCount = [name retainCount];
+	for (int i = 0; i < retainCount; i++) {
+		[name release];
+	}
+	name = nil;
+}
 -(void)dealloc {
 	[animations release];
-	[name release];
-    [imagepacks release];
-    [imagepacks_names release];
-    
-	name = nil;
+	animations = nil;
+	[self garbage];
 	[super dealloc];
 }
 -(BOOL)isAnimationFinished {
@@ -769,198 +566,5 @@ extern EmoEngine* engine;
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	
 	return TRUE;
-}
-@end
-
-@implementation EmoSnapshotDrawable
-/*
- * initialize drawable
- */
--(void)initDrawable {
-	[super initDrawable];
-    
-    // snapshot drawable should be the first drawable
-    z = -1;
-    
-    isScreenEntity = FALSE;
-}
-/*
- * create texture and bind OpenGL vertex
- * width and height should be set before calling bindVertex.
- */
--(BOOL)bindVertex {
-    
-    clearGLErrors("EmoSnapshotDrawable:bindVertex");
-    
-    if (!hasTexture) {
-        EmoImage* imageInfo = [[EmoImage alloc]init];
-        
-        imageInfo.width  = width;
-        imageInfo.height = height;
-        
-        imageInfo.glWidth  = imageInfo.width;
-        imageInfo.glHeight = imageInfo.height;
-        imageInfo.loaded = FALSE;
-			
-        imageInfo.referenceCount++;
-            
-        // assign OpenGL texture id
-        [imageInfo genTextures];
-        
-        texture = imageInfo;
-        hasTexture = TRUE;
-    }
-    
-	glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, texture.textureId);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture.textureId, 0);
-    glBindTexture(GL_TEXTURE_2D, 0);
-    
-    texture.loaded = TRUE;
-    
-    vertex_tex_coords[0] = [self getTexCoordStartX];
-    vertex_tex_coords[1] = [self getTexCoordStartY];
-	
-    vertex_tex_coords[2] = [self getTexCoordStartX];
-    vertex_tex_coords[3] = [self getTexCoordEndY];
-	
-    vertex_tex_coords[4] = [self getTexCoordEndX];
-    vertex_tex_coords[5] = [self getTexCoordEndY];
-	
-    vertex_tex_coords[6] = [self getTexCoordEndX];
-    vertex_tex_coords[7] = [self getTexCoordStartY];
-	
-	if (frames_vbos[frame_index] == 0) {
-		glGenBuffers (1, &frames_vbos[frame_index]);
-	}
-	
-    glBindBuffer(GL_ARRAY_BUFFER, frames_vbos[frame_index]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 8, vertex_tex_coords, GL_STATIC_DRAW);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-	
-	printGLErrors("Could not create OpenGL vertex");
-	
-	loaded = TRUE;
-	
-	return TRUE;
-}
-
--(BOOL)onDrawFrame:(NSTimeInterval)dt withStage:(EmoStage*)stage {
-    // if the snapshot ends, use default onDrawFrame
-    if (!engine.useOffscreen) {
-        orthFactorX = width  / (float)stage.width;
-        orthFactorY = height / (float)stage.height;
-        return [super onDrawFrame:dt withStage:stage];
-    }
-    // vewport should be reset everytime on drawing
-    glViewport(0, 0, width, height); 
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glOrthof(0, width, height, 0, -1, 1);
-    
-    orthFactorX = 1.0;
-    orthFactorY = 1.0;
-    
-    glClearColor([engine.stage getColor:0], [engine.stage getColor:1],
-                 [engine.stage getColor:2], [engine.stage getColor:3]);
-    glClear(GL_COLOR_BUFFER_BIT);
-    
-    [super onDrawFrame:dt withStage:stage];
-    engine.stage.dirty = TRUE;
-    
-    return TRUE;
-}
-@end
-
-@implementation EmoFontDrawable
-@synthesize fontSize, fontFace, isBold, isItalic;
-@synthesize param1, param2, param3, param4, param5, param6;
-
--(void)initDrawable {
-	[super initDrawable];
-    
-    fontSize = 0;
-    isBold   = FALSE;
-    isItalic = FALSE;
-}
-
--(void)dealloc {
-    [fontFace release];
-    [param1 release];
-    [param2 release];
-    [param3 release];
-    [param4 release];
-    [param5 release];
-    [param6 release];
-    
-    [super dealloc];
-}
-
--(void)loadTextBitmap {
-    [texture freeData];
-    
-    UIFont* font = [UIFont systemFontOfSize:[UIFont systemFontSize]];
-    
-    if ([fontFace length] > 0) {
-        NSInteger size = fontSize > 0 ? fontSize : [UIFont systemFontSize];
-        font = [UIFont fontWithName:fontFace size:size];
-    } else if (fontSize > 0) {
-        font = [UIFont systemFontOfSize:fontSize];
-    }
-    
-    NSString* text = @" ";
-    
-    // extract property name
-    NSString* propName = 
-            [name substringFromIndex:[name rangeOfString:@"::"].location+2];
-
-    // retrieve property value
-    NSDictionary* plist = [NSDictionary dictionaryWithContentsOfFile:[
-            [NSBundle mainBundle] pathForResource:@"strings" ofType:@"plist"]];  
-    if ([plist objectForKey:propName] != nil) {
-        NSString* formatStr = [[plist objectForKey:propName] 
-                               stringByReplacingOccurrencesOfString:@"%s" withString:@"%@"];
-        
-        text = [NSString stringWithFormat:formatStr,
-                param1, param2, param3, param4, param5, param6];
-    }
-    
-    CGSize textSize = [text sizeWithFont:font]; 
-    
-    int textWidth  = textSize.width;
-    int textHeight = textSize.height;
-    
-    GLubyte *bitmap = (GLubyte *)malloc(textWidth * textHeight * 4);
-    memset(bitmap, 0, textWidth * textHeight * 4);
-
-    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-    CGContextRef context = CGBitmapContextCreate(
-                    bitmap, textWidth, textHeight,
-                    8, textWidth * 4, colorSpace,
-                    kCGImageAlphaPremultipliedLast);
-    
-    UIGraphicsPushContext(context);
-
-    [[UIColor whiteColor] set];
-    [text drawAtPoint:CGPointMake(0, 0) withFont:font];
-    
-    UIGraphicsPopContext();
-    
-    CGColorSpaceRelease(colorSpace);
-    CGContextRelease(context);
-    
-    texture.width  = textWidth;
-    texture.height = textHeight;
-    texture.glWidth  = nextPowerOfTwo(texture.width);
-    texture.glHeight = nextPowerOfTwo(texture.height);
-    texture.data   = bitmap;
-    texture.hasAlpha = TRUE;
-    texture.freed = FALSE;
-    
 }
 @end

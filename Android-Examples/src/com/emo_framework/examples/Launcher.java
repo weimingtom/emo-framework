@@ -25,7 +25,7 @@ public class Launcher extends ExpandableListActivity {
     
     private static final String[] groupNames = {
     	"Basic", "Animation", "Event", "On-Screen Controller",
-    	"Audio", "Database", "Physics", "Physics with Joints", "Scene Transition", "Misc"
+    	"Audio", "Database", "Physics", "Physics with Joints", "Misc"
     };
     
     private static final String[][] childNames = {
@@ -34,9 +34,7 @@ public class Launcher extends ExpandableListActivity {
     		"Drawing a Sprite",
     		"Drawing Texts",
 			"Drawing Tiles",
-			"Drawing TiledMap",
-			"Using a Texture Atlas",
-			"Using Unicode Characters"
+			"Drawing TiledMap"
     	},
     	{
     		"Sprite Animation",
@@ -77,19 +75,12 @@ public class Launcher extends ExpandableListActivity {
 			"Using PulleyJoint",
 			"Using GearJoint",
 			"Using LineJoint",
-			"Using WeldJoint",
-			"Using MouseJoint"
-		},
-		{
-			"Fade In/Out",
-			"Move In/Out",
-			"Rotate and Scale"
+			"Using WeldJoint"
 		},
 		{
 			"Loading Screen",
 			"Splash Screen",
-			"HTTP Access",
-			"Compiling a Script"
+			"HTTP Access"
 		}
     };
     private static final String[][] activities = {
@@ -98,9 +89,7 @@ public class Launcher extends ExpandableListActivity {
     		".SpriteExample",
     		".TextSpriteExample",
 			".TileExample",
-			".TiledMapExample",
-			".AtlasExample",
-			".FontSpriteExample"
+			".TiledMapExample"
     	},
     	{
     		".SpriteAnimationExample",
@@ -141,19 +130,12 @@ public class Launcher extends ExpandableListActivity {
 			".PhysicsPulleyJointExample",
 			".PhysicsGearJointExample",
 			".PhysicsLineJointExample",
-			".PhysicsWeldJointExample",
-			".PhysicsMouseJointExample"
-		},
-		{
-			".TransitionFadeExample",
-			".TransitionMoveExample",
-			".TransitionScaleExample"
+			".PhysicsWeldJointExample"
 		},
 		{
     		".RotateModifierExample",
 			".ModifierEventExample",
-			".HTTPAccessExample",
-			".CompileScriptExample"
+			".HTTPAccessExample"
 		}
     	
     };

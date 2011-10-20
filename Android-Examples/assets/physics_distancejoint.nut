@@ -12,10 +12,10 @@ const FPS = 60.0;
 const WALL_WIDTH = 10;
 
 class Main {
-    box     = emo.SpriteSheet("blocks.png", 32, 32, 2, 2);
+    box     = emo.SpriteSheet("blocks.png", 32, 32, 4, 3);
     axis    = emo.Rectangle();
     rope    = emo.Line();
-    dropBox = emo.SpriteSheet("blocks.png", 32, 32, 2, 2);
+    dropBox = emo.SpriteSheet("blocks.png", 32, 32, 4, 3);
 
     lastRecycledTime = 0;
     
@@ -36,11 +36,13 @@ class Main {
         
         createWall();
         
+        box.setFrame(7);
         box.setSize(stage.getWindowWidth() / 4, 20);
         box.move(
             (stage.getWindowWidth()  - box.getWidth())  / 2,
             (stage.getWindowHeight() - box.getHeight()) / 2);
         
+        dropBox.setFrame(6);
         dropBox.setSize(box.getWidth(), 10);
         dropBox.hide();
         dropBox.load();
@@ -78,9 +80,6 @@ class Main {
         rope.setWidth(2);
         rope.load();
     
-        box.setFrame(7);
-        dropBox.setFrame(6);
-
         // apply linear velocity to sprite to see how the DistanceJoint works.
         boxInfo.getBody().setLinearVelocity(emo.Vec2(5, 0));
     

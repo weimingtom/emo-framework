@@ -27,8 +27,6 @@
 // 
 #include <sys/sysctl.h> 
 
-#import <OpenGLES/ES2/glext.h>
-
 #import "Constants.h"
 #import "VmFunc.h"
 #import "EmoRuntime.h"
@@ -40,7 +38,7 @@
 #import "EmoDrawable.h"
 #import "EmoPhysics.h"
 
-NSString* char2ns(const char* str) {
+NSString* char2ns(const SQChar* str) {
 	return [NSString stringWithCString:(char*)str 
 							  encoding:NSUTF8StringEncoding];
 }
@@ -54,7 +52,6 @@ NSString* data2ns(NSData* data) {
 - (void)updateEngineStatus;
 - (NSTimeInterval)getLastOnDrawDelta;
 - (NSTimeInterval)getLastOnDrawDrawablesDelta;
--(void)stopOffscreenDrawable:(EmoDrawable*)drawable;
 @end
 
 @implementation EmoEngine
@@ -72,18 +69,12 @@ NSString* data2ns(NSData* data) {
 @synthesize database;
 @synthesize currentOrientation;
 @synthesize logLevel;
-@synthesize enableSimpleLog, enableSimpleLogWithLevel;
-@synthesize useOffscreen, stopOffscreenRequested;
 
 - (id)init {
     self = [super init];
     if (self != nil) {
 		currentOrientation = OPT_ORIENTATION_UNSPECIFIED;
 		logLevel = LOG_INFO;
-        enableSimpleLog = FALSE;
-        enableSimpleLogWithLevel = FALSE;
-        
-        sqvm = sq_open(SQUIRREL_VM_INITIAL_STACK_SIZE);
     }
     return self;
 }
@@ -124,7 +115,6 @@ NSString* data2ns(NSData* data) {
 	database     = [[EmoDatabase alloc]init];
 	imageCache   = [[NSMutableDictionary alloc]init];
 	
-    [stage setBufferSize:width height:height];
 	[stage setSize:width height:height];
 	
 	// engine startup time
@@ -139,16 +129,10 @@ NSString* data2ns(NSData* data) {
 	onFpsInterval      = 0;
 	onFpsIntervalDelta = 0;
 	enableOnFps        = FALSE;
-    
-    useOffscreen = FALSE;
-    offscreenFramebuffer = 0;
-    stopOffscreenRequested = FALSE;
 	
 	drawablesToDraw  = [NSArray alloc];
 	
-    if (sqvm == nil) {
-        sqvm = sq_open(SQUIRREL_VM_INITIAL_STACK_SIZE);
-    }
+	sqvm = sq_open(SQUIRREL_VM_INITIAL_STACK_SIZE);
 	
 	initSQVM(sqvm);
 	
@@ -165,8 +149,6 @@ NSString* data2ns(NSData* data) {
 	// disable "keep screen on"
 	[UIApplication sharedApplication].idleTimerDisabled = NO;
 	
-    if (useOffscreen) [self disableOffscreen];
-    
 	sq_close(sqvm);
 	sqvm = nil;
 	isRunning = FALSE;
@@ -199,47 +181,6 @@ NSString* data2ns(NSData* data) {
 }
 
 /*
- * enable offscreen rendering
- */
-- (void)enableOffscreen {
-    if (!useOffscreen && offscreenFramebuffer == 0) {
-        glGenFramebuffers(1, &offscreenFramebuffer);
-    }
-    useOffscreen = TRUE;
-    stopOffscreenRequested = FALSE;
-}
-
-/*
- * disable offscreen rendering
- */
-- (void)disableOffscreen {
-    if (useOffscreen && offscreenFramebuffer != 0) {
-        glDeleteFramebuffers(1, &offscreenFramebuffer);
-        offscreenFramebuffer = 0;
-    }
-    useOffscreen = FALSE;
-    stopOffscreenRequested = FALSE;
-}
-
-/*
- * bind offscreen framebuffer
- */
-- (void)bindOffscreenFramebuffer {
-    if (offscreenFramebuffer > 0) {
-        glBindFramebuffer(GL_FRAMEBUFFER, offscreenFramebuffer);
-    }
-}
-
-/*
- * unbind offscreen framebuffer
- */
-- (void)unbindOffscreenFramebuffer {
-    if (offscreenFramebuffer > 0) {
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    }
-}
-
-/*
  * initialize OpenGL state 
  */
 - (BOOL)initDrawFrame {
@@ -265,7 +206,9 @@ NSString* data2ns(NSData* data) {
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	
-    glDisable(GL_CULL_FACE);
+    glEnable(GL_CULL_FACE);
+    glFrontFace(GL_CCW);
+    glCullFace(GL_BACK);
 	
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -290,79 +233,13 @@ NSString* data2ns(NSData* data) {
 	NSString* path = [[NSBundle mainBundle] pathForResource:fname ofType:nil];
 	[fname release];
 	if (path == nil) {
-		LOGE("Script resource is not found:");
+		LOGE("Script resource does not found:");
 		LOGE(chfname);
 		return ERR_SCRIPT_OPEN;
 	}
-    
-    return [self loadScript:path vm:v];
-}
-
-/*
- * callback function to read squirrel script
- */
-static SQInteger sq_lexer_bytecode(SQUserPointer file, SQUserPointer buf, SQInteger size) {
-    NSData* data = [(NSFileHandle*)file readDataOfLength:size];
-    NSUInteger len = [data length];
-    if (len > 0) {
-        [data getBytes:buf length:len];
-        return len;
-    } else {
-        return -1;
-    }
-}
-
-/*
- * load script file (full path)
- */
--(int)loadScript:(NSString *)path vm:(HSQUIRRELVM) v {
-	NSFileManager* manager = [NSFileManager defaultManager];
-	if (![manager fileExistsAtPath:path]) {
-		LOGE("Script file is not found:");
-		NSLOGE(path);
-		return ERR_SCRIPT_OPEN;
-    }
-
-    NSFileHandle* file = [NSFileHandle fileHandleForReadingAtPath: path];
-	if (file == nil) {
-		LOGE("Script file is not found:");
-		NSLOGE(path);
-		return ERR_SCRIPT_OPEN;
-	}
-    
-    unsigned short magic_number;
-    [[file readDataOfLength: 2] getBytes:&magic_number length:2];
-    [file seekToFileOffset:0];
-    
-    // bytecode
-    if (magic_number == SQ_BYTECODE_STREAM_TAG) {
-        if (SQ_SUCCEEDED(sq_readclosure(v, sq_lexer_bytecode, file))) {
-            
-            [file closeFile];
-            
-            sq_pushroottable(v);
-            if (SQ_FAILED(sq_call(v, 1, SQFalse, SQTrue))) {
-                LOGE("Failed to call root closure:");
-                NSLOGE(path);
-                return ERR_SCRIPT_CALL_ROOT;
-            } else {
-                return EMO_NO_ERROR;
-            }
-        } else {
-            
-            [file closeFile];
-            
-            LOGE("Failed to read bytecode content:");
-            NSLOGE(path);
-            return ERR_SCRIPT_CALL_ROOT;
-        }
-    }  
-    [file closeFile];
-    
+	
 	NSString* nscontent = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error: nil];
 	if (nscontent == nil) {
-		LOGE("Script content is not found:");
-		NSLOGE(path);
 		return ERR_SCRIPT_OPEN;
 	}
 	
@@ -397,11 +274,11 @@ static SQInteger sq_lexer_bytecode(SQUserPointer file, SQUserPointer buf, SQInte
 /*
  * called when the app requests drawing
  */
--(BOOL)onDrawFrame:(GLuint)framebuffer {
+-(BOOL)onDrawFrame {
 	if (!isRunning) {
 		return FALSE;
 	}
-    
+	
 	if (sortOrderDirty) {
 		[drawablesToDraw release];
 		drawablesToDraw = [[[drawables allValues] sortedArrayUsingSelector:@selector(compareZ:)] retain];
@@ -436,56 +313,17 @@ static SQInteger sq_lexer_bytecode(SQUserPointer file, SQUserPointer buf, SQInte
 		}
 	}
 	
+	
 	lastOnDrawDrawablesInterval = [self uptime];
-	if (!useOffscreen) [stage onDrawFrame:delta];
+	[stage onDrawFrame:delta];
 	for (int i = 0; i < [drawablesToDraw count]; i++) {
-        // if offscreen is enabled, the first drawable is
-        // the snapshot drawable that should be drawn last.
 		EmoDrawable* drawable = [drawablesToDraw objectAtIndex:i];
-        if (useOffscreen && i == 0 && !drawable.isScreenEntity) {
-            [self bindOffscreenFramebuffer];
-            [stage onDrawFrame:delta];
-            continue;
-        }
 		if (drawable.loaded && drawable.independent && [drawable isVisible]) {
 			[drawable onDrawFrame:delta withStage:stage];
 		}
 	}
-    
-    // render the offscreen result
-    if (useOffscreen && [drawablesToDraw count] > 0) {
-        [self unbindOffscreenFramebuffer];
-        // restore the default framebuffer
-		EmoDrawable* drawable = [drawablesToDraw objectAtIndex:0];
-		if (drawable.loaded && !drawable.isScreenEntity) {
-            glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
-			[drawable onDrawFrame:delta withStage:stage];
-            if (stopOffscreenRequested) {
-                stopOffscreenRequested = FALSE;
-                [self stopOffscreenDrawable:drawable];
-                callSqFunction_Bool_Float(sqvm, EMO_NAMESPACE, EMO_FUNC_ONSTOP_OFFSCREEN, delta, SQFalse);
-            }
-		}
-    }
 	
 	return FALSE;
-}
-
-/*
- * stop offscreen
- */
--(void)stopOffscreenDrawable:(EmoDrawable*)drawable {
-    drawable.width  = stage.width;
-    drawable.height = stage.height;
-    
-    // fix rotation and scale center
-    [drawable setRotate:1 withValue:drawable.width  * 0.5f];
-    [drawable setRotate:2 withValue:drawable.height * 0.5f];
-    [drawable setScale:2  withValue:drawable.width  * 0.5f];
-    [drawable setScale:3  withValue:drawable.height * 0.5f];
-    
-    [self disableOffscreen];
-    stage.dirty = TRUE;
 }
 
 /*
@@ -623,7 +461,7 @@ static SQInteger sq_lexer_bytecode(SQUserPointer file, SQUserPointer buf, SQInte
 
 	[_key retain];
 	EmoDrawable* drawable = [drawables objectForKey:_key];
-	[drawable doUnload:TRUE];
+	[drawable doUnload];
 	[drawable release];
 	[drawables removeObjectForKey:_key];
 	[_key release];
@@ -635,7 +473,7 @@ static SQInteger sq_lexer_bytecode(SQUserPointer file, SQUserPointer buf, SQInte
 -(void)clearDrawables {
 	
 	for (NSString* key in drawables) {
-		[[drawables objectForKey:key] doUnload:TRUE];
+		[[drawables objectForKey:key] doUnload];
 		[[drawables objectForKey:key] release];
 	}
 	

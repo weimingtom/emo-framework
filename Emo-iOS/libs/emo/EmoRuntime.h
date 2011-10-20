@@ -47,7 +47,6 @@
 
 void initRuntimeFunctions();
 
-SQInteger emoRuntimeBuildNumber(HSQUIRRELVM v);
 SQInteger emoRuntimeGetOSName(HSQUIRRELVM v);
 SQInteger emoRuntimeGetDeviceName(HSQUIRRELVM v);
 SQInteger emoRuntimeIsSimulator(HSQUIRRELVM v);
@@ -69,12 +68,6 @@ SQInteger emoRuntimeFinish(HSQUIRRELVM v);
 SQInteger emoRuntimeGC(HSQUIRRELVM v);
 SQInteger emoRuntimeSetLogLevel(HSQUIRRELVM v);
 SQInteger emoClearImageCache(HSQUIRRELVM v);
-#ifndef EMO_WITH_SANDBOX
-SQInteger emoRuntimeCompileBuffer(HSQUIRRELVM v);
-SQInteger emoRuntimeCompile(HSQUIRRELVM v);
-#endif
-SQInteger emoRuntimeGetDocumentDir(HSQUIRRELVM v);
-SQInteger emoRuntimeIsSandboxEnabled(HSQUIRRELVM v);
 
 SQInteger emoAsyncHttpRequest(HSQUIRRELVM v);
 
@@ -85,8 +78,4 @@ SQInteger emoEnableOnUpdateCallback(HSQUIRRELVM v);
 SQInteger emoDisableOnUpdateCallback(HSQUIRRELVM v);
 SQInteger emoEnableOnFpsCallback(HSQUIRRELVM v);
 SQInteger emoDisableOnFpsCallback(HSQUIRRELVM v);
-SQInteger emoEnableSimpleLog(HSQUIRRELVM v);
-SQInteger emoEnableSimpleLogWithLevel(HSQUIRRELVM v);
-SQInteger emoRuntimeRandom(HSQUIRRELVM v);
-SQInteger emoRuntimeGetDefaultLocale(HSQUIRRELVM v);
 

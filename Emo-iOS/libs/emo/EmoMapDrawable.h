@@ -33,20 +33,10 @@
 	NSInteger columns;
 	NSInteger rows;
 	NSMutableArray* tiles;
-    
-    BOOL useMesh;
-    BOOL meshLoaded;
-    short* meshIndices;
-    float* meshPositions;
-    float* meshTexCoords;
-    GLuint mesh_vbos[3];
-    NSInteger meshIndiceCount;
 }
-@property (readwrite) BOOL useMesh;
-
 -(BOOL)onDrawFrame:(NSTimeInterval)dt withStage:(EmoStage*)stage;
 -(BOOL)bindVertex;
-    
+
 -(void)setChild:(EmoDrawable*)child;
 -(EmoDrawable*)getChild;
 
@@ -56,5 +46,5 @@
 -(NSInteger)getTileAt:(NSInteger) row column:(NSInteger)column;
 -(NSArray*)getTileIndexAtCoord:(float) x y:(float)y;
 -(NSArray*)getTilePositionAtCoord:(float)x y:(float)y;
--(void)doUnload:(BOOL)doAll;
+
 @end

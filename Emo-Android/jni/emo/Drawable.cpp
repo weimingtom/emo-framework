@@ -35,9 +35,6 @@
 #include "Database.h"
 #include "Util.h"
 
-#include <GLES/glext.h>
-#include <rapidxml/rapidxml.hpp>
-
 extern emo::Engine* engine;
 
 namespace emo {
@@ -50,23 +47,10 @@ namespace emo {
         this->currentLoopCount = 0;
         this->currentCount = 0;
         this->lastOnAnimationInterval = engine->uptime;
-        this->frames = NULL;
     }
 
     AnimationFrame::~AnimationFrame() {
-        if (this->frames != NULL) delete[] this->frames;
-    }
 
-    void AnimationFrame::initializeFrames() {
-        if (this->frames != NULL) delete[] this->frames;
-        this->frames = new int[this->count];
-        for (int i = 0; i < this->count; i++) {
-            this->frames[i] = 0;
-        }
-    }
-
-    void AnimationFrame::setFrame(int index, int value) {
-        this->frames[index] = value;
     }
 
     int32_t AnimationFrame::getLastOnAnimationDelta() {
@@ -76,6 +60,7 @@ namespace emo {
         return (deltaSec * 1000) + deltaMsec;
     }
     
+
     bool AnimationFrame::isFinished() {
         return (this->loop >= 0 && this->currentLoopCount > this->loop);
     }
@@ -101,23 +86,11 @@ namespace emo {
             currentCount = 0;
         }
 
-        if (this->frames != NULL) {
-            return this->frames[this->currentCount];
-        } else {
-            return this->currentCount + this->start;
-        }
+        int nextIndex = this->currentCount + this->start;
+
+        return nextIndex;
     }
 
-    ImagePackInfo::ImagePackInfo() {
-        this->x = 0;
-        this->y = 0;
-        this->width  = 1;
-        this->height = 1;
-    }
-
-    ImagePackInfo::~ImagePackInfo() {
-
-    }
 
     Drawable::Drawable() {
         this->hasTexture = false;
@@ -128,8 +101,6 @@ namespace emo {
         this->frameCountLoaded = false;
         this->frameIndexChanged = false;
         this->independent = true;
-        this->needTexture = false;
-        this->isPackedAtlas = false;
 
         // color param RGBA
         this->param_color[0] = 1.0f;
@@ -164,20 +135,11 @@ namespace emo {
         this->margin      = 0;
 
         this->animations = new animations_t();
-        this->imagepacks = new imagepack_t();
-        this->imagepacks_names = new std::vector<std::string>;
-
-        this->useMesh = false;
-        this->orthFactorX = 1.0;
-        this->orthFactorY = 1.0;
-        this->isScreenEntity = true;
-        this->useFont = false;
     }
 
     Drawable::~Drawable() {
         this->deleteAnimations();
-        this->deleteImagePacks();
-        this->deleteBuffer(false);
+        this->deleteBuffer();
         if (this->hasTexture) {
             this->texture->referenceCount--;
             if (this->texture->referenceCount <= 0) {
@@ -189,8 +151,6 @@ namespace emo {
             delete[] this->frames_vbos;
         }
         delete this->animations;
-        delete this->imagepacks;
-        delete this->imagepacks_names;
     }
 
     void Drawable::load() {
@@ -210,19 +170,11 @@ namespace emo {
 
     void Drawable::reload() {
         if (this->hasBuffer) return;
+
         this->generateBuffers();
 
         if (this->hasTexture) {
             this->texture->genTextures();
-        }
-
-        // reload texture data when the data is freed
-        if (this->hasTexture && this->texture->mustReload) {
-            if (this->useFont) {
-                engine->javaGlue->loadTextBitmap(this, this->texture, false);
-            } else {
-                loadPngFromAsset(this->name.c_str(), this->texture, false);
-            }
         }
 
         this->hasBuffer = true;
@@ -236,25 +188,18 @@ namespace emo {
         return this->frames_vbos[this->frame_index] > 0;
     }
 
-    void Drawable::deleteBuffer(bool force) {
+    void Drawable::deleteBuffer() {
         if (!this->hasBuffer) return;
         if (this->hasTexture && this->texture->textureId > 0) {
-            if (!force && this->texture->referenceCount > 1) {
-                // skip 
-            } else {
-                if (engine->hasDisplay()) {
-                    glDeleteTextures(1, &this->texture->textureId);
-                }
-                this->texture->textureId = 0;
-                this->texture->loaded    = false;
-            }
+            glDeleteTextures(1, &this->texture->textureId);
+
+            this->texture->textureId = 0;
+            this->texture->loaded    = false;
         }
 
         for (int i = 0; i < this->frameCount; i++) {
             if (this->frames_vbos[i] > 0) {
-                if (engine->hasDisplay()) {
-                    glDeleteBuffers(1, &this->frames_vbos[i]);
-                }
+                glDeleteBuffers(1, &this->frames_vbos[i]);
                 this->frames_vbos[i] = 0;
             }
         }
@@ -263,43 +208,21 @@ namespace emo {
     }
 
     int Drawable::tex_coord_frame_startX() {
-        if (this->isPackedAtlas) {
-            return this->getImagePack(this->imagepacks_names->at(frame_index))->x;
-        }
         int xcount = (int)round((this->texture->width - (this->margin * 2) + this->border) / (float)(this->frameWidth  + this->border));
         int xindex = this->frame_index % xcount;
         return ((this->border + this->frameWidth) * xindex) + this->margin;
     }
 
     int Drawable::tex_coord_frame_startY() {
-        if (this->isPackedAtlas) {
-            return this->texture->height - this->frameHeight - this->getImagePack(this->imagepacks_names->at(frame_index))->y;
-        }
         int xcount = (int)round((this->texture->width - (this->margin * 2) + this->border) / (float)(this->frameWidth  + this->border));
         int ycount = (int)round((this->texture->height - (this->margin * 2) + this->border) / (float)(this->frameHeight + this->border));
         int yindex = ycount - (this->frame_index / xcount) - 1;
         return ((this->border + this->frameHeight) * yindex) + this->margin;
     }
 
-    float Drawable::getTexelHalfX() {
-        if (this->hasTexture) {
-            return (1.0 / this->texture->glWidth) * 0.5;
-        } else {
-            return 0;
-        }
-    }
-
-    float Drawable::getTexelHalfY() {
-        if (this->hasTexture) {
-            return (1.0 / this->texture->glHeight) * 0.5;
-        } else {
-            return 0;
-        }
-    }
-
     float Drawable::getTexCoordStartX() {
         if (this->hasSheet) {
-            return this->tex_coord_frame_startX() / (float)this->texture->glWidth + this->getTexelHalfX();
+            return this->tex_coord_frame_startX() / (float)this->texture->glWidth;
         } else {
             return 0;
         }
@@ -307,36 +230,33 @@ namespace emo {
 
     float Drawable::getTexCoordEndX() {
         if (!this->hasTexture) {
-            return 1 - this->getTexelHalfX();
+            return 1;
         } else if (this->hasSheet) {
-            return (float)(this->tex_coord_frame_startX() + this->frameWidth) / (float)this->texture->glWidth - this->getTexelHalfX();
+            return (float)(this->tex_coord_frame_startX() + this->frameWidth) / (float)this->texture->glWidth;
         } else {
-            return (float)this->texture->width / (float)this->texture->glWidth - this->getTexelHalfX();
+            return (float)this->texture->width / (float)this->texture->glWidth;
         }
     }
 
     float Drawable::getTexCoordStartY() {
         if (!this->hasTexture) {
-            return 1 - this->getTexelHalfY();
+            return 1;
         } else if (this->hasSheet) {
-            return (float)(this->tex_coord_frame_startY() + this->frameHeight) / (float)this->texture->glHeight - this->getTexelHalfY();
+            return (float)(this->tex_coord_frame_startY() + this->frameHeight) / (float)this->texture->glHeight;
         } else {
-            return (float)this->texture->height / (float)this->texture->glHeight - this->getTexelHalfY();
+            return (float)this->texture->height / (float)this->texture->glHeight;
         }
     }
 
     float Drawable::getTexCoordEndY() {
         if (this->hasSheet) {
-            return this->tex_coord_frame_startY() / (float)this->texture->glHeight + getTexelHalfY();
+            return this->tex_coord_frame_startY() / (float)this->texture->glHeight;
         } else {
             return 0;
         }
     }
 
     bool Drawable::bindVertex() {
-        // Sprite#load is not called yet
-        if (this->needTexture && !this->hasTexture) return false;
-
         clearGLErrors("bindDrawableVertex");
 
         this->vertex_tex_coords[0] = this->getTexCoordStartX();
@@ -361,7 +281,7 @@ namespace emo {
 
         printGLErrors("Could not create OpenGL vertex");
 
-        if (this->hasTexture && this->texture->hasData && !this->texture->loaded) {
+        if (this->hasTexture && !this->texture->loaded) {
             glEnable(GL_TEXTURE_2D);
             glBindTexture   (GL_TEXTURE_2D, this->texture->textureId);
 
@@ -390,7 +310,6 @@ namespace emo {
             glBindTexture(GL_TEXTURE_2D, 0);
         }
 
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
         this->loaded = true;
 
         return true;
@@ -398,7 +317,6 @@ namespace emo {
 
     void Drawable::onDrawFrame() {
         if (!this->loaded) return;
-        if (!this->hasBuffer) return;
 
         if (this->frameIndexChanged) {
             this->frame_index = nextFrameIndex;
@@ -427,7 +345,7 @@ namespace emo {
         glColor4f(this->param_color[0], this->param_color[1], this->param_color[2], this->param_color[3]);
 
         // update position
-        glTranslatef(this->x * this->orthFactorX, this->y * this->orthFactorY, 0);
+        glTranslatef(this->x, this->y, 0);
 
         // rotate
         glTranslatef(this->param_rotate[1], this->param_rotate[2], 0);
@@ -498,21 +416,6 @@ namespace emo {
         if (index < 0 || this->frameCount <= index) return false;
         this->nextFrameIndex = index;
         this->frameIndexChanged = true;
-
-        if (this->isPackedAtlas) {
-            ImagePackInfo* info = this->getImagePack(this->imagepacks_names->at(index));
-            this->width  = info->width;
-            this->height = info->height;
-            this->frameWidth  = info->width;
-            this->frameHeight = info->height;
-        }
-
-        return true;
-    }
-
-    bool Drawable::forceSetFrameIndex(int index) {
-        if (index < 0 || this->frameCount <= index) return false;
-        this->frame_index = index;
         return true;
     }
 
@@ -526,10 +429,6 @@ namespace emo {
 
     void Drawable::setTexture(Image* image) {
         this->texture = image;
-    }
-
-    Image* Drawable::getTexture() {
-        return this->texture;
     }
 
     float Drawable::getScaledWidth() {
@@ -546,48 +445,6 @@ namespace emo {
 
     Drawable* Drawable::getChild() {
         return this->child;
-    }
-
-    void Drawable::addImagePack(ImagePackInfo* info) {
-        this->deleteImagePack(info->name);
-        this->imagepacks->insert(std::make_pair(info->name, info)); 
-        this->imagepacks_names->push_back(info->name);
-    }
-
-    ImagePackInfo* Drawable::getImagePack(std::string name) {
-        imagepack_t::iterator iter = this->imagepacks->find(name);
-        if (iter != this->imagepacks->end()) {
-            return iter->second;
-        }
-        return NULL;
-    }
-
-    bool Drawable::selectFrame(std::string name) {
-        ImagePackInfo* info = this->getImagePack(name);
-        if (info == NULL) return false;
-        return this->setFrameIndex(info->index);
-    }
-
-    bool Drawable::deleteImagePack(std::string name) {
-        imagepack_t::iterator iter = this->imagepacks->find(name);
-        if (iter != this->imagepacks->end()) {
-            ImagePackInfo* info = iter->second;
-            if (this->imagepacks->erase(iter->first)){
-                delete info;
-            }
-            return true;
-        }
-        return false;
-    }
-
-    void Drawable::deleteImagePacks() {
-        imagepack_t::iterator iter;
-        for(iter = this->imagepacks->begin(); iter != this->imagepacks->end(); iter++) {
-            ImagePackInfo* info = iter->second;
-            delete info;
-        }
-        this->imagepacks->clear();
-        this->imagepacks_names->clear();
     }
 
     void Drawable::addAnimation(AnimationFrame* animation) {
@@ -647,7 +504,6 @@ namespace emo {
                 this->currentAnimation = animation;
                 engine->updateUptime();
                 animation->lastOnAnimationInterval = engine->uptime;
-                this->setFrameIndex(animation->start);
             }
         }
         return true;
@@ -660,79 +516,10 @@ namespace emo {
         return true;
     }
 
-    bool Drawable::loadPackedAtlasXml(int initialFrameIndex) {
-        // check if the length is shorter than the length of ".xml"
-        if (this->name.length() <= 4) return false;
-
-        std::string data = loadContentFromAsset(this->name);
-        unsigned int pos = this->name.find_last_of("/");
-        
-        std::string base_dir = "";
-        if (pos != std::string::npos) base_dir = this->name.substr(0, pos + 1);
-
-        rapidxml::xml_document<char> doc;
-        doc.parse<0>((char*)data.c_str());
-
-        if (doc.first_node() == 0) {
-            return false;
-        }
-
-        int itemCount = 0;
-        ImagePackInfo* selectedItem = NULL;
-
-        for (rapidxml::xml_node<> *node = doc.first_node(); node; node = node->next_sibling()) {
-            if (strcmp(node->name(), "Imageset") != 0 && strcmp(node->name(), "TextureAtlas") != 0) continue;
-            for (rapidxml::xml_attribute<> *attr = node->first_attribute(); attr; attr = attr->next_attribute()) {
-                if (strcmp(attr->name(), "Imagefile") == 0 || strcmp(attr->name(), "imagePath") == 0) {
-                    this->name = base_dir + attr->value();
-                }
-            }
-            for (rapidxml::xml_node<> *child  = node->first_node(); child; child = child->next_sibling()) {
-                if (strcmp(child->name(), "Image") != 0 && strcmp(child->name(), "SubTexture") != 0) continue;
-
-                ImagePackInfo* info = new ImagePackInfo();
-                for (rapidxml::xml_attribute<> *attr = child->first_attribute(); attr; attr = attr->next_attribute()) {
-                    if (strcmp(attr->name(), "name") == 0 || strcmp(attr->name(), "Name") == 0) {
-                        info->name = attr->value();
-                    } else if (strcmp(attr->name(), "x") == 0 || strcmp(attr->name(), "XPos") == 0) {
-                        info->x = atoi(attr->value());
-                    } else if (strcmp(attr->name(), "y") == 0 || strcmp(attr->name(), "YPos") == 0) {
-                        info->y = atoi(attr->value());
-                    } else if (strcmp(attr->name(), "width") == 0 || strcmp(attr->name(), "Width") == 0) {
-                        info->width = atoi(attr->value());
-                    } else if (strcmp(attr->name(), "height") == 0 || strcmp(attr->name(), "Height") == 0) {
-                        info->height = atoi(attr->value());
-                    }
-                }
-                if (!info->name.empty()) {
-                    if (itemCount == initialFrameIndex) selectedItem = info;
-                    info->index = itemCount;
-                    this->addImagePack(info);
-                    itemCount++;
-                }
-            }
-        }
-
-        if (selectedItem == NULL) return false;
-
-        this->width       = selectedItem->width;
-        this->height      = selectedItem->height;
-        this->frameWidth  = selectedItem->width;
-        this->frameHeight = selectedItem->height;
-
-        this->setFrameCount(itemCount);
-        this->margin = 0;
-        this->border = 0;
-
-        return true;
-    }
-
     MapDrawable::MapDrawable(Drawable* drawable) : Drawable() {
         this->drawable = drawable;
         this->tiles = new std::vector<std::vector<int>*>;
         this->setChild(drawable);
-        this->meshLoaded = false;
-        this->meshIndiceCount = 0;
     }
 
     MapDrawable::~MapDrawable() {
@@ -740,25 +527,6 @@ namespace emo {
             delete this->tiles->at(i);
         }
         delete this->tiles;
-
-        this->unbindMeshVertex();
-    }
-
-    void MapDrawable::deleteBuffer(bool force) {
-        Drawable::deleteBuffer(force);
-        this->unbindMeshVertex();
-    }
-
-    void MapDrawable::unbindMeshVertex() {
-        if (this->useMesh && this->meshLoaded) {
-            free(this->meshIndices);
-            free(this->meshPositions);
-            free(this->meshTexCoords);
-        
-            glDeleteBuffers(3, this->mesh_vbos);
-        
-            this->meshLoaded = false;
-        }
     }
 
     void MapDrawable::addRow(int rowdata[], int count) {
@@ -771,8 +539,8 @@ namespace emo {
         this->columns = count;
         this->rows    = this->tiles->size();
 
-       this->width  = this->drawable->width  * this->columns;
-       this->height = this->drawable->height * this->rows;
+       this->width  = this->drawable->getScaledWidth()  * this->columns;
+       this->height = this->drawable->getScaledHeight() * this->rows;
     }
 
     bool MapDrawable::setTileAt(int row, int column, int value) {
@@ -836,195 +604,19 @@ namespace emo {
     }
 
     bool MapDrawable::bindVertex() {
-        if (this->useMesh && !this->meshLoaded) {
-            this->unbindMeshVertex();
-        
-            glGenBuffers(3, this->mesh_vbos);
-        
-            this->createMeshIndiceBuffer();
-            this->createMeshPositionBuffer();
-            this->createMeshTextureBuffer();
-            
-            meshLoaded = true;
-
-            this->loaded = this->drawable->bindVertex();
-        } else if (!this->useMesh) {
-            this->loaded = this->drawable->bindVertex();
-        }
+        this->loaded = this->drawable->bindVertex();
         return this->loaded;
-    }
-
-    void MapDrawable::createMeshPositionBuffer() {
-        int vertexCount = this->rows * this->columns * POINTS_3D_SIZE * POINTS_RECTANGLE;
-    
-        this->meshPositions = (float *)malloc(sizeof(float) * vertexCount);
-    
-        int childWidth  = child->getScaledWidth();
-        int childHeight = child->getScaledHeight();
-
-        int index = 0;
-        for (int row = 0; row < rows; row++) {
-            for (int column = 0; column < columns; column++) {
-                int pX = childWidth  * column;
-                int pY = childHeight * row;
-            
-                this->meshPositions[index++] = pX;
-                this->meshPositions[index++] = pY;
-                this->meshPositions[index++] = 0;
-            
-                this->meshPositions[index++] = pX;
-                this->meshPositions[index++] = pY + childHeight;
-                this->meshPositions[index++] = 0;
-            
-                this->meshPositions[index++] = pX + childWidth;
-                this->meshPositions[index++] = pY;
-                this->meshPositions[index++] = 0;
-            
-                this->meshPositions[index++] = pX + childWidth;
-                this->meshPositions[index++] = pY + childHeight;
-                this->meshPositions[index++] = 0;
-            }
-        }
-    
-        glBindBuffer(GL_ARRAY_BUFFER, this->mesh_vbos[0]);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertexCount, this->meshPositions, GL_STATIC_DRAW);
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-    
-        printGLErrors("Could not create position buffer");
-    }
-
-    int MapDrawable::getMeshIndiceCount() {
-        return this->rows * this->columns * POINTS_2D_SIZE * POINTS_TRIANGLE;
-    }
-
-    void MapDrawable::createMeshIndiceBuffer() {
-        this->meshIndiceCount = this->getMeshIndiceCount();
-    
-        this->meshIndices = (short *)malloc(sizeof(short) * this->meshIndiceCount);
-    
-        int index = 0;
-        int trIndex = 0;
-        for (int row = 0; row < rows; row++) {
-            for (int column = 0; column < columns; column++) {
-                this->meshIndices[index++] = (short)(trIndex + 0);
-                this->meshIndices[index++] = (short)(trIndex + 1);
-                this->meshIndices[index++] = (short)(trIndex + 2);
-            
-                this->meshIndices[index++] = (short)(trIndex + 2);
-                this->meshIndices[index++] = (short)(trIndex + 1);
-                this->meshIndices[index++] = (short)(trIndex + 3);
-            
-                trIndex += 4;
-            }
-        }
-    
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->mesh_vbos[1]);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(short) * this->meshIndiceCount, this->meshIndices, GL_STATIC_DRAW);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-    
-        printGLErrors("Could not create indice buffer");
-    }
-
-    void MapDrawable::createMeshTextureBuffer() {
-        int coordCount = this->rows * this->columns * POINTS_2D_SIZE * POINTS_RECTANGLE;
-    
-        this->meshTexCoords = (float *)malloc(sizeof(float) * coordCount);
-    
-        int index = 0;
-        for (int row = 0; row < rows; row++) {
-            for (int column = 0; column < columns; column++) {
-                int frameIndex = this->getTileAt(row, column);
-                if (child->forceSetFrameIndex(frameIndex)) {
-                    this->meshTexCoords[index++] = child->getTexCoordStartX();
-                    this->meshTexCoords[index++] = child->getTexCoordStartY();
-            
-                    this->meshTexCoords[index++] = child->getTexCoordStartX();
-                    this->meshTexCoords[index++] = child->getTexCoordEndY();
-            
-                    this->meshTexCoords[index++] = child->getTexCoordEndX();
-                    this->meshTexCoords[index++] = child->getTexCoordStartY();
-            
-                    this->meshTexCoords[index++] = child->getTexCoordEndX();
-                    this->meshTexCoords[index++] = child->getTexCoordEndY();
-                } else {
-                    // no texture for this cell
-                    this->meshTexCoords[index++] = 0;
-                    this->meshTexCoords[index++] = 0;
-                
-                    this->meshTexCoords[index++] = 0;
-                    this->meshTexCoords[index++] = 0;
-                
-                    this->meshTexCoords[index++] = 0;
-                    this->meshTexCoords[index++] = 0;
-                
-                    this->meshTexCoords[index++] = 0;
-                    this->meshTexCoords[index++] = 0;
-                }
-            }
-        }
-    
-        glEnable(GL_TEXTURE_2D);
-        glBindBuffer(GL_ARRAY_BUFFER, this->mesh_vbos[2]);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(float) * coordCount, this->meshTexCoords, GL_STATIC_DRAW);
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-    
-        printGLErrors("Could not create texture buffer");
-    }
-
-    bool MapDrawable::isInRange() {
-        if (this->x > 0 && this->x  > engine->stage->width)  return false;
-        if (this->y > 0 && this->y  > engine->stage->height) return false;
-        if (this->x < 0 && -this->x > this->drawable->getScaledWidth()  * this->columns) return false;
-        if (this->y < 0 && -this->y > this->drawable->getScaledHeight() * this->rows) return false;
-    
-        return true;
     }
 
     void MapDrawable::onDrawFrame() {
 
-        if (!this->isInRange()) return;
-
-        if (this->useMesh) {
-            glMatrixMode (GL_MODELVIEW);
-            glLoadIdentity (); 
-        
-            // update colors
-            glColor4f(param_color[0], param_color[1], param_color[2], param_color[3]);
-        
-            // update position
-            glTranslatef(x, y, 0);
-        
-            // bind vertex positions
-            glBindBuffer(GL_ARRAY_BUFFER, mesh_vbos[0]);
-            glVertexPointer(3, GL_FLOAT, 0, 0);
-        
-            // bind a texture
-            if (child->hasTexture) {
-                glEnable(GL_TEXTURE_2D);
-                glBindTexture(GL_TEXTURE_2D, child->getTexture()->textureId);
-            
-                // bind texture coords
-                glBindBuffer(GL_ARRAY_BUFFER, mesh_vbos[2]);
-                glTexCoordPointer(2, GL_FLOAT, 0, 0);
-            } else {
-                glDisable(GL_TEXTURE_2D);
-            }
-        
-            // bind indices
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh_vbos[1]);
-        
-            // draw sprite
-            glDrawElements(GL_TRIANGLES, meshIndiceCount, GL_UNSIGNED_SHORT, 0);
-        
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-            glBindBuffer(GL_ARRAY_BUFFER, 0);
-            glBindTexture(GL_TEXTURE_2D, 0);
-        
-            return;
-        }
-
         int invertX = -this->x;
         int invertY = -this->y;
+
+        if (this->x > 0 && this->x  > engine->stage->width)  return;
+        if (this->y > 0 && this->y  > engine->stage->height) return;
+        if (this->x < 0 && invertX > this->drawable->getScaledWidth()  * this->columns) return;
+        if (this->y < 0 && invertY > this->drawable->getScaledHeight() * this->rows) return;
 
         int columnCount = (int)ceil(this->getScaledWidth()  / (double)this->drawable->getScaledWidth());
         int rowCount    = (int)ceil(this->getScaledHeight() / (double)this->drawable->getScaledHeight());
@@ -1092,127 +684,4 @@ namespace emo {
 
         glEnableClientState(GL_TEXTURE_COORD_ARRAY);
     }
-
-    SnapshotDrawable::SnapshotDrawable() {
-        // snapshot drawable should be the first drawable
-        this->z = -1;
-        this->isScreenEntity = false;
-    }
-
-    SnapshotDrawable::~SnapshotDrawable() {
-
-    }
-
-   /*
-    * create texture and bind OpenGL vertex
-    * width and height should be set before calling bindVertex.
-    */
-    bool SnapshotDrawable::bindVertex() {
-        clearGLErrors("SnapshotDrawable:bindVertex");
-   
-        if (!this->hasTexture) {
-            Image* imageInfo = new emo::Image();
-    
-            imageInfo->width  = this->width;
-            imageInfo->height = this->height;
-    
-            imageInfo->glWidth  = nextPowerOfTwo(imageInfo->width);
-            imageInfo->glHeight = nextPowerOfTwo(imageInfo->height);
-            imageInfo->loaded = false;
-
-            imageInfo->referenceCount++;
-    
-            // assign OpenGL texture id
-            imageInfo->genTextures();
-    
-            this->texture = imageInfo;
-            this->hasTexture = true;
-        }
-
-        glEnable(GL_TEXTURE_2D);
-        glBindTexture(GL_TEXTURE_2D, this->texture->textureId);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, nextPowerOfTwo(this->width), nextPowerOfTwo(this->height), 0,
-                    GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-        glFramebufferTexture2DOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_TEXTURE_2D, this->texture->textureId, 0);
-
-        GLenum status = glCheckFramebufferStatusOES(GL_FRAMEBUFFER_OES);
-        if (status != GL_FRAMEBUFFER_COMPLETE_OES) {
-            char str[256];
-            sprintf(str, "Failed to create offscreen: status=0x%04x.", status);
-            LOGE(str);
-            engine->disableOffscreen();
-        }
-
-        this->texture->loaded = true;
-
-        this->vertex_tex_coords[0] = this->getTexCoordStartX();
-        this->vertex_tex_coords[1] = this->getTexCoordStartY();
-
-        this->vertex_tex_coords[2] = this->getTexCoordStartX();
-        this->vertex_tex_coords[3] = this->getTexCoordEndY();
-
-        this->vertex_tex_coords[4] = this->getTexCoordEndX();
-        this->vertex_tex_coords[5] = this->getTexCoordEndY();
-
-        this->vertex_tex_coords[6] = this->getTexCoordEndX();
-        this->vertex_tex_coords[7] = this->getTexCoordStartY();
-
-        // generate buffer on demand
-        if (this->frames_vbos[this->frame_index] == 0) {
-            this->generateBuffers();
-        }
-
-        glBindBuffer(GL_ARRAY_BUFFER, this->getCurrentBufferId());
-        glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 8, this->vertex_tex_coords, GL_STATIC_DRAW);
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-        glBindFramebufferOES(GL_FRAMEBUFFER_OES, 0);
-        glBindRenderbufferOES(GL_RENDERBUFFER_OES, 0);
-        glBindTexture(GL_TEXTURE_2D, 0);
-
-        printGLErrors("SnapshotDrawable::bindVertex");
-
-        loaded = true;
-
-        return true;
-    }
-
-    void SnapshotDrawable::onDrawFrame() {
-        // if the snapshot ends, use default onDrawFrame
-        if (!engine->useOffscreen) {
-            orthFactorX = this->width  / (float)engine->stage->width;
-            orthFactorY = this->height / (float)engine->stage->height;
-            Drawable::onDrawFrame();
-            return;
-        }
-        // vewport should be reset everytime on drawing
-        glViewport(0, 0, this->width, this->height);
-        glMatrixMode(GL_PROJECTION);
-        glLoadIdentity();
-        glOrthof(0, this->width, this->height, 0, -1, 1);
-
-        orthFactorX = 1.0;
-        orthFactorY = 1.0;
-
-        glClearColor(engine->stage->color[0], engine->stage->color[1],
-                     engine->stage->color[2], engine->stage->color[3]);
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        Drawable::onDrawFrame();
-        engine->stage->dirty = true;
-    }
-
-    FontDrawable::FontDrawable() {
-        this->isBold   = false;
-        this->isItalic = false;
-    }
-
-    FontDrawable::~FontDrawable() {
-
-    }
-
 }

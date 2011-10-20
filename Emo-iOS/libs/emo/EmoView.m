@@ -41,7 +41,6 @@
 @synthesize height=framebufferHeight;
 @synthesize eventDelegate;
 @synthesize isRetina;
-@synthesize framebuffer=defaultFramebuffer;
 @dynamic context;
 
 + (Class)layerClass

@@ -69,9 +69,6 @@ namespace emo {
         this->height = 0;
         this->viewport_width  = 0;
         this->viewport_height = 0;
-
-        this->bufferWidth  = 0;
-        this->bufferHeight = 0;
     }
 
     Stage::~Stage() {
@@ -79,8 +76,6 @@ namespace emo {
     }
 
     bool Stage::onLoad() {
-        if (!engine->hasDisplay()) return false;
-
         clearGLErrors("Stage::onLoad");
 
         glGenBuffers(2, this->vbo);
@@ -102,7 +97,6 @@ namespace emo {
     }
 
     void Stage::onDrawFrame() {
-        if (!engine->hasDisplay()) return;
         if (this->dirty) {
             glViewport(0, 0, this->viewport_width, this->viewport_height); 
             glMatrixMode(GL_PROJECTION);
@@ -118,9 +112,7 @@ namespace emo {
     void Stage::deleteBuffer() {
         if (!this->loaded) return;
 
-        if (engine->hasDisplay()) {
-            glDeleteBuffers(2, this->vbo);
-        }
+        glDeleteBuffers(2, this->vbo);
         this->loaded = false;
 
         this->vbo[0] = 0;
@@ -128,7 +120,6 @@ namespace emo {
     }
 
     void Stage::rebindBuffer() {
-        if (!engine->hasDisplay()) return;
         glGenBuffers(2, this->vbo);
 
         glBindBuffer(GL_ARRAY_BUFFER, this->vbo[0]);
@@ -152,11 +143,6 @@ namespace emo {
     	this->viewport_height = h;
     }
 
-    void Stage::setBufferSize(int w, int h) {
-        this->bufferWidth  = w;
-        this->bufferHeight = h;
-    }
-
     void Stage::invertSize() {
     	int w = this->width;
     	this->width  = this->height;
@@ -164,8 +150,6 @@ namespace emo {
 
     	this->viewport_width  = this->width;
     	this->viewport_height = this->height;
-
-        this->setBufferSize(this->bufferHeight, this->bufferWidth);
 
     	this->dirty = true;
     }

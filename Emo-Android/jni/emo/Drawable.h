@@ -50,8 +50,6 @@ namespace emo {
         int   loop;
         int32_t interval;
 
-        int*  frames;
-
         int   currentLoopCount;
         int   currentCount;
 
@@ -61,25 +59,9 @@ namespace emo {
         int getNextIndex(int frameCount, int currentIndex);
 
         bool isFinished();
-        void initializeFrames();
-        void setFrame(int index, int value);
-    };
-
-    class ImagePackInfo {
-    public:
-        ImagePackInfo();
-        ~ImagePackInfo();
-
-        std::string name;
-        int x;
-        int y;
-        int width;
-        int height;
-        int index;
     };
 
     typedef std::hash_map <std::string, emo::AnimationFrame *> animations_t;
-    typedef std::hash_map <std::string, emo::ImagePackInfo *> imagepack_t;
 
     class Drawable {
     public:
@@ -93,7 +75,7 @@ namespace emo {
         virtual void reload();
         virtual bool bindVertex();
         virtual void onDrawFrame();
-        virtual void deleteBuffer(bool force);
+        virtual void deleteBuffer();
         void generateBuffers();
 
         virtual void setFrameCount(int count);
@@ -104,12 +86,9 @@ namespace emo {
 		bool isVisible();
 
         bool setFrameIndex(int index);
-        bool forceSetFrameIndex(int index);
         int  getFrameIndex();
-        bool selectFrame(std::string name);
 
         void setTexture(Image* image);
-        Image* getTexture();
 
         float getScaledWidth();
         float getScaledHeight();
@@ -120,8 +99,6 @@ namespace emo {
         bool hasTexture;
         bool hasBuffer;
         bool independent;
-        bool needTexture;
-        bool isPackedAtlas;
 
         int border;
         int margin;
@@ -150,11 +127,6 @@ namespace emo {
         virtual void setChild(Drawable* child);
         virtual Drawable* getChild();
 
-        bool loadPackedAtlasXml(int initialFrameIndex);
-        void addImagePack(ImagePackInfo* info);
-        bool deleteImagePack(std::string name);
-        ImagePackInfo* getImagePack(std::string name);
-
         /* 
          * virtual methods for MapDrawable
          */
@@ -164,22 +136,6 @@ namespace emo {
         virtual int  getTileAt(int row, int column) { return -1; }
         virtual std::vector<int> getTileIndexAtCoord(float x, float y) { std::vector<int> p; return p; }
         virtual std::vector<float> getTilePositionAtCoord(float x, float y) { std::vector<float> p; return p; }
-
-        float getTexCoordStartX();
-        float getTexCoordEndX();
-        float getTexCoordStartY();
-        float getTexCoordEndY();
-
-        float getTexelHalfX();
-        float getTexelHalfY();
-
-        bool useMesh;
-
-        float orthFactorX;
-        float orthFactorY;
-
-        bool isScreenEntity;
-        bool useFont;
 
     protected:
 
@@ -194,6 +150,10 @@ namespace emo {
 
         int tex_coord_frame_startX();
         int tex_coord_frame_startY();
+        float getTexCoordStartX();
+        float getTexCoordEndX();
+        float getTexCoordStartY();
+        float getTexCoordEndY();
 
         bool frameCountLoaded;
 
@@ -205,10 +165,6 @@ namespace emo {
 
         std::string animationName;
         AnimationFrame* currentAnimation;
-
-        void deleteImagePacks();
-        imagepack_t* imagepacks;
-        std::vector<std::string>* imagepacks_names;
     };
 
     class MapDrawable : public Drawable {
@@ -220,7 +176,6 @@ namespace emo {
         virtual void reload();
         virtual bool bindVertex();
         virtual void onDrawFrame();
-        virtual void deleteBuffer(bool force);
 
         virtual void setChild(Drawable* child);
         virtual Drawable* getChild();
@@ -231,28 +186,12 @@ namespace emo {
         virtual int  getTileAt(int row, int column);
         virtual std::vector<int> getTileIndexAtCoord(float x, float y);
         virtual std::vector<float> getTilePositionAtCoord(float x, float y);
-
-        void createMeshPositionBuffer();
-        void createMeshIndiceBuffer();
-        void createMeshTextureBuffer();
-        void unbindMeshVertex();
-
-        int getMeshIndiceCount();
     protected:
         std::vector<std::vector<int>*>* tiles;
         Drawable* drawable;
 
         int columns;
         int rows;
-
-        bool meshLoaded;
-        short* meshIndices;
-        float* meshPositions;
-        float* meshTexCoords;
-        GLuint mesh_vbos[3];
-        int    meshIndiceCount;
-
-        bool isInRange();
     };
 
     class LineDrawable : public Drawable {
@@ -266,34 +205,6 @@ namespace emo {
 
         float   x2;
         float   y2;
-    };
-
-    class SnapshotDrawable : public Drawable {
-    public:
-        SnapshotDrawable();
-        virtual ~SnapshotDrawable();
-
-        virtual bool bindVertex();
-        virtual void onDrawFrame();
-
-    };
-
-    class FontDrawable : public Drawable {
-    public:
-        FontDrawable();
-        virtual ~FontDrawable();
-
-        int fontSize;
-        std::string fontFace;
-        SQBool isBold;
-        SQBool isItalic;
-
-        std::string param1;
-        std::string param2;
-        std::string param3;
-        std::string param4;
-        std::string param5;
-        std::string param6;
     };
 }
 #endif

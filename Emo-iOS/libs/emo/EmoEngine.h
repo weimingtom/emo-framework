@@ -33,7 +33,7 @@
 #import "EmoRuntime.h"
 #import "EmoDatabase.h"
 
-NSString* char2ns(const char* str);
+NSString* char2ns(const SQChar* str);
 NSString* data2ns(NSData* data);
 
 @interface EmoEngine : NSObject<UIAccelerometerDelegate> {
@@ -79,12 +79,6 @@ NSString* data2ns(NSData* data);
 	NSInteger currentOrientation;
 	
 	NSInteger logLevel;
-    BOOL enableSimpleLog;
-    BOOL enableSimpleLogWithLevel;
-    
-    BOOL useOffscreen;
-    GLuint offscreenFramebuffer;
-    BOOL stopOffscreenRequested;
 }
 @property (readonly) HSQUIRRELVM sqvm;
 @property (readwrite) int  lastError;
@@ -100,20 +94,15 @@ NSString* data2ns(NSData* data);
 @property (readonly) EmoDatabase* database;
 @property (readwrite) NSInteger currentOrientation;
 @property (readwrite) NSInteger logLevel;
-@property (readwrite) BOOL enableSimpleLog;
-@property (readwrite) BOOL enableSimpleLogWithLevel;
-@property (readonly) BOOL useOffscreen;
-@property (readwrite) BOOL stopOffscreenRequested;
 
 - (int)loadScriptFromResource:(const char*)fname vm:(HSQUIRRELVM) v;
-- (int)loadScript:(NSString *)path vm:(HSQUIRRELVM) v;
 - (void)registerAccelerometerSensor:(BOOL)enable;
 - (void)enableSensor:(BOOL)enable withType:(NSInteger)sensorType withInterval:(int)updateInterval;
 - (void)disableSensor:(NSInteger)sensorType;
 - (BOOL)initDrawFrame;
 - (BOOL)onLoad;
 - (BOOL)onGainedFocus;
-- (BOOL)onDrawFrame:(GLuint)framebuffer;
+- (BOOL)onDrawFrame;
 - (BOOL)onLostFocus;
 - (BOOL)onDispose;
 - (BOOL)onLowMemory;
@@ -150,10 +139,5 @@ NSString* data2ns(NSData* data);
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation;
 
 -(NSTimeInterval)uptime;
-
-- (void)enableOffscreen;
-- (void)disableOffscreen;
-- (void)bindOffscreenFramebuffer;
-- (void)unbindOffscreenFramebuffer;
 @end
 

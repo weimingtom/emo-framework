@@ -32,10 +32,6 @@
 
 #include <android/window.h>
 #include <jni.h>
-#include <GLES/glext.h>
-
-#define likely(x) __builtin_expect(!!(x), 1)
-#define unlikely(x) __builtin_expect(!!(x), 0)
 
 namespace emo {
     bool drawable_z_compare(const Drawable* left, const Drawable* right) {
@@ -55,18 +51,6 @@ namespace emo {
         this->sensorManager = NULL;
         this->sensorEventQueue = NULL;
 
-        this->display = EGL_NO_DISPLAY;
-        this->context = EGL_NO_CONTEXT;
-        this->surface = EGL_NO_SURFACE;
-
-        this->framebuffer = -1;
-        this->offscreenFramebuffer = 0;
-        this->useOffscreen = false;
-        this->stopOffscreenRequested = false;
-
-        this->useANR = false;
-
-        this->sqvm = sq_open(SQUIRREL_VM_INITIAL_STACK_SIZE);
     }
 
     Engine::~Engine() {
@@ -103,8 +87,9 @@ namespace emo {
     void Engine::event_handle_cmd(android_app* app, int32_t cmd) {
         switch (cmd) {
             case APP_CMD_INIT_WINDOW:
-                if (this->app->window != NULL) {
+                    if (this->app->window != NULL) {
                     this->onInitDisplay();
+                    this->onDrawFrame();
                 }
                 break;
             case APP_CMD_TERM_WINDOW:
@@ -114,11 +99,6 @@ namespace emo {
                 this->onTerminateDisplay();
                 break;
             case APP_CMD_GAINED_FOCUS:
-                if (this->app->window == NULL) {
-                    LOGE("Application gained focus but window was collapsed.");
-                    this->useANR= true;
-                    break;
-                }
                 this->onGainedFocus();
                 break;
             case APP_CMD_LOST_FOCUS:
@@ -139,9 +119,7 @@ namespace emo {
         // initialize uptime
         this->updateUptime();
 
-        if (this->sqvm == NULL) {
-            this->sqvm = sq_open(SQUIRREL_VM_INITIAL_STACK_SIZE);
-        }
+        this->sqvm = sq_open(SQUIRREL_VM_INITIAL_STACK_SIZE);
         this->lastError = EMO_NO_ERROR;
 
         // disable drawframe callback to improve performance (default)
@@ -242,16 +220,7 @@ namespace emo {
         this->height  = h;
 
         if (this->stage->width == 0 && this->stage->height == 0) {
-            this->stage->setBufferSize(w, h);
             this->stage->setSizeAndView(w, h);
-        }
-
-        clearGLErrors("emo::Engine::onInitDisplay");
-
-        // obtain default framebuffer id
-        glGetIntegerv(GL_FRAMEBUFFER_BINDING_OES, &framebuffer);
-        if (glGetError() != GL_NO_ERROR) {
-            LOGW("Offscreen framebuffer is not supported on this device.");
         }
 
         if (!this->scriptLoaded) {
@@ -362,7 +331,9 @@ namespace emo {
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-        glDisable(GL_CULL_FACE);
+        glEnable(GL_CULL_FACE);
+        glFrontFace(GL_CCW);
+        glCullFace(GL_BACK);
 
         glEnableClientState(GL_VERTEX_ARRAY);
         glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -405,7 +376,6 @@ namespace emo {
             this->updateUptime();
             callSqFunction(this->sqvm, EMO_NAMESPACE, EMO_FUNC_ONDISPOSE);
             sq_close(this->sqvm);
-            this->sqvm = NULL;
 
             this->unloadDrawables();
             this->stage->deleteBuffer();
@@ -416,7 +386,6 @@ namespace emo {
 
     void Engine::onGainedFocus() {
         if (!this->loaded) return;
-        if (this->focused) return;
 
         this->focused = true;
 
@@ -427,7 +396,6 @@ namespace emo {
 
     void Engine::onLostFocus() {
         if (!this->loaded) return;
-        if (!this->focused) return;
 
         this->focused = false;
 
@@ -597,12 +565,8 @@ namespace emo {
         this->surface = EGL_NO_SURFACE;
     }
 
-    bool Engine::hasDisplay() {
-        return this->display != EGL_NO_DISPLAY && this->display != NULL;
-    }
-
     void Engine::onDrawFrame() {
-        if (!this->hasDisplay()) {
+        if (this->display == NULL) {
             return;
         }
 
@@ -610,6 +574,7 @@ namespace emo {
         if (!this->focused) return;
 
         this->updateUptime();
+
 
         if (this->enableOnUpdate) {
             int32_t _delta = this->getLastOnDrawDrawablesDelta();
@@ -641,14 +606,13 @@ namespace emo {
 
         this->lastOnDrawDrawablesInterval  = this->uptime;
 
-        if (likely(!this->useOffscreen)) this->stage->onDrawFrame();
-        this->onDrawDrawables(delta);
+        this->stage->onDrawFrame();
+        this->onDrawDrawables();
 
         eglSwapBuffers(this->display, this->surface);
 
         if (this->finishing) {
-            this->onLostFocus();
-            this->onTerminateDisplay();
+            this->animating = false;
             ANativeActivity_finish(this->app->activity);
         }
     }
@@ -700,7 +664,7 @@ namespace emo {
         return false;
     }
 
-    void Engine::onDrawDrawables(int32_t delta) {
+    void Engine::onDrawDrawables() {
         drawables_t::iterator iter;
         if (this->drawablesToRemove->size() > 0) {
             for(iter = this->drawablesToRemove->begin(); iter != this->drawablesToRemove->end(); iter++) {
@@ -720,47 +684,10 @@ namespace emo {
         }
         for (unsigned int i = 0; i < this->sortedDrawables->size(); i++) {
             Drawable* drawable = this->sortedDrawables->at(i);
-            if (unlikely(useOffscreen) && i == 0 && !drawable->isScreenEntity) {
-                this->bindOffscreenFramebuffer();
-                stage->onDrawFrame();
-                continue;
-            }   
             if (drawable->loaded && drawable->independent && drawable->isVisible()) {
                 drawable->onDrawFrame();
             }
         }
-
-        // render the offscreen result
-        if (unlikely(useOffscreen) && this->sortedDrawables->size() > 0) {
-            // restore the default framebuffer
-            Drawable* drawable = this->sortedDrawables->at(0);
-            if (drawable->loaded && !drawable->isScreenEntity) {
-                glBindFramebufferOES(GL_FRAMEBUFFER_OES, framebuffer);
-                drawable->onDrawFrame();
-                if (stopOffscreenRequested) {
-                    stopOffscreenRequested = false;
-                    this->stopOffscreenDrawable(drawable);
-                    callSqFunction_Bool_Float(sqvm, EMO_NAMESPACE, EMO_FUNC_ONSTOP_OFFSCREEN, delta, SQFalse);
-                }   
-            }   
-        }   
-    }
-
-    /*
-     * stop offscreen
-     */
-    void Engine::stopOffscreenDrawable(Drawable* drawable) {
-        drawable->width  = stage->width;
-        drawable->height = stage->height;
-    
-        // fix rotation and scale center
-        drawable->param_rotate[1] = drawable->width  * 0.5f;
-        drawable->param_rotate[2] = drawable->height * 0.5f;
-        drawable->param_scale[2]  = drawable->width  * 0.5f;
-        drawable->param_scale[3]  = drawable->height * 0.5f;
-    
-        this->disableOffscreen();
-        stage->dirty = true;
     }
 
     void Engine::rebindDrawableBuffers() {
@@ -787,7 +714,7 @@ namespace emo {
         drawables_t::iterator iter;
         for(iter = this->drawables->begin(); iter != this->drawables->end(); iter++) {
             Drawable* drawable = iter->second;
-            drawable->deleteBuffer(true);
+            drawable->deleteBuffer();
         }
     }
 
@@ -1026,40 +953,9 @@ namespace emo {
         images_t::iterator iter;
         for(iter = this->imageCache->begin(); iter != this->imageCache->end(); iter++) {
             Image* image = iter->second;
-            image->clearTexture();
+            image->data = NULL;
         }
-    }
-
-    /*
-     * enable offscreen rendering
-     */
-    void Engine::enableOffscreen() {
-        if (!useOffscreen && offscreenFramebuffer == 0) {
-            glGenFramebuffersOES(1, &offscreenFramebuffer);
-        }
-        useOffscreen = true;
-        stopOffscreenRequested = false;
-    }
-
-    /*
-     * disable offscreen rendering
-     */
-    void Engine::disableOffscreen() {
-        if (useOffscreen && offscreenFramebuffer != 0) {
-            glDeleteFramebuffersOES(1, &offscreenFramebuffer);
-            offscreenFramebuffer  = 0;
-        }   
-        useOffscreen = false;
-        stopOffscreenRequested = false;
-    }
-
-    /*
-     * bind offscreen framebuffer
-     */
-    void Engine::bindOffscreenFramebuffer() {
-        if (offscreenFramebuffer > 0) {
-            glBindFramebufferOES(GL_FRAMEBUFFER_OES, offscreenFramebuffer);
-        }
+        this->imageCache->clear();
     }
 }
 

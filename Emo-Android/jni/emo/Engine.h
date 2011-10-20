@@ -28,7 +28,7 @@
 #ifndef EMO_ENGINE_H
 #define EMO_ENGINE_H
 
-#include <../native_app_glue.h>
+#include <android_native_app_glue.h>
 #include <android/sensor.h>
 
 #include <hash_map>
@@ -105,7 +105,7 @@ namespace emo {
         bool freeDrawable(std::string key);
         Drawable* getDrawable(std::string key);
 
-        void onDrawDrawables(int32_t delta);
+        void onDrawDrawables();
         
         void rebindDrawableBuffers();
 
@@ -121,7 +121,6 @@ namespace emo {
         bool animating;
         bool finishing;
         bool sortOrderDirty;
-        bool useANR;
 
         android_app* app;
         Audio* audio;
@@ -148,16 +147,6 @@ namespace emo {
 
         int logLevel;
 
-        bool hasDisplay();
-
-        void enableOffscreen();
-        void disableOffscreen();
-        void bindOffscreenFramebuffer();
-        void stopOffscreenDrawable(Drawable* drawable);
-
-        bool useOffscreen;
-        bool stopOffscreenRequested;
-        GLuint offscreenFramebuffer;
     protected:
         bool loaded;
         bool focused;
@@ -168,8 +157,6 @@ namespace emo {
         EGLDisplay display;
         EGLSurface surface;
         EGLContext context;
-
-        GLint framebuffer;
 
         int32_t width;
         int32_t height;

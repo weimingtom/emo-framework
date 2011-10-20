@@ -40,8 +40,6 @@
 	NSInteger   currentCount;
 	
 	NSTimeInterval lastOnAnimationInterval;
-    
-    NSInteger*  frames;
 }
 @property (copy, readwrite) NSString* name;
 @property (readwrite)NSInteger start;
@@ -49,27 +47,12 @@
 @property (readwrite)NSInteger loop;
 @property (readwrite)NSInteger interval;
 @property (readwrite)NSTimeInterval lastOnAnimationInterval;
-@property (readonly) NSInteger* frames;
 
 -(NSInteger)getNextIndex:(NSInteger)frameCount withIndex:(NSInteger)currentIndex;
 -(NSTimeInterval)getLastOnAnimationDelta:(NSTimeInterval)uptime;
--(void)initializeFrames;
--(void)setFrame:(NSInteger)index withValue:(NSInteger)value;
 @end
 
-@interface EmoImagePackInfo : NSObject {
-    NSString* name;
-    NSInteger x;
-    NSInteger y;
-    NSInteger width;
-    NSInteger height;
-    NSInteger index;
-}
-@property (copy, readwrite) NSString* name;
-@property (readwrite) NSInteger x, y, width, height, index;
-@end
-
-@interface EmoDrawable : NSObject <NSXMLParserDelegate> {
+@interface EmoDrawable : NSObject {
 	GLuint* frames_vbos;
 	NSString* name;
 	float x;
@@ -85,7 +68,6 @@
 	BOOL hasSheet;
 	BOOL animating;
 	BOOL independent;
-    BOOL isPackedAtlas;
 	
     float      vertex_tex_coords[8];
 	
@@ -105,15 +87,6 @@
 	NSMutableDictionary* animations;
 	EmoAnimationFrame* currentAnimation;
 	NSString* animationName;
-    
-    float orthFactorX;
-    float orthFactorY;
-    
-    BOOL isScreenEntity;
-    BOOL useFont;
-    
-	NSMutableDictionary* imagepacks;
-    NSMutableArray* imagepacks_names;
 }
 @property (copy, readwrite) NSString* name;
 @property (readwrite) float x;
@@ -132,11 +105,8 @@
 @property (retain, readwrite, nonatomic) EmoImage* texture;
 @property (readwrite) BOOL independent;
 @property (readonly) BOOL loaded;
-@property (readonly) BOOL isScreenEntity;
-@property (readwrite) BOOL isPackedAtlas;
-@property (readwrite) BOOL useFont;
 
--(void)doUnload:(BOOL)doAll;
+-(void)doUnload;
 -(void)initDrawable;
 -(void)createTextureBuffer;
 -(BOOL)bindVertex;
@@ -144,7 +114,6 @@
 -(void)setScale:(NSInteger)index withValue:(float)value;
 -(void)setRotate:(NSInteger)index withValue:(float)value;
 -(void)setColor:(NSInteger)index withValue:(float)value;
--(BOOL)setFrameIndex:(NSInteger)index force:(BOOL)force;
 -(BOOL)setFrameIndex:(NSInteger)index;
 -(BOOL)pauseAt:(NSInteger)index;
 -(float)getColor:(NSInteger)index;
@@ -164,16 +133,6 @@
 -(float)getScaledHeight;
 -(BOOL)isAnimationFinished;
 -(BOOL)isVisible;
--(float)getTexCoordStartX;
--(float)getTexCoordEndX;
--(float)getTexCoordStartY;
--(float)getTexCoordEndY;
--(BOOL)loadPackedAtlasXml:(NSInteger)initialFrameIndex;
--(BOOL)selectFrame:(NSString*)_name;
--(void)addImagePack:(EmoImagePackInfo*) info;
--(EmoImagePackInfo*)getImagePack:(NSString*)_name;
--(BOOL)deleteImagePack:(NSString*)_name;
--(void)deleteImagePacks;
 @end
 
 @interface EmoLineDrawable : EmoDrawable {
@@ -186,47 +145,3 @@
 -(BOOL)bindVertex;
 -(BOOL)onDrawFrame:(NSTimeInterval)dt withStage:(EmoStage*)stage;
 @end
-
-@interface EmoSnapshotDrawable : EmoDrawable {
-
-}
--(void)initDrawable;
--(BOOL)bindVertex;
--(BOOL)onDrawFrame:(NSTimeInterval)dt withStage:(EmoStage*)stage;
-@end
-
-@interface EmoImagePackParser : NSObject <NSXMLParserDelegate> {
-    EmoDrawable* drawable;
-    NSInteger frameIndex;
-    NSInteger itemCount;
-}
-@property (assign, readwrite) EmoDrawable* drawable;
-@property (readwrite) NSInteger frameIndex;
-@end
-
-@interface EmoFontDrawable : EmoDrawable {
-    NSInteger fontSize;
-    NSString* fontFace;
-    BOOL isBold;
-    BOOL isItalic;
-    
-    NSString* param1;
-    NSString* param2;
-    NSString* param3;
-    NSString* param4;
-    NSString* param5;
-    NSString* param6;
-}
-@property (readwrite) NSInteger fontSize;
-@property (copy, readwrite) NSString* fontFace;
-@property (readwrite) BOOL isBold, isItalic;
-@property (copy, readwrite) NSString* param1;
-@property (copy, readwrite) NSString* param2;
-@property (copy, readwrite) NSString* param3;
-@property (copy, readwrite) NSString* param4;
-@property (copy, readwrite) NSString* param5;
-@property (copy, readwrite) NSString* param6;
-
--(void)loadTextBitmap;
-@end
-

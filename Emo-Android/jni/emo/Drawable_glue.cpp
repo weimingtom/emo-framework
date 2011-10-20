@@ -25,7 +25,7 @@
 // OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, 
 // EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // 
-#include <../native_app_glue.h>
+#include <android_native_app_glue.h>
 
 #include <squirrel.h>
 
@@ -41,7 +41,6 @@ void initDrawableFunctions() {
     registerClass(engine->sqvm, EMO_STAGE_CLASS);
 
     registerClassFunc(engine->sqvm, EMO_STAGE_CLASS,    "createSprite",     emoDrawableCreateSprite);
-    registerClassFunc(engine->sqvm, EMO_STAGE_CLASS,    "createFontSprite", emoDrawableCreateFontSprite);
     registerClassFunc(engine->sqvm, EMO_STAGE_CLASS,    "createLine",       emoDrawableCreateLine);
     registerClassFunc(engine->sqvm, EMO_STAGE_CLASS,    "createSpriteSheet",   emoDrawableCreateSpriteSheet);
     registerClassFunc(engine->sqvm, EMO_STAGE_CLASS,    "createMapSprite",     emoDrawableCreateMapSprite);
@@ -53,14 +52,6 @@ void initDrawableFunctions() {
     registerClassFunc(engine->sqvm, EMO_STAGE_CLASS,    "getTileAt",        emoDrawableGetTileAt);
     registerClassFunc(engine->sqvm, EMO_STAGE_CLASS,    "getTileIndexAtCoord",    emoDrawableGetTileIndexAtCoord);
     registerClassFunc(engine->sqvm, EMO_STAGE_CLASS,    "getTilePositionAtCoord", emoDrawableGetTilePositionAtCoord);
-    registerClassFunc(engine->sqvm, EMO_STAGE_CLASS,    "useMeshMapSprite", emoDrawableUseMeshMapSprite);
-    registerClassFunc(engine->sqvm, EMO_STAGE_CLASS,    "setFontSpriteParam",  emoDrawableSetFontSpriteParam);
-    registerClassFunc(engine->sqvm, EMO_STAGE_CLASS,    "reloadFontSprite",  emoDrawableReloadFontSprite);
-
-    registerClassFunc(engine->sqvm, EMO_STAGE_CLASS,    "createSnapshot",   emoDrawableCreateSnapshot);
-    registerClassFunc(engine->sqvm, EMO_STAGE_CLASS,    "loadSnapshot",     emoDrawableLoadSnapshot);
-    registerClassFunc(engine->sqvm, EMO_STAGE_CLASS,    "stopSnapshot",     emoDrawableDisableSnapshot);
-    registerClassFunc(engine->sqvm, EMO_STAGE_CLASS,    "removeSnapshot",   emoDrawableRemoveSnapshot);
 
     registerClassFunc(engine->sqvm, EMO_STAGE_CLASS,    "getX",           emoDrawableGetX);
     registerClassFunc(engine->sqvm, EMO_STAGE_CLASS,    "getY",           emoDrawableGetY);
@@ -103,14 +94,10 @@ void initDrawableFunctions() {
     registerClassFunc(engine->sqvm, EMO_STAGE_CLASS,    "getFrameIndex",  emoDrawableGetFrameIndex);
     registerClassFunc(engine->sqvm, EMO_STAGE_CLASS,    "getFrameCount",  emoDrawableGetFrameCount);
     registerClassFunc(engine->sqvm, EMO_STAGE_CLASS,    "setLine",        emoDrawableSetLinePosition);
-    registerClassFunc(engine->sqvm, EMO_STAGE_CLASS,    "selectFrame",    emoDrawableSelectFrame);
 }
 
 /*
  * create drawable instance (single sprite)
- * 
- * @param image file name (only png can be used)
- * @return drawable id
  */
 SQInteger emoDrawableCreateSprite(HSQUIRRELVM v) {
 
@@ -127,7 +114,6 @@ SQInteger emoDrawableCreateSprite(HSQUIRRELVM v) {
 
         if (strlen(name) > 0) {
             drawable->name = name;
-            drawable->needTexture = true;
         }
     } else {
         name = NULL;
@@ -136,7 +122,7 @@ SQInteger emoDrawableCreateSprite(HSQUIRRELVM v) {
     int width  = 0;
     int height = 0;
     if (name != NULL && strlen(name) > 0) {
-        if (!loadPngSizeFromAsset(name, &width, &height)) {
+        if (!loadPngSizeFromAsset(name, &width, &height) || width <= 0 || height <= 0) {
             delete drawable;
             return 0;
         }
@@ -157,170 +143,6 @@ SQInteger emoDrawableCreateSprite(HSQUIRRELVM v) {
     return 1;
 }
 
-/*
- * create font drawable instance (single sprite)
- * 
- * @param property name that indicates the text string
- * @return drawable id
- */
-SQInteger emoDrawableCreateFontSprite(HSQUIRRELVM v) {
-
-    emo::FontDrawable* drawable = new emo::FontDrawable();
-    drawable->setFrameCount(1);
-    drawable->load();
-
-    const SQChar* name;
-    SQInteger nargs = sq_gettop(v);
-    if (nargs >= 2 && sq_gettype(v, 2) == OT_STRING) {
-        sq_tostring(v, 2);
-        sq_getstring(v, -1, &name);
-
-        if (strlen(name) > 0) {
-            drawable->name = name;
-            drawable->needTexture = true;
-        }
-    } else {
-        sq_pushinteger(v, ERR_INVALID_PARAM);
-        return 1;
-    }
-
-    int fontSize = 0;
-    
-    if (nargs >= 3 && sq_gettype(v, 3) != OT_NULL) {
-        sq_getinteger(v, 3, &fontSize);
-    }
-    if (nargs >= 4 && sq_gettype(v, 4) == OT_STRING) {
-        const SQChar* fontFace;
-        sq_tostring(v, 4);
-        sq_getstring(v, -1, &fontFace);
-
-        if (strlen(fontFace) > 0) {
-            drawable->fontFace = fontFace;
-        }
-    }
-    if (nargs >= 5 && sq_gettype(v, 5) == OT_BOOL) {
-        sq_getbool(v, 5, &drawable->isBold);
-    }
-    if (nargs >= 6 && sq_gettype(v, 6) == OT_BOOL) {
-        sq_getbool(v, 6, &drawable->isItalic);
-    }
-
-    drawable->fontSize = fontSize;
-    drawable->useFont  = true;
-
-    char key[DRAWABLE_KEY_LENGTH];
-    sprintf(key, "%ld%d-%d", 
-                engine->uptime.time, engine->uptime.millitm, drawable->getCurrentBufferId());
-
-    engine->addDrawable(key, drawable);
-
-    sq_pushstring(v, key, strlen(key));
-
-    return 1;
-}
-
-SQInteger emoDrawableCreateSnapshot(HSQUIRRELVM v) { 
-    emo::SnapshotDrawable* drawable = new emo::SnapshotDrawable();
-    
-    drawable->setFrameCount(1);
-    drawable->load();
-    
-    char key[DRAWABLE_KEY_LENGTH];
-    sprintf(key, "%ld%d-%d", 
-                engine->uptime.time, engine->uptime.millitm, drawable->getCurrentBufferId());
-
-    engine->addDrawable(key, drawable);
-
-    sq_pushstring(v, key, strlen(key));
-
-    return 1;
-}
-
-/*
- * load snapshot drawable
- */
-SQInteger emoDrawableLoadSnapshot(HSQUIRRELVM v) {
-    const SQChar* id;
-    SQInteger nargs = sq_gettop(v);
-    if (nargs >= 2 && sq_gettype(v, 2) == OT_STRING) {
-        sq_tostring(v, 2);
-        sq_getstring(v, -1, &id);
-        sq_poptop(v);
-    } else {
-        sq_pushinteger(v, ERR_INVALID_PARAM);
-        return 1;
-    }
-   
-    emo::Drawable* drawable = engine->getDrawable(id);
-   
-    if (drawable == NULL) {
-        sq_pushinteger(v, ERR_INVALID_ID);
-        return 1;
-    }
-   
-    // drawable x
-    if (nargs >= 3 && sq_gettype(v, 3) != OT_NULL) {
-        SQFloat x;
-        sq_getfloat(v, 3, &x);
-        drawable->x = x;
-    }
-   
-    // drawable y
-    if (nargs >= 4 && sq_gettype(v, 4) != OT_NULL) {
-        SQFloat y;
-        sq_getfloat(v, 4, &y);
-        drawable->y = y;
-    }
-   
-    drawable->width  = engine->stage->bufferWidth;
-    drawable->height = engine->stage->bufferHeight;
-
-    engine->enableOffscreen();
-    engine->bindOffscreenFramebuffer();
-
-    if (drawable->bindVertex()) {
-        sq_pushinteger(v, EMO_NO_ERROR);
-    } else {
-        sq_pushinteger(v, ERR_CREATE_VERTEX);
-    }
-   
-    return 1;
-}
-
-/*
- * remove snapshot drawable
- */
-SQInteger emoDrawableRemoveSnapshot(HSQUIRRELVM v) { 
-    engine->stopOffscreenRequested = false;
-    engine->disableOffscreen();
-    engine->stage->dirty = true;
-    return emoDrawableRemove(v);
-}
-
-/*
- * disable snapshot
- */
-SQInteger emoDrawableDisableSnapshot(HSQUIRRELVM v) { 
-    if (!engine->useOffscreen || engine->stopOffscreenRequested) {
-        sq_pushinteger(v, EMO_ERROR);
-        return 1;
-    }    
-    
-    engine->stopOffscreenRequested = true;
-    
-    sq_pushinteger(v, EMO_NO_ERROR);
-    return 1;
-}
-
-/*
- * create line instance
- *
- * @param x1 start x
- * @param y1 start y
- * @param x2 end x
- * @param y2 end y
- * @return drawable id
- */
 SQInteger emoDrawableCreateLine(HSQUIRRELVM v) {
 	SQInteger nargs = sq_gettop(v);
 	if (nargs < 5) {
@@ -353,6 +175,7 @@ SQInteger emoDrawableCreateLine(HSQUIRRELVM v) {
     engine->addDrawable(key, drawable);
 
     sq_pushstring(v, key, strlen(key));
+
 	
     return 1;
 }
@@ -360,14 +183,6 @@ SQInteger emoDrawableCreateLine(HSQUIRRELVM v) {
 
 /*
  * create drawable instance (sprite sheet)
- *
- * @param image file name
- * @param frame index
- * @param frame width
- * @param frame height
- * @param frame border
- * @param frame margin
- * @return drawable id
  */
 SQInteger emoDrawableCreateSpriteSheet(HSQUIRRELVM v) {
 
@@ -381,12 +196,6 @@ SQInteger emoDrawableCreateSpriteSheet(HSQUIRRELVM v) {
 
         if (strlen(name) > 0) {
             drawable->name = name;
-            drawable->needTexture = true;
-
-            // if the filename ends with .xml, assumes texture is packed as atlas
-            if (endsWith(name, ".xml")) {
-                drawable->isPackedAtlas = true;
-            }
         }
     } else {
         name = NULL;
@@ -411,45 +220,31 @@ SQInteger emoDrawableCreateSpriteSheet(HSQUIRRELVM v) {
         sq_getinteger(v, 7, &margin);
     }
 
-    if (drawable->isPackedAtlas) {
-        if (!drawable->loadPackedAtlasXml(frameIndex)) {
-            delete drawable;
-            return 0;
-        }
-
-        // retrieve image filename to load
-        name = drawable->name.c_str();
-    }
-
     int width  = 0;
     int height = 0;
 
     if (name != NULL && strlen(name) > 0) {
-         if (!loadPngSizeFromAsset(name, &width, &height)) {
+         if (!loadPngSizeFromAsset(name, &width, &height) || width <= 0 || height <= 0 || frameWidth <= 0 || frameHeight <= 0) {
             delete drawable;
             return 0;
         }
     }
 
     drawable->hasSheet = true;
+    drawable->width  = frameWidth;
+    drawable->height = frameHeight;
+    drawable->border = border;
+    drawable->frameWidth  = frameWidth;
+    drawable->frameHeight = frameHeight;
 
-    if (!drawable->isPackedAtlas) {
-        drawable->width  = frameWidth;
-        drawable->height = frameHeight;
-        drawable->border = border;
-        drawable->frameWidth  = frameWidth;
-        drawable->frameHeight = frameHeight;
-
-        if (margin == 0 && border != 0) {
-            drawable->margin = border;
-        } else {
-            drawable->margin = margin;
-        }
-
-        drawable->setFrameCount((int)floor(width / (float)(frameWidth  + border)) 
-                                       * floor(height /(float)(frameHeight + border)));
-
+    if (margin == 0 && border != 0) {
+        drawable->margin = border;
+    } else {
+        drawable->margin = margin;
     }
+
+    drawable->setFrameCount((int)floor(width / (float)(frameWidth  + border)) 
+                                       * floor(height /(float)(frameHeight + border)));
     if (drawable->getFrameCount() <= 0) drawable->setFrameCount(1);
 
     drawable->setFrameIndex(frameIndex);
@@ -467,143 +262,6 @@ SQInteger emoDrawableCreateSpriteSheet(HSQUIRRELVM v) {
     return 1;
 }
 
-/*
- * Set parameters of FontSprite
- */
-SQInteger emoDrawableSetFontSpriteParam(HSQUIRRELVM v) {
-    const SQChar* id;
-    SQInteger nargs = sq_gettop(v);
-    if (nargs >= 2 && sq_gettype(v, 2) == OT_STRING) {
-        sq_tostring(v, 2);
-        sq_getstring(v, -1, &id);
-        sq_poptop(v);
-    } else {
-        sq_pushinteger(v, ERR_INVALID_PARAM);
-        return 1;
-    }
-
-    emo::Drawable* drawable = engine->getDrawable(id);
-
-    if (drawable == NULL) {
-        sq_pushinteger(v, ERR_INVALID_ID);
-        return 1;
-    }
-
-    emo::FontDrawable* fontDrawable = reinterpret_cast<emo::FontDrawable*>(drawable);
-
-    if (nargs >= 3 && sq_gettype(v, 3) == OT_STRING) {
-        const SQChar* param;
-        sq_tostring(v, 3);
-        sq_getstring(v, -1, &param);
-        fontDrawable->param1 = param;
-    }
-    if (nargs >= 4 && sq_gettype(v, 4) == OT_STRING) {
-        const SQChar* param;
-        sq_tostring(v, 4);
-        sq_getstring(v, -1, &param);
-        fontDrawable->param2 = param;
-    }
-    if (nargs >= 5 && sq_gettype(v, 5) == OT_STRING) {
-        const SQChar* param;
-        sq_tostring(v, 5);
-        sq_getstring(v, -1, &param);
-        fontDrawable->param3 = param;
-        sq_poptop(v);
-    }
-    if (nargs >= 6 && sq_gettype(v, 6) == OT_STRING) {
-        const SQChar* param;
-        sq_tostring(v, 6);
-        sq_getstring(v, -1, &param);
-        fontDrawable->param4 = param;
-        sq_poptop(v);
-    }
-    if (nargs >= 7 && sq_gettype(v, 7) == OT_STRING) {
-        const SQChar* param;
-        sq_tostring(v, 7);
-        sq_getstring(v, -1, &param);
-        fontDrawable->param5 = param;
-        sq_poptop(v);
-    }
-    if (nargs >= 8 && sq_gettype(v, 8) == OT_STRING) {
-        const SQChar* param;
-        sq_tostring(v, 8);
-        sq_getstring(v, -1, &param);
-        fontDrawable->param6 = param;
-        sq_poptop(v);
-    }
-
-    sq_pushinteger(v, EMO_NO_ERROR);
-
-    return 1;
-}
-
-/*
- * Reload parameter of FontSprite
- */
-SQInteger emoDrawableReloadFontSprite(HSQUIRRELVM v) {
-    const SQChar* id;
-    SQInteger nargs = sq_gettop(v);
-    if (nargs >= 2 && sq_gettype(v, 2) == OT_STRING) {
-        sq_tostring(v, 2);
-        sq_getstring(v, -1, &id);
-        sq_poptop(v);
-    } else {
-        sq_pushinteger(v, ERR_INVALID_PARAM);
-        return 1;
-    }
-
-    emo::Drawable* drawable = engine->getDrawable(id);
-
-    if (drawable == NULL) {
-        sq_pushinteger(v, ERR_INVALID_ID);
-        return 1;
-    }
-
-    const SQChar* name;
-    if (nargs >= 3 && sq_gettype(v, 3) == OT_STRING) {
-        sq_tostring(v, 3);
-        sq_getstring(v, -1, &name);
-
-        engine->removeCachedImage(drawable->name);
-        engine->addCachedImage(name, drawable->getTexture());
-
-        drawable->name = name;
-    }
-
-    drawable->deleteBuffer(true);
-    drawable->getTexture()->clearTexture();
-
-    engine->javaGlue->loadTextBitmap(drawable, drawable->getTexture(), true);
-
-    drawable->width  = drawable->getTexture()->width;
-    drawable->height = drawable->getTexture()->height;
-    drawable->frameWidth  = drawable->width;
-    drawable->frameHeight = drawable->height;
-
-    // calculate the size of power of two
-    drawable->getTexture()->glWidth  = nextPowerOfTwo(drawable->width);
-    drawable->getTexture()->glHeight = nextPowerOfTwo(drawable->height);
-
-    drawable->getTexture()->genTextures();
-
-    drawable->reload();
-    drawable->bindVertex();
-
-    sq_pushinteger(v, EMO_NO_ERROR);
-
-    return 1;
-}
-
-/*
- * load drawable
- *
- * @param drawable id
- * @param drawable x
- * @param drawable y
- * @param drawable width
- * @param drawable height
- * @return EMO_NO_ERROR if loading succeeds, otherwise returns error code
- */
 SQInteger emoDrawableLoad(HSQUIRRELVM v) {
     const SQChar* id;
     SQInteger nargs = sq_gettop(v);
@@ -628,31 +286,9 @@ SQInteger emoDrawableLoad(HSQUIRRELVM v) {
 
         if (engine->hasCachedImage(drawable->name)) {
             image = engine->getCachedImage(drawable->name);
-        } else if (drawable->useFont) {
-            image = new emo::Image();
-            if (engine->javaGlue->loadTextBitmap(drawable, image, true)) {
-
-                drawable->width  = image->width;
-                drawable->height = image->height;
-                drawable->frameWidth  = image->width;
-                drawable->frameHeight = image->height;
-
-                // calculate the size of power of two
-                image->glWidth  = nextPowerOfTwo(image->width);
-                image->glHeight = nextPowerOfTwo(image->height);
-                image->loaded   = false;
-
-                image->genTextures();
-
-                engine->addCachedImage(drawable->name, image);
-            } else {
-                delete image;
-                sq_pushinteger(v, ERR_ASSET_LOAD);
-                return 1;
-            }
         } else {
             image = new emo::Image();
-            if (loadPngFromAsset(drawable->name.c_str(), image, true)) {
+            if (loadPngFromAsset(drawable->name.c_str(), image)) {
 
                 // calculate the size of power of two
                 image->glWidth  = nextPowerOfTwo(image->width);
@@ -726,12 +362,6 @@ SQInteger emoDrawableLoad(HSQUIRRELVM v) {
     return 1;
 }
 
-/*
- * create map sprite
- *
- * @param sprite sheet id
- * @return map sprite id
- */
 SQInteger emoDrawableCreateMapSprite(HSQUIRRELVM v) {
     const SQChar* id;
     SQInteger nargs = sq_gettop(v);
@@ -767,16 +397,6 @@ SQInteger emoDrawableCreateMapSprite(HSQUIRRELVM v) {
     return 1;
 }
 
-/*
- * load map sprite
- *
- * @param map sprite id 
- * @param map x
- * @param map y
- * @param map width
- * @param map height
- * @param EMO_NO_ERROR if loading scceeds, otherwise returns error code
- */
 SQInteger emoDrawableLoadMapSprite(HSQUIRRELVM v) {
     const SQChar* id;
     SQInteger nargs = sq_gettop(v);
@@ -810,7 +430,7 @@ SQInteger emoDrawableLoadMapSprite(HSQUIRRELVM v) {
             image = engine->getCachedImage(drawable->name);
         } else {
             image = new emo::Image();
-            if (loadPngFromAsset(drawable->name.c_str(), image, true)) {
+            if (loadPngFromAsset(drawable->name.c_str(), image)) {
 
                 // calculate the size of power of two
                 image->glWidth  = nextPowerOfTwo(image->width);
@@ -882,13 +502,6 @@ SQInteger emoDrawableLoadMapSprite(HSQUIRRELVM v) {
     return 1;
 }
 
-/*
- * add tile row to map sprite
- *
- * @param map sprite id
- * @param map row to be added
- * @returns EMO_NO_ERROR if succeeds
- */
 SQInteger emoDrawableAddTileRow(HSQUIRRELVM v) {
     const SQChar* id;
     SQInteger nargs = sq_gettop(v);
@@ -939,12 +552,6 @@ SQInteger emoDrawableAddTileRow(HSQUIRRELVM v) {
     return 1;
 }
 
-/*
- * clear tiles from map sprite
- *
- * @param map sprite id
- * @return EMO_NO_ERROR if succeeds
- */
 SQInteger emoDrawableClearTiles(HSQUIRRELVM v) {
     const SQChar* id;
     SQInteger nargs = sq_gettop(v);
@@ -973,15 +580,6 @@ SQInteger emoDrawableClearTiles(HSQUIRRELVM v) {
     }
 }
 
-/*
- * set tile value at given index
- *
- * @param map sprite id
- * @param tile row
- * @param tile column
- * @param tile value
- * @param EMO_NO_ERROR if succeeds
- */
 SQInteger emoDrawableSetTileAt(HSQUIRRELVM v) {
     const SQChar* id;
     SQInteger nargs = sq_gettop(v);
@@ -1024,14 +622,6 @@ SQInteger emoDrawableSetTileAt(HSQUIRRELVM v) {
     return 1;
 }
 
-/*
- * get tile value from given index
- *
- * @param map sprite id
- * @param tile row
- * @param tile column
- * @return tile value from given index
- */
 SQInteger emoDrawableGetTileAt(HSQUIRRELVM v) {
     const SQChar* id;
     SQInteger nargs = sq_gettop(v);
@@ -1064,14 +654,6 @@ SQInteger emoDrawableGetTileAt(HSQUIRRELVM v) {
     return 1;
 }
 
-/*
- * get tile index at given coords
- *
- * @param map sprite id
- * @param coord x
- * @param coord y
- * @returns tile index array[x, y]
- */
 SQInteger emoDrawableGetTileIndexAtCoord(HSQUIRRELVM v) {
     const SQChar* id;
     SQInteger nargs = sq_gettop(v);
@@ -1114,14 +696,6 @@ SQInteger emoDrawableGetTileIndexAtCoord(HSQUIRRELVM v) {
     return 1;
 }
 
-/*
- * get tile position at given coords
- *
- * @param map sprite id
- * @param coord x
- * @param coord y
- * @returns tile position array[x, y]
- */
 SQInteger emoDrawableGetTilePositionAtCoord(HSQUIRRELVM v) {
     const SQChar* id;
     SQInteger nargs = sq_gettop(v);
@@ -1164,54 +738,9 @@ SQInteger emoDrawableGetTilePositionAtCoord(HSQUIRRELVM v) {
     return 1;
 }
 
-/*
- * use mesh map sprite
- * mesh map sprite draws map as mesh (which does not loop each tiles)
- *
- * @param map sprite id
- * @param use mesh or not
- */
-SQInteger emoDrawableUseMeshMapSprite(HSQUIRRELVM v) {
-    const SQChar* id;
-    SQInteger nargs = sq_gettop(v);
-    if (nargs >= 2 && sq_gettype(v, 2) == OT_STRING) {
-        sq_tostring(v, 2);
-        sq_getstring(v, -1, &id);
-        sq_poptop(v);
-    } else {
-        sq_pushinteger(v, ERR_INVALID_PARAM);
-        return 1;
-    }
-    
-    emo::Drawable* parent = engine->getDrawable(id);
-    
-    if (parent == NULL) {
-        sq_pushinteger(v, ERR_INVALID_ID);
-        return 1;
-    }
-    
-    SQBool useMesh = false;
-    
-    if (getBool(v, 3, &useMesh)) {
-        sq_pushinteger(v, EMO_NO_ERROR);
-    } else {
-        sq_pushinteger(v, ERR_INVALID_PARAM_TYPE);
-        return 1;
-    }
-    
-    parent->useMesh = useMesh;
-    
-    return 1;
-}
-
 
 /*
  * move drawable
- *
- * @param drawable id
- * @param x
- * @param y
- * @param z
  */
 SQInteger emoDrawableMove(HSQUIRRELVM v) {
     const SQChar* id;
@@ -1257,13 +786,6 @@ SQInteger emoDrawableMove(HSQUIRRELVM v) {
 
 /*
  * update color of the drawable
- * 
- * @param drawable id
- * @param red    (0 to 1)
- * @param green  (0 to 1)
- * @param blue   (0 to 1)
- * @param alpha  (0 to 1)
- * @return EMO_NO_ERROR if succeeds
  */
 SQInteger emoDrawableColor(HSQUIRRELVM v) {
     const SQChar* id;
@@ -1314,13 +836,6 @@ SQInteger emoDrawableColor(HSQUIRRELVM v) {
 
 /*
  * scale drawable
- * 
- * @param drawable id
- * @param scale x
- * @param scale y
- * @param center x
- * @param center y
- * @return EMO_NO_ERROR if succeeds
  */
 SQInteger emoDrawableScale(HSQUIRRELVM v) {
     const SQChar* id;
@@ -1379,13 +894,6 @@ SQInteger emoDrawableScale(HSQUIRRELVM v) {
 
 /*
  * rotate drawable
- *
- * @param drawable id
- * @param rotate angle
- * @param center x
- * @param center y
- * @param rotate axis
- * @return EMO_NO_ERROR if succeeds
  */
 SQInteger emoDrawableRotate(HSQUIRRELVM v) {
     const SQChar* id;
@@ -1450,9 +958,6 @@ SQInteger emoDrawableRotate(HSQUIRRELVM v) {
 
 /*
  * remove drawable
- * 
- * @param drawable id
- * @return EMO_NO_ERROR is succeeds, otherwise returns error code
  */
 SQInteger emoDrawableRemove(HSQUIRRELVM v) {
     const SQChar* id;
@@ -1484,9 +989,6 @@ SQInteger emoDrawableRemove(HSQUIRRELVM v) {
 
 /*
  * set onDraw interval
- *
- * @param onDraw interval (msec)
- * @return previous interval
  */
 SQInteger emoSetOnDrawInterval(HSQUIRRELVM v) {
     SQInteger oldInterval = engine->onDrawDrawablesInterval;
@@ -1501,13 +1003,6 @@ SQInteger emoSetOnDrawInterval(HSQUIRRELVM v) {
 	return 1;
 }
 
-/*
- * set viewport
- *
- * @param viewport width
- * @param viewport height
- * @return EMO_NO_ERROR if succeeds
- */
 SQInteger emoSetViewport(HSQUIRRELVM v) {
 
     SQInteger width  = engine->stage->viewport_width;
@@ -1529,13 +1024,6 @@ SQInteger emoSetViewport(HSQUIRRELVM v) {
     return 1;
 }
 
-/*
- * set stage size
- *
- * @param stage width
- * @param stage height
- * @return EMO_NO_ERROR if succeeds
- */
 SQInteger emoSetStageSize(HSQUIRRELVM v) {
     SQInteger width  = engine->stage->width;
     SQInteger height = engine->stage->height;
@@ -1556,15 +1044,6 @@ SQInteger emoSetStageSize(HSQUIRRELVM v) {
     return 1;
 }
 
-/*
- * set stage color
- *
- * @param red   (0 to 1)
- * @param green (0 to 1)
- * @param blue  (0 to 1)
- * @param alpha (0 to 1)
- * @return EMO_NO_ERROR if succeeds
- */
 SQInteger emoSetStageColor(HSQUIRRELVM v) {
     float red   = engine->stage->color[0];
     float green = engine->stage->color[1];
@@ -1593,28 +1072,16 @@ SQInteger emoSetStageColor(HSQUIRRELVM v) {
     return 1;
 }
 
-/*
- * returns stage width
- */
 SQInteger emoGetWindowWidth(HSQUIRRELVM v) {
     sq_pushinteger(v, engine->stage->width);
     return 1;
 }
 
-/*
- * returns stage height
- */
 SQInteger emoGetWindowHeight(HSQUIRRELVM v) {
     sq_pushinteger(v, engine->stage->height);
     return 1;
 }
 
-/*
- * show a drawable with given id
- * this function set alpha color to 1
- *
- * @param drawable id
- */
 SQInteger emoDrawableShow(HSQUIRRELVM v) {
     const SQChar* id;
     SQInteger nargs = sq_gettop(v);
@@ -1641,12 +1108,6 @@ SQInteger emoDrawableShow(HSQUIRRELVM v) {
     return 1;
 }
 
-/*
- * hide a drawable with given id
- * this function set alpha color to 0
- *
- * @param drawable id
- */
 SQInteger emoDrawableHide(HSQUIRRELVM v) {
     const SQChar* id;
     SQInteger nargs = sq_gettop(v);
@@ -1673,12 +1134,6 @@ SQInteger emoDrawableHide(HSQUIRRELVM v) {
     return 1;
 }
 
-/*
- * set drawable color (red)
- *
- * @param drawable id
- * @param red color (0 to 1)
- */
 SQInteger emoDrawableColorRed(HSQUIRRELVM v) {
     const SQChar* id;
     SQInteger nargs = sq_gettop(v);
@@ -1706,12 +1161,6 @@ SQInteger emoDrawableColorRed(HSQUIRRELVM v) {
     return 1;
 }
 
-/*
- * set drawable color (green)
- *
- * @param drawable id
- * @param green color (0 to 1)
- */
 SQInteger emoDrawableColorGreen(HSQUIRRELVM v) {
     const SQChar* id;
     SQInteger nargs = sq_gettop(v);
@@ -1739,12 +1188,6 @@ SQInteger emoDrawableColorGreen(HSQUIRRELVM v) {
     return 1;
 }
 
-/*
- * set drawable color (blue)
- *
- * @param drawable id
- * @param blue color (0 to 1)
- */
 SQInteger emoDrawableColorBlue(HSQUIRRELVM v) {
     const SQChar* id;
     SQInteger nargs = sq_gettop(v);
@@ -1772,12 +1215,6 @@ SQInteger emoDrawableColorBlue(HSQUIRRELVM v) {
     return 1;
 }
 
-/*
- * set drawable alpha color
- *
- * @param drawable id
- * @param alpha color (0 to 1)
- */
 SQInteger emoDrawableColorAlpha(HSQUIRRELVM v) {
     const SQChar* id;
     SQInteger nargs = sq_gettop(v);
@@ -1805,13 +1242,6 @@ SQInteger emoDrawableColorAlpha(HSQUIRRELVM v) {
     return 1;
 }
 
-/*
- * set drawable position x
- * 
- * @param drawable id
- * @param x
- * @return EMO_NO_ERROR if succeeds
- */
 SQInteger emoDrawableSetX(HSQUIRRELVM v) {
     const SQChar* id;
     SQInteger nargs = sq_gettop(v);
@@ -1844,13 +1274,6 @@ SQInteger emoDrawableSetX(HSQUIRRELVM v) {
     return 1;
 }
 
-/*
- * set drawable position y
- * 
- * @param drawable id
- * @param y
- * @return EMO_NO_ERROR if succeeds
- */
 SQInteger emoDrawableSetY(HSQUIRRELVM v) {
     const SQChar* id;
     SQInteger nargs = sq_gettop(v);
@@ -1883,13 +1306,6 @@ SQInteger emoDrawableSetY(HSQUIRRELVM v) {
     return 1;
 }
 
-/*
- * set drawable position z
- * 
- * @param drawable id
- * @param z
- * @return EMO_NO_ERROR if succeeds
- */
 SQInteger emoDrawableSetZ(HSQUIRRELVM v) {
     const SQChar* id;
     SQInteger nargs = sq_gettop(v);
@@ -1923,13 +1339,6 @@ SQInteger emoDrawableSetZ(HSQUIRRELVM v) {
     return 1;
 }
 
-/*
- * set drawable width
- * 
- * @param drawable id
- * @param width
- * @return EMO_NO_ERROR if succeeds
- */
 SQInteger emoDrawableSetWidth(HSQUIRRELVM v) {
     const SQChar* id;
     SQInteger nargs = sq_gettop(v);
@@ -1962,13 +1371,6 @@ SQInteger emoDrawableSetWidth(HSQUIRRELVM v) {
     return 1;
 }
 
-/*
- * set drawable height
- * 
- * @param drawable id
- * @param height
- * @return EMO_NO_ERROR if succeeds
- */
 SQInteger emoDrawableSetHeight(HSQUIRRELVM v) {
     const SQChar* id;
     SQInteger nargs = sq_gettop(v);
@@ -2001,14 +1403,6 @@ SQInteger emoDrawableSetHeight(HSQUIRRELVM v) {
     return 1;
 }
 
-/*
- * set drawable size
- * 
- * @param drawable id
- * @param width
- * @param height
- * @return EMO_NO_ERROR if succeeds
- */
 SQInteger emoDrawableSetSize(HSQUIRRELVM v) {
     const SQChar* id;
     SQInteger nargs = sq_gettop(v);
@@ -2050,13 +1444,7 @@ SQInteger emoDrawableSetSize(HSQUIRRELVM v) {
     return 1;
 }
 
-/*
- * pause spritesheet at given position
- *
- * @param drawable id
- * @param index
- * @return EMO_NO_ERROR if succeeds
- */
+
 SQInteger emoDrawablePauseAt(HSQUIRRELVM v) {
     const SQChar* id;
     SQInteger nargs = sq_gettop(v);
@@ -2089,10 +1477,6 @@ SQInteger emoDrawablePauseAt(HSQUIRRELVM v) {
         return 1;
     }
 
-    if (!drawable->loaded) {
-        LOGW("It is recommended not to use SpriteSheet#setFrame BEFORE the sprite has been loaded by load().");
-    }
-
     drawable->setFrameIndex(index);
     drawable->enableAnimation(false);
 
@@ -2100,59 +1484,6 @@ SQInteger emoDrawablePauseAt(HSQUIRRELVM v) {
     return 1;
 }
 
-/*
- * select frame that has given name
- */
-SQInteger emoDrawableSelectFrame(HSQUIRRELVM v) {
-
-    const SQChar* id;
-    SQInteger nargs = sq_gettop(v);
-    if (nargs >= 2 && sq_gettype(v, 2) == OT_STRING) {
-        sq_tostring(v, 2);
-        sq_getstring(v, -1, &id);
-        sq_poptop(v);
-    } else {
-        sq_pushinteger(v, ERR_INVALID_PARAM);
-        return 1;
-    }
-
-    emo::Drawable* drawable = engine->getDrawable(id);
-
-    if (drawable == NULL) {
-        sq_pushinteger(v, ERR_INVALID_ID);
-        return 1;
-    }
-    
-    const SQChar* frame_name;
-    if (nargs >= 3 && sq_gettype(v, 3) == OT_STRING) {
-        sq_tostring(v, 3);
-        sq_getstring(v, -1, &frame_name);
-        sq_poptop(v);
-    } else {
-        sq_pushinteger(v, ERR_INVALID_PARAM);
-        return 1;
-    }
-
-    if (!drawable->loaded) {
-        LOGW("It is recommended not to use SpriteSheet#selectFrame BEFORE the sprite has been loaded by load().");
-    }
-
-    if (!drawable->selectFrame(frame_name)) {
-        sq_pushinteger(v, ERR_INVALID_PARAM);
-        return 1;
-    }
-
-    sq_pushinteger(v, EMO_NO_ERROR);
-    return 1;
-}
-
-/*
- * pause spritesheet at given position
- *
- * @param drawable id
- * @param index
- * @return EMO_NO_ERROR if succeeds
- */
 SQInteger emoDrawablePause(HSQUIRRELVM v) {
     const SQChar* id;
     SQInteger nargs = sq_gettop(v);
@@ -2178,12 +1509,6 @@ SQInteger emoDrawablePause(HSQUIRRELVM v) {
     return 1;
 }
 
-/*
- * stop sprite animation
- * animation frame index is set to 0
- * 
- * @param drawable id
- */
 SQInteger emoDrawableStop(HSQUIRRELVM v) {
     const SQChar* id;
     SQInteger nargs = sq_gettop(v);
@@ -2210,16 +1535,6 @@ SQInteger emoDrawableStop(HSQUIRRELVM v) {
     return 1;
 }
 
-/*
- * animate sprite sheet
- * 
- * @param drawable id
- * @param frame start index
- * @param frame count from start index
- * @param animation interval (msec)
- * @param loop count
- * @return EMO_NO_ERROR if succeeds
- */
 SQInteger emoDrawableAnimate(HSQUIRRELVM v) {
     const SQChar* id;
     SQInteger nargs = sq_gettop(v);
@@ -2244,7 +1559,7 @@ SQInteger emoDrawableAnimate(HSQUIRRELVM v) {
     SQInteger interval = 0;
     SQInteger loop  = 0;
     
-    if (nargs >= 3 && sq_gettype(v, 3) != OT_NULL && sq_gettype(v, 3) != OT_ARRAY) {
+    if (nargs >= 3 && sq_gettype(v, 3) != OT_NULL) {
         sq_getinteger(v, 3, &start);
     }
     if (nargs >= 4 && sq_gettype(v, 4) != OT_NULL) {
@@ -2263,31 +1578,6 @@ SQInteger emoDrawableAnimate(HSQUIRRELVM v) {
     animation->count = count;
     animation->interval   = interval;
     animation->loop       = loop;
-
-    // if individual animation frames are specified, use these values
-    if (nargs >= 3 && sq_gettype(v, 3) == OT_ARRAY) {
-        count = sq_getsize(v, 3);
-
-        animation->count = count;
-        animation->initializeFrames();
-
-        sq_pushnull(v);
-        int idx = 0; 
-        while(SQ_SUCCEEDED(sq_next(v, -nargs+1))) {
-            if (idx >= count) break;
-            if (sq_gettype(v, -1) == OT_INTEGER) {
-                SQInteger value;
-                sq_getinteger(v, -1, &value);
-                animation->setFrame(idx, value);
-            }
-            idx++;
-            sq_pop(v, 2);
-        }    
-
-        sq_pop(v, 1);
-
-        if (animation->count > 0) animation->start = animation->frames[0];
-    } 
     
     drawable->addAnimation(animation), 
     drawable->setAnimation(animation->name);
@@ -2296,15 +1586,7 @@ SQInteger emoDrawableAnimate(HSQUIRRELVM v) {
     sq_pushinteger(v, EMO_NO_ERROR);
     return 1;
 }
-
-/*
- * returns whether animation is finished or not
- *
- * @param drawable id
- * @return animation is finished or not
- */
 SQInteger emoDrawableIsAnimationFinished(HSQUIRRELVM v) {
-
     const SQChar* id;
     SQInteger nargs = sq_gettop(v);
     if (nargs >= 2 && sq_gettype(v, 2) == OT_STRING) {
@@ -2325,12 +1607,6 @@ SQInteger emoDrawableIsAnimationFinished(HSQUIRRELVM v) {
     return 1;
 }
 
-/*
- * returns drawable position x
- *
- * @param drawable id
- * @return drawable position x
- */
 SQInteger emoDrawableGetX(HSQUIRRELVM v) {
     const SQChar* id;
     SQInteger nargs = sq_gettop(v);
@@ -2352,12 +1628,6 @@ SQInteger emoDrawableGetX(HSQUIRRELVM v) {
     return 1;
 }
 
-/*
- * returns drawable position y
- *
- * @param drawable id
- * @return drawable position y
- */
 SQInteger emoDrawableGetY(HSQUIRRELVM v) {
     const SQChar* id;
     SQInteger nargs = sq_gettop(v);
@@ -2379,12 +1649,6 @@ SQInteger emoDrawableGetY(HSQUIRRELVM v) {
     return 1;
 }
 
-/*
- * returns drawable position z
- *
- * @param drawable id
- * @return drawable position z
- */
 SQInteger emoDrawableGetZ(HSQUIRRELVM v) {
     const SQChar* id;
     SQInteger nargs = sq_gettop(v);
@@ -2406,12 +1670,6 @@ SQInteger emoDrawableGetZ(HSQUIRRELVM v) {
     return 1;
 }
 
-/*
- * returns drawable width
- *
- * @param drawable id
- * @return drawable width
- */
 SQInteger emoDrawableGetWidth(HSQUIRRELVM v) {
     const SQChar* id;
     SQInteger nargs = sq_gettop(v);
@@ -2433,12 +1691,6 @@ SQInteger emoDrawableGetWidth(HSQUIRRELVM v) {
     return 1;
 }
 
-/*
- * returns drawable height
- *
- * @param drawable id
- * @return drawable height
- */
 SQInteger emoDrawableGetHeight(HSQUIRRELVM v) {
     const SQChar* id;
     SQInteger nargs = sq_gettop(v);
@@ -2460,12 +1712,6 @@ SQInteger emoDrawableGetHeight(HSQUIRRELVM v) {
     return 1;
 }
 
-/*
- * returns drawable scale x
- *
- * @param drawable id
- * @return drawable scale x
- */
 SQInteger emoDrawableGetScaleX(HSQUIRRELVM v) {
     const SQChar* id;
     SQInteger nargs = sq_gettop(v);
@@ -2487,12 +1733,6 @@ SQInteger emoDrawableGetScaleX(HSQUIRRELVM v) {
     return 1;
 }
 
-/*
- * returns drawable scale y
- *
- * @param drawable id
- * @return drawable scale y
- */
 SQInteger emoDrawableGetScaleY(HSQUIRRELVM v) {
     const SQChar* id;
     SQInteger nargs = sq_gettop(v);
@@ -2514,12 +1754,6 @@ SQInteger emoDrawableGetScaleY(HSQUIRRELVM v) {
     return 1;
 }
 
-/*
- * returns drawable angle
- *
- * @param drawable id
- * @return drawable angle
- */
 SQInteger emoDrawableGetAngle(HSQUIRRELVM v) {
     const SQChar* id;
     SQInteger nargs = sq_gettop(v);
@@ -2541,12 +1775,6 @@ SQInteger emoDrawableGetAngle(HSQUIRRELVM v) {
     return 1;
 }
 
-/*
- * returns spritesheet frame index
- *
- * @param drawable id
- * @return spritesheet frame index
- */
 SQInteger emoDrawableGetFrameIndex(HSQUIRRELVM v) {
     const SQChar* id;
     SQInteger nargs = sq_gettop(v);
@@ -2568,12 +1796,6 @@ SQInteger emoDrawableGetFrameIndex(HSQUIRRELVM v) {
     return 1;
 }
 
-/*
- * returns spritesheet frame count
- *
- * @param drawable id
- * @return spritesheet frame count
- */
 SQInteger emoDrawableGetFrameCount(HSQUIRRELVM v) {
     const SQChar* id;
     SQInteger nargs = sq_gettop(v);
@@ -2595,16 +1817,6 @@ SQInteger emoDrawableGetFrameCount(HSQUIRRELVM v) {
     return 1;
 }
 
-/*
- * set line position
- *
- * @param drawable id
- * @param x1 start x
- * @param y1 start y
- * @param x2 end x
- * @param y2 end y
- * @return EMO_NO_ERROR if succeeds
- */
 SQInteger emoDrawableSetLinePosition(HSQUIRRELVM v) {
     const SQChar* id;
     SQInteger nargs = sq_gettop(v);

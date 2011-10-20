@@ -246,3 +246,12 @@ print(emo.Runtime.random()); // prints random integer with a positive sign
 
 print(emo.Runtime.random(10)); // returns random integer, greater or equal to 0 and less than 10. (0 - 9)
 }}}
+
+== getDefaultLocale ==
+
+Returns default local of the device.
+
+{{{
+// prints en_US, ja_JP, etc.
+print(emo.Runtime.getDefaultLocale());
+}}}

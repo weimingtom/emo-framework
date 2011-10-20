@@ -39,9 +39,11 @@ text.setParam("World");
 }}}
 
 == reload ==
+== reload(name) ==
 
-Reload the sprite text.
+Reload the sprite text. parameter
 
 {{{
+text.setParam("World");
 text.reload();
 }}}

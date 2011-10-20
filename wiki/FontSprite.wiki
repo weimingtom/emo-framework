@@ -28,11 +28,11 @@ The text properties are defined in the property file. Additional place holder st
 </resources>
 }}}
 
-For iOS, text properties are defined in the strings.plist in you project. See sample [http://code.google.com/p/emo-framework/source/browse/trunk/iOS-Examples/Resources/strings.plist plist].
+For iOS, text properties are defined in the strings.plist in you project Resource. See sample [http://code.google.com/p/emo-framework/source/browse/trunk/iOS-Examples/Resources/strings.plist plist].
 
 == setParam(param) ==
 
-Sets the parameter of the palceholder text
+Sets the parameter of the palceholder text.
 
 {{{
 text.setParam("World");

@@ -249,7 +249,7 @@ print(emo.Runtime.random(10)); // returns random integer, greater or equal to 0 
 
 == getDefaultLocale ==
 
-Returns default local of the device.
+Returns default locale of the device.
 
 {{{
 // prints en_US, ja_JP, etc.

@@ -5,7 +5,7 @@ local stage = emo.Stage();
  */
 class Main {
 
-    sprite = emo.SpriteSheet("dog.png", 34, 42, 1, 1);
+    sprite = emo.SpriteSheet("dog.png", 34, 42, 3, 2);
     explosion = emo.SpriteSheet("explosion.png", 19, 19, 3, 2);
 
     direction = "RIGHT";
@@ -94,16 +94,9 @@ class Main {
     function onGainedFocus() {
         print("onGainedFocus");
         
-        if (direction == "RIGHT") {
-            // if current direction equals right,
-            // start with first frame, number of frames equals 2(no.0 to no.1) and
-            // interval equals 100msec.  loop count = -1 means inifinite loop
-            sprite.animate(0, 2, 200, -1);
-        } else {
-            // if current direction equals left,
-            // start the left animation
-            sprite.animate(5, 2, 200, -1);
-        }
+        // start with first frame, number of frames equals 2(no.0 to no.1) and
+        // interval equals 100msec.  loop count = -1 means inifinite loop
+        sprite.animate(0, 2, 200, -1);
     }
 
     /*

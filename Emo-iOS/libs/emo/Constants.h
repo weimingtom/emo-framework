@@ -28,9 +28,6 @@
 #ifndef EMO_CONSTANT_H
 #define EMO_CONSTANT_H
 
-#define EMO_BUILD_NUMBER 23
-
-#define EMO_WITH_SANDBOX
 #define PNG_NO_PEDANTIC_WARNINGS
 
 #define EMO_LOG_TAG "EmoFramework"
@@ -66,7 +63,6 @@
 #define EMO_FUNC_ONCALLBACK     "_onNetCallback"
 #define EMO_FUNC_ON_UPDATE      "_onUpdate"
 #define EMO_FUNC_ON_FPS         "_onFps"
-#define EMO_FUNC_ONSTOP_OFFSCREEN   "_onStopOffScreen"
 
 #define MOTION_EVENT_PARAMS_SIZE 8
 #define KEY_EVENT_PARAMS_SIZE    8
@@ -197,12 +193,4 @@
 #define PHYSICS_STATE_REMOVE  2
 
 #define RETINA_SCALE_FACTOR 2
-
-#define POINTS_2D_SIZE 2
-#define POINTS_3D_SIZE 3
-#define POINTS_RECTANGLE 4
-#define POINTS_TRIANGLE 3
-
-#define TYPE_ASSET    0
-#define TYPE_DOCUMENT 1
 #endif

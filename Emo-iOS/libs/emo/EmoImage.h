@@ -39,7 +39,6 @@
     BOOL     hasAlpha;
 	BOOL     loaded;
 	int      referenceCount;
-    BOOL     freed;
 }
 @property (copy, readwrite) NSString* filename;
 @property (readwrite) GLuint textureId;
@@ -48,9 +47,8 @@
 @property (readwrite) BOOL hasAlpha;
 @property (readwrite) BOOL loaded;
 @property (readwrite) int referenceCount;
-@property (readwrite) BOOL freed;
 
+-(BOOL)loadPng:(NSString*)file;
 -(void)genTextures;
 -(void)doUnload;
--(void)freeData;
 @end

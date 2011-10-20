@@ -28,12 +28,7 @@
 #ifndef EMO_CONSTANT_H
 #define EMO_CONSTANT_H
 
-#define EMO_BUILD_NUMBER 23
-
-// uncomment below to enable sandbox mode
-// #define EMO_WITH_SANDBOX
 #define PNG_NO_PEDANTIC_WARNINGS
-#define RAPIDXML_NO_EXCEPTIONS
 
 #define EMO_LOG_TAG "EmoFramework"
 
@@ -54,7 +49,6 @@
 #define EMO_PREFERENCE_CLASS "Preference"
 #define EMO_STOPWATCH_CLASS "Stopwatch"
 #define EMO_PHYSICS_CLASS "Physics"
-#define EMO_ANDROID_CLASS "Android"
 
 #define EMO_FUNC_ONLOAD         "_onLoad"
 #define EMO_FUNC_ONGAINED_FOUCS "_onGainedFocus"
@@ -69,7 +63,6 @@
 #define EMO_FUNC_ONCALLBACK     "_onNetCallback"
 #define EMO_FUNC_ON_UPDATE      "_onUpdate"
 #define EMO_FUNC_ON_FPS         "_onFps"
-#define EMO_FUNC_ONSTOP_OFFSCREEN   "_onStopOffScreen"
 
 #define MOTION_EVENT_PARAMS_SIZE 8
 #define KEY_EVENT_PARAMS_SIZE    8
@@ -200,16 +193,4 @@
 #define PHYSICS_STATE_REMOVE  2
 
 #define RETINA_SCALE_FACTOR 2
-
-#define POINTS_2D_SIZE 2
-#define POINTS_3D_SIZE 3
-#define POINTS_RECTANGLE 4
-#define POINTS_TRIANGLE 3
-
-#define TYPE_ASSET    0
-#define TYPE_DOCUMENT 1
-
-#define ANDROID_TOAST_SHORT 0x00000001
-#define ANDROID_TOAST_LONG  0x00000000
-
 #endif

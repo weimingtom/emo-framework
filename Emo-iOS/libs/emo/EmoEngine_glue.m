@@ -40,37 +40,19 @@ extern EmoEngine* engine;
  */
 void LOGI(const char* msg) {
 	if (engine.logLevel <= LOG_INFO) {
-        if (engine.enableSimpleLogWithLevel) {
-            NSLog(@"INFO %s", msg);
-        } else if (engine.enableSimpleLog) {
-            NSLog(@"%s", msg);
-        } else {
-            NSLog(@"%s INFO %s", EMO_LOG_TAG, msg);
-        }
+		NSLog(@"%s INFO %s", EMO_LOG_TAG, msg);
 	}
 }
 
 void LOGE(const char* msg) {
 	if (engine.logLevel <= LOG_ERROR) {
-        if (engine.enableSimpleLogWithLevel) {
-            NSLog(@"ERROR %s", msg);
-        } else if (engine.enableSimpleLog) {
-            NSLog(@"%s", msg);
-        } else {
-            NSLog(@"%s ERROR %s", EMO_LOG_TAG, msg);
-        }
+		NSLog(@"%s ERROR %s", EMO_LOG_TAG, msg);
 	}
 }
 
 void LOGW(const char* msg) {
 	if (engine.logLevel <= LOG_WARN) {
-        if (engine.enableSimpleLogWithLevel) {
-            NSLog(@"WARN %s", msg);
-        } else if (engine.enableSimpleLog) {
-            NSLog(@"%s", msg);
-        } else {
-            NSLog(@"%s WARN %s", EMO_LOG_TAG, msg);
-        }
+		NSLog(@"%s WARN %s", EMO_LOG_TAG, msg);
 	}
 }
 
@@ -117,7 +99,7 @@ BOOL printGLErrors(const char* msg) {
 BOOL loadPngSizeFromAsset(NSString* filename, int *width, int *height) {
 	NSString* path = [[NSBundle mainBundle] pathForResource:filename ofType:nil];
 	if (path == nil) {
-		LOGE("loadPngFromResource: resource is not found");
+		LOGE("loadPngFromResource: resource does not found");
 		NSLOGE(filename);
 		return FALSE;
 	}
@@ -152,7 +134,7 @@ BOOL loadPngSizeFromAsset(NSString* filename, int *width, int *height) {
     png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
 	fclose(fp);
 	
-    return width > 0 && height > 0;
+    return TRUE;
 }
 
 /* 
@@ -161,7 +143,7 @@ BOOL loadPngSizeFromAsset(NSString* filename, int *width, int *height) {
 BOOL loadPngFromResource(NSString* filename, EmoImage* imageInfo) {
 	NSString* path = [[NSBundle mainBundle] pathForResource:filename ofType:nil];
 	if (path == nil) {
-		LOGE("loadPngFromResource: resource is not found");
+		LOGE("loadPngFromResource: resource does not found");
 		NSLOGE(filename);
 		return FALSE;
 	}

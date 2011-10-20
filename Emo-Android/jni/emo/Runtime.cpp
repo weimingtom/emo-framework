@@ -29,7 +29,7 @@
 
 #include <android/log.h>
 #include <android/native_activity.h>
-#include <../native_app_glue.h>
+#include <android_native_app_glue.h>
 #include <android/window.h>
 #include <android/configuration.h>
 
@@ -47,7 +47,6 @@ void initRuntimeFunctions() {
     registerClass(engine->sqvm, EMO_RUNTIME_CLASS);
     registerClass(engine->sqvm, EMO_EVENT_CLASS);
     registerClass(engine->sqvm, EMO_STOPWATCH_CLASS);
-    registerClass(engine->sqvm, EMO_ANDROID_CLASS);
 
     registerClassFunc(engine->sqvm, EMO_RUNTIME_CLASS, "import",          emoImportScript);
     registerClassFunc(engine->sqvm, EMO_RUNTIME_CLASS, "setOptions",      emoSetOptions);
@@ -61,18 +60,10 @@ void initRuntimeFunctions() {
     registerClassFunc(engine->sqvm, EMO_RUNTIME_CLASS, "device",          emoRuntimeGetDeviceName);
     registerClassFunc(engine->sqvm, EMO_RUNTIME_CLASS, "isSimulator",     emoRuntimeIsSimulator);
     registerClassFunc(engine->sqvm, EMO_RUNTIME_CLASS, "gc",              emoRuntimeGC);
-    registerClassFunc(engine->sqvm, EMO_RUNTIME_CLASS, "clearTextureCache", emoClearImageCache);
     registerClassFunc(engine->sqvm, EMO_STOPWATCH_CLASS, "start",         emoRuntimeStopwatchStart);
     registerClassFunc(engine->sqvm, EMO_STOPWATCH_CLASS, "stop",          emoRuntimeStopwatchStop);
     registerClassFunc(engine->sqvm, EMO_STOPWATCH_CLASS, "elapsed",       emoRuntimeStopwatchElapsed);
     registerClassFunc(engine->sqvm, EMO_RUNTIME_CLASS, "setLogLevel",     emoRuntimeSetLogLevel);
-#ifndef EMO_WITH_SANDBOX
-    registerClassFunc(engine->sqvm, EMO_RUNTIME_CLASS, "compilebuffer",   emoRuntimeCompileBuffer);
-    registerClassFunc(engine->sqvm, EMO_RUNTIME_CLASS, "compile",         emoRuntimeCompile);
-#endif
-    registerClassFunc(engine->sqvm, EMO_RUNTIME_CLASS, "getDocumentDir",  emoRuntimeGetDocumentDir);
-    registerClassFunc(engine->sqvm, EMO_RUNTIME_CLASS, "isSandboxEnabled",  emoRuntimeIsSandboxEnabled);
-    registerClassFunc(engine->sqvm, EMO_RUNTIME_CLASS, "buildNumber",     emoRuntimeBuildNumber);
 
     registerClassFunc(engine->sqvm, EMO_EVENT_CLASS,   "registerSensors", emoRegisterSensors);
     registerClassFunc(engine->sqvm, EMO_EVENT_CLASS,   "enableSensor",    emoEnableSensor);
@@ -83,14 +74,6 @@ void initRuntimeFunctions() {
     registerClassFunc(engine->sqvm, EMO_EVENT_CLASS,   "disableOnUpdateCallback", emoDisableOnUpdateCallback);
     registerClassFunc(engine->sqvm, EMO_EVENT_CLASS,   "enableOnFpsCallback",     emoEnableOnFpsCallback);
     registerClassFunc(engine->sqvm, EMO_EVENT_CLASS,   "disableOnFpsCallback",    emoDisableOnFpsCallback);
-
-    registerClassFunc(engine->sqvm, EMO_RUNTIME_CLASS,   "enableSimpleLog",          emoEnableSimpleLog);
-    registerClassFunc(engine->sqvm, EMO_RUNTIME_CLASS,   "enableSimpleLogWithLevel", emoEnableSimpleLogWithLevel);
-    registerClassFunc(engine->sqvm, EMO_RUNTIME_CLASS,   "nativeRandom", emoRuntimeNativeRandom);
-    registerClassFunc(engine->sqvm, EMO_RUNTIME_CLASS,   "random",       emoRuntimeRandom);
-    registerClassFunc(engine->sqvm, EMO_RUNTIME_CLASS,   "getDefaultLocale",         emoGetDefaultLocale);
-
-    registerClassFunc(engine->sqvm, EMO_ANDROID_CLASS,   "toast",        emoRuntimeAndroidToast);
 }
 
 int32_t app_handle_input(struct android_app* app, AInputEvent* event) {
@@ -136,9 +119,6 @@ void clearGLErrors(const char* msg) {
     }
 }
 
-/*
- * print all OpenGL errors
- */
 bool printGLErrors(const char* msg) {
     bool result = true;
     for (GLint error = glGetError(); error; error = glGetError()) {
@@ -154,79 +134,14 @@ bool printGLErrors(const char* msg) {
 }
 
 /*
- * callback function to read squirrel script from asset
+ * callback function to read squirrel script
  */
-static SQInteger sq_lexer_asset(SQUserPointer asset) {
+static SQInteger sq_lexer(SQUserPointer asset) {
 	SQChar c;
 		if(AAsset_read((AAsset*)asset, &c, 1) > 0) {
 			return c;
 		}
 	return 0;
-}
-
-/*
- * callback function to read squirrel script
- */
-static SQInteger sq_lexer_fp(SQUserPointer fp) {
-    int ret;
-    SQChar c;
-    if((ret = fread(&c, sizeof(c), 1, (FILE *)fp) > 0)) {
-        return c;
-    }
-    return 0;
-}
-
-/*
- * callback function for reading squuirrel bytecodes
- */
-static SQInteger sq_lexer_bytecode(SQUserPointer asset, SQUserPointer buf, SQInteger size) {
-    SQInteger ret;
-    if ((ret = AAsset_read((AAsset*)asset, buf, size)) != 0) {
-        return ret;
-    }
-    return -1;
-}
-
-/*
- * load text content from asset
- */
-std::string loadContentFromAsset(std::string fname) {
-    std::string content;
-    /*
-     * read squirrel script from asset
-     */
-    AAssetManager* mgr = engine->app->activity->assetManager;
-    if (mgr == NULL) {
-    	engine->setLastError(ERR_SCRIPT_LOAD);
-    	LOGE("loadScriptFromAsset: failed to load AAssetManager");
-    	return content;
-    }
-
-    AAsset* asset = AAssetManager_open(mgr, fname.c_str(), AASSET_MODE_UNKNOWN);
-    if (asset == NULL) {
-    	engine->setLastError(ERR_SCRIPT_OPEN);
-    	LOGW("loadScriptFromAsset: failed to open main script file");
-        LOGW(fname.c_str());
-    	return content;
-    }
-
-    off_t length = AAsset_getLength(asset);
-    char* buffer = new char[length + 1];
-
-    for (int i = 0; i < length; i++) {
-	    SQChar c;
-		if(AAsset_read((AAsset*)asset, &c, 1) > 0) {
-            buffer[i] = c;
-        }
-    }
-    buffer[length] = NULL;
-
-    content = buffer;
-    delete buffer;
-
-    AAsset_close(asset);
-
-    return content;
 }
 
 /*
@@ -251,41 +166,18 @@ bool loadScriptFromAsset(const char* fname) {
     	return false;
     }
 
-    unsigned short sqtag;
-    bool isByteCode = false;
-    if (AAsset_read(asset, &sqtag, 2) > 0) {
-        if (sqtag == SQ_BYTECODE_STREAM_TAG) {
-            isByteCode = true;
-        }
-        AAsset_seek(asset, 0, SEEK_SET);
-    } else {
-        AAsset_close(asset);
-        return false;
-    }
-
-    if (isByteCode && SQ_SUCCEEDED(sq_readclosure(engine->sqvm, sq_lexer_bytecode, asset))) {
+    if(SQ_SUCCEEDED(sq_compile(engine->sqvm, sq_lexer, asset, fname, SQTrue))) {
         sq_pushroottable(engine->sqvm);
         if (SQ_FAILED(sq_call(engine->sqvm, 1, SQFalse, SQTrue))) {
         	engine->setLastError(ERR_SCRIPT_CALL_ROOT);
             LOGW("loadScriptFromAsset: failed to sq_call");
             LOGW(fname);
-            AAsset_close(asset);
-            return false;
-        }
-    } else if(!isByteCode && SQ_SUCCEEDED(sq_compile(engine->sqvm, sq_lexer_asset, asset, fname, SQTrue))) {
-        sq_pushroottable(engine->sqvm);
-        if (SQ_FAILED(sq_call(engine->sqvm, 1, SQFalse, SQTrue))) {
-        	engine->setLastError(ERR_SCRIPT_CALL_ROOT);
-            LOGW("loadScriptFromAsset: failed to sq_call");
-            LOGW(fname);
-            AAsset_close(asset);
             return false;
         }
     } else {
     	engine->setLastError(ERR_SCRIPT_COMPILE);
         LOGW("loadScriptFromAsset: failed to compile squirrel script");
         LOGW(fname);
-        AAsset_close(asset);
         return false;
     }
 
@@ -295,77 +187,7 @@ bool loadScriptFromAsset(const char* fname) {
 }
 
 /*
- * load squirrel script from given file name
- */
-bool loadScript(const char* fname) {
-    FILE* fp = fopen(fname, "r");
-    if (fp == NULL) {
-    	engine->setLastError(ERR_SCRIPT_OPEN);
-    	LOGW("loadScript: failed to open main script file");
-        LOGW(fname);
-    	return false;
-    }
-    if(SQ_SUCCEEDED(sq_compile(engine->sqvm, sq_lexer_fp, fp, fname, SQTrue))) {
-        sq_pushroottable(engine->sqvm);
-        if (SQ_FAILED(sq_call(engine->sqvm, 1, SQFalse, SQTrue))) {
-        	engine->setLastError(ERR_SCRIPT_CALL_ROOT);
-            LOGW("loadScript: failed to sq_call");
-            LOGW(fname);
-            fclose(fp);
-            return false;
-        }
-    } else {
-    	engine->setLastError(ERR_SCRIPT_COMPILE);
-        LOGW("loadScript: failed to compile squirrel script");
-        LOGW(fname);
-        fclose(fp);
-        return false;
-    }
-
-    fclose(fp);
-    return true;
-}
-
-/*
- * load squirrel script from user document
- */
-bool loadScriptFromUserDocument(const char* fname) {
-    return loadScript(engine->javaGlue->getDataFilePath(fname).c_str());
-}
-
-/*
- * returns if the given string ends with the other string
- */
-bool endsWith(std::string const &fullString, std::string const &ending) {
-    if (fullString.length() >= ending.length()) {
-        return (0 == fullString.compare (fullString.length() - ending.length(), ending.length(), ending));
-    } else {
-        return false;
-    }
-}
-
-/*
- * prints xml parse error
- */
-namespace rapidxml {
-    void parse_error_handler(const char *what, void *where_void) { 
-        LOGE(what);
-    }
-}
-
-/*
- * returns build number of the library
- */
-SQInteger emoRuntimeBuildNumber(HSQUIRRELVM v) {
-    sq_pushinteger(v, EMO_BUILD_NUMBER);
-    return 1;
-}
-
-/*
  * Runtime logging
- *
- * @param log level
- * @param log message
  */
 SQInteger emoRuntimeLog(HSQUIRRELVM v) {
     SQInteger nargs = sq_gettop(v);
@@ -397,9 +219,6 @@ SQInteger emoRuntimeLog(HSQUIRRELVM v) {
 
 /*
  * Set Runtime log level
- *
- * @param log level
- * @param EMO_NO_ERROR if succeeds
  */
 SQInteger emoRuntimeSetLogLevel(HSQUIRRELVM v) {
 
@@ -429,8 +248,6 @@ SQInteger emoRuntimeSetLogLevel(HSQUIRRELVM v) {
 
 /*
  * Runtime log info
- *
- * @param log message
  */
 SQInteger emoRuntimeLogInfo(HSQUIRRELVM v) {
     const SQChar *str;
@@ -448,8 +265,6 @@ SQInteger emoRuntimeLogInfo(HSQUIRRELVM v) {
 
 /*
  * Runtime log error
- * 
- * @param log message
  */
 SQInteger emoRuntimeLogError(HSQUIRRELVM v) {
     const SQChar *str;
@@ -467,8 +282,6 @@ SQInteger emoRuntimeLogError(HSQUIRRELVM v) {
 
 /*
  * Runtime log warn
- *
- * @param log message
  */
 SQInteger emoRuntimeLogWarn(HSQUIRRELVM v) {
     const SQChar *str;
@@ -487,9 +300,6 @@ SQInteger emoRuntimeLogWarn(HSQUIRRELVM v) {
 
 /*
  * Runtime echo
- *
- * @param message
- * @return given message
  */
 SQInteger emoRuntimeEcho(HSQUIRRELVM v) {
 	const SQChar *str;
@@ -585,91 +395,8 @@ SQInteger emoImportScript(HSQUIRRELVM v) {
 	return 0;
 }
 
-#ifndef EMO_WITH_SANDBOX
-/*
- * compile script from path
- *
- * @param script file name
- */
-SQInteger emoRuntimeCompile(HSQUIRRELVM v) {
-    
-    if (sq_gettype(v, 2) == OT_STRING) {
-        const SQChar *fname;
-        sq_tostring(v, 2); 
-        sq_getstring(v, -1, &fname);
-        sq_poptop(v);
-
-        // check if the file type exists
-        if (sq_gettype(v, 3) == OT_INTEGER) {
-            SQInteger fileType = TYPE_ASSET;
-            sq_getinteger(v, 3, &fileType);
-    
-            if (fileType == TYPE_ASSET) {
-                // load script from resource
-                loadScriptFromAsset((char*)fname);
-            } else if (fileType == TYPE_DOCUMENT) {
-                // load script from user document directory
-                loadScriptFromUserDocument(fname);
-            } else {
-                // load script from path
-                loadScript(fname);
-            }   
-        } else {
-            // load script from path
-            loadScript(fname);
-        }   
-    
-    }   
-    return 0;
-}
-
-/*
- * compile script from given string
- *
- * @param squirrel program as string
- */
-SQInteger emoRuntimeCompileBuffer(HSQUIRRELVM v) {
-    const SQChar* script;
-    SQInteger nargs = sq_gettop(v);
-    if (nargs >= 2 && sq_gettype(v, 2) == OT_STRING) {
-        sq_tostring(v, 2);
-        sq_getstring(v, -1, &script);
-        sq_poptop(v);
-    } else {
-        sq_pushinteger(v, ERR_INVALID_PARAM);
-        return 1;
-    }
-
-    sq_pushinteger(v, sqCompileBuffer(v, script, EMO_RUNTIME_CLASS));
-    
-    return 1;
-}
-#endif
-
-/*
- * Returns the document directory
- */
-SQInteger emoRuntimeGetDocumentDir(HSQUIRRELVM v) {
-    sq_pushstring(v, engine->javaGlue->getDataFilePath("").c_str(), -1);
-    return 1;
-}
-
-/*
- * Check if the sandbox is enabled
- */
-SQInteger emoRuntimeIsSandboxEnabled(HSQUIRRELVM v) {
-#ifdef EMO_WITH_SANDBOX
-    sq_pushbool(v, true);
-#else
-    sq_pushbool(v, false);
-#endif    
-    return 1;
-}
-
 /*
  * set options function called from script
- * 
- * @param options to be enabled
  */
 SQInteger emoSetOptions(HSQUIRRELVM v) {
     SQInteger nargs = sq_gettop(v);
@@ -686,8 +413,6 @@ SQInteger emoSetOptions(HSQUIRRELVM v) {
 
 /*
  * register sensors function called from script
- *
- * @param sensors to be registered
  */
 SQInteger emoRegisterSensors(HSQUIRRELVM v) {
     SQInteger nargs = sq_gettop(v);
@@ -704,9 +429,6 @@ SQInteger emoRegisterSensors(HSQUIRRELVM v) {
 
 /*
  * enable sensor
- *
- * @param sensor type
- * @param sensor interval
  */
 SQInteger emoEnableSensor(HSQUIRRELVM v) {
     SQInteger nargs = sq_gettop(v);
@@ -728,8 +450,6 @@ SQInteger emoEnableSensor(HSQUIRRELVM v) {
 
 /*
  * disable sensor
- *
- * @param sensor type
  */
 SQInteger emoDisableSensor(HSQUIRRELVM v) {
     SQInteger nargs = sq_gettop(v);
@@ -746,11 +466,6 @@ SQInteger emoDisableSensor(HSQUIRRELVM v) {
     return 0;
 }
 
-/*
- * enable onDraw callback
- *
- * @param onDraw interval (msec)
- */
 SQInteger emoEnableOnDrawCallback(HSQUIRRELVM v) {
     engine->enableOnDrawListener(true);
 
@@ -766,35 +481,20 @@ SQInteger emoEnableOnDrawCallback(HSQUIRRELVM v) {
     return 0;
 }
 
-/*
- * disable onDraw callback
- */
 SQInteger emoDisableOnDrawCallback(HSQUIRRELVM v) {
     engine->enableOnDrawListener(false);
     return 0;
 }
 
-/*
- * enable onUpdate callback
- */
 SQInteger emoEnableOnUpdateCallback(HSQUIRRELVM v) {
     engine->enableOnUpdateListener(true);
     return 0;
 }
-
-/*
- * disable onUpdate callback
- */
 SQInteger emoDisableOnUpdateCallback(HSQUIRRELVM v) {
     engine->enableOnUpdateListener(false);
     return 0;
 }
 
-/*
- * enable onFps callback
- * 
- * @param onUpdate interval
- */
 SQInteger emoEnableOnFpsCallback(HSQUIRRELVM v) {
     engine->enableOnFpsListener(true);
 
@@ -810,111 +510,12 @@ SQInteger emoEnableOnFpsCallback(HSQUIRRELVM v) {
     return 0;
 }
 
-/*
- * disable onFps callback
- */
 SQInteger emoDisableOnFpsCallback(HSQUIRRELVM v) {
     engine->enableOnFpsListener(false);
     return 0;
 }
 
-/*
- * invoke garbage collection
- */
 SQInteger emoRuntimeGC(HSQUIRRELVM v) {
     sq_pushinteger(v, sq_collectgarbage(v));
-    return 1;
-}
-
-/*
- * clear texture cache
- */
-SQInteger emoClearImageCache(HSQUIRRELVM v) {
-    engine->clearCachedImage();
-    return 0;
-}
-
-/*
- * Use simple log without any tag and level
- *
- * This takes no effect on Android
- */
-SQInteger emoEnableSimpleLog(HSQUIRRELVM v) {
-    sq_pushinteger(v, ERR_NOT_SUPPORTED);
-    return 1;
-}
-
-/*
- * Use simple log without tag
- *
- * This takes no effect on Android
- */
-SQInteger emoEnableSimpleLogWithLevel(HSQUIRRELVM v) {
-    sq_pushinteger(v, ERR_NOT_SUPPORTED);
-    return 1;
-}
-
-/*
- * Returns a integer value with a positive sign,
- * greater than or equal to 0.0 and less than max.
- */
-SQInteger emoRuntimeNativeRandom(HSQUIRRELVM v) {
-    SQInteger nargs = sq_gettop(v);
-
-    SQInteger max = RAND_MAX;
-    if (nargs <= 2 && sq_gettype(v, 2) == OT_INTEGER) {
-        sq_getinteger(v, 2, &max);
-    }
-
-    sq_pushinteger(v, engine->javaGlue->callInt_Int("random", max));
-    return 1;
-}
-
-/*
- * Returns a integer value with a positive sign,
- * greater than or equal to 0.0 and less than max.
- */
-SQInteger emoRuntimeRandom(HSQUIRRELVM v) {
-    SQInteger nargs = sq_gettop(v);
-
-    SQInteger max = RAND_MAX;
-    if (nargs <= 2 && sq_gettype(v, 2) == OT_INTEGER) {
-        sq_getinteger(v, 2, &max);
-    }   
-
-    srand(time(NULL));
-
-    sq_pushinteger(v, rand() % max);
-    return 1;
-}
-
-/*
- * Shows Android toast message
- */
-SQInteger emoRuntimeAndroidToast(HSQUIRRELVM v) {
-    SQInteger nargs = sq_gettop(v);
-
-    const SQChar* text;
-    if (nargs >= 2 && sq_gettype(v, 2) == OT_STRING) {
-        sq_tostring(v, 2);
-        sq_getstring(v, -1, &text);
-        sq_poptop(v);
-    }
-
-    SQInteger duration = ANDROID_TOAST_SHORT;
-    if (nargs <= 3 && sq_gettype(v, 3) == OT_INTEGER) {
-        sq_getinteger(v, 3, &duration);
-    }
-
-    engine->javaGlue->callStringInt_Void("toast", text, duration);
-
-    return 0;
-}
-
-/*
- * Returns default locale
- */
-SQInteger emoGetDefaultLocale(HSQUIRRELVM v) {
-    sq_pushstring(v, engine->javaGlue->callVoid_String("getDefaultLocale").c_str(), -1);
     return 1;
 }

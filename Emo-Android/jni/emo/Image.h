@@ -37,7 +37,6 @@ namespace emo {
         ~Image();
 
         void genTextures();
-        void clearTexture();
 
         std::string filename;
         GLuint   textureId;
@@ -49,7 +48,6 @@ namespace emo {
 
         GLubyte* data;
         bool     hasData;
-        bool     mustReload;
         bool     hasAlpha;
         bool     loaded;
 
@@ -58,7 +56,6 @@ namespace emo {
 }
 
 bool loadPngSizeFromAsset(const char *fname, int *width, int *height);
-bool loadPngFromAsset(const char *fname, emo::Image* image, bool forcePropertyUpdate);
-bool loadPngFromBytes(unsigned char* data, int data_size, emo::Image* imageInfo, bool forcePropertyUpdate);
+bool loadPngFromAsset(const char *fname, emo::Image* image);
 
 #endif

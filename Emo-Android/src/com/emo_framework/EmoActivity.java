@@ -3,24 +3,11 @@ package com.emo_framework;
 import android.app.NativeActivity;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Paint.FontMetrics;
-import android.graphics.Paint.Style;
-import android.graphics.Typeface;
 import android.os.AsyncTask;
-import android.os.Vibrator;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Locale;
-import java.util.Random;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
@@ -47,100 +34,6 @@ public class EmoActivity extends NativeActivity {
 
     protected String lastErrorMessage;
     protected String lastErrorCode;
-
-    private static Random randomNumberGenerator;
-    
-    private static synchronized Random initRNG() {
-        Random rnd = randomNumberGenerator;
-        return (rnd == null) ? (randomNumberGenerator = new Random()) : rnd;
-    }
-    
-    public String getDefaultLocale() {
-    	return Locale.getDefault().toString();
-    }
-
-    public byte[] loadTextBitmap(String name, int fontSize,
-    		String fontFace, boolean isBold, boolean isItalic,
-    		String param1, String param2, String param3,
-    		String param4, String param5, String param6) {
-    	// extract property name
-    	String targetName = name.substring(name.indexOf("::") + 2);
-    	int targetId = getResources().getIdentifier(targetName, "string", getPackageName());
-
-    	String targetValue = " ";
-    	if (targetId != 0) {
-        	targetValue = getResources().getString(targetId);
-    	}
-    	
-    	// target value accepts 6 parameters at most
-    	targetValue = String.format(targetValue,
-    			param1, param2, param3, param4, param5, param6);
-    	
-    	Paint forePaint = new Paint();
-    	Paint backPaint = new Paint();
-    	
-    	if (fontFace.length() == 0) {
-    		if (isBold && isItalic) {
-    			forePaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD_ITALIC));
-    		} else if (isBold) {
-    			forePaint.setTypeface(Typeface.DEFAULT_BOLD);
-    		}
-    	} else {
-    		Typeface typeface = Typeface.DEFAULT;
-    		String lowerCase = fontFace.toLowerCase();
-    		
-    		if (lowerCase.equals("serif")) {
-    			typeface = Typeface.SERIF;
-    		} else if (lowerCase.equals("sans_serif")) {
-    			typeface = Typeface.SANS_SERIF;
-    		} else if (lowerCase.equals("monospace")) {
-    			typeface = Typeface.MONOSPACE;
-    		} else if (fontFace.contains(".")) {
-        		typeface = Typeface.createFromAsset(getAssets(), fontFace);
-    		} else {
-        		typeface = Typeface.createFromAsset(getAssets(), fontFace + ".ttf");
-    		}
-    		
-    		if (isBold && isItalic) {
-    			forePaint.setTypeface(Typeface.create(typeface, Typeface.BOLD_ITALIC));
-    		} else if (isBold) {
-    			forePaint.setTypeface(Typeface.create(typeface, Typeface.BOLD));
-    		} else {
-    			forePaint.setTypeface(typeface);
-    		}
-    	}
-    	
-    	forePaint.setColor(Color.WHITE);
-    	if (fontSize > 0) forePaint.setTextSize(fontSize);
-    	forePaint.setAntiAlias(true);
-    	
-    	backPaint.setColor(Color.TRANSPARENT);
-    	backPaint.setStyle(Style.FILL);
-
-    	FontMetrics metrics = forePaint.getFontMetrics();
-    	int width  = (int)Math.ceil(forePaint.measureText(targetValue));
-    	int height = (int)Math.ceil(Math.abs(metrics.ascent) + 
-    			Math.abs(metrics.descent) + Math.abs(metrics.leading));
-    	
-    	Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-    	Canvas canvas = new Canvas(bitmap);
-    	canvas.drawRect(0, 0, width, height, backPaint);
-    	canvas.drawText(targetValue, 0, height - metrics.descent , forePaint);
-
-    	ByteArrayOutputStream os = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, os);
-        return os.toByteArray();
-    }
-
-    /*
-     * Returns a pseudorandom, uniformly distributed int value between 0 (inclusive) 
-     * and the specified max value (exclusive), drawn from this random number generator's sequence.
-     */
-    public int random(int max) {
-        Random rnd = randomNumberGenerator;
-        if (rnd == null) rnd = initRNG();
-        return rnd.nextInt(max);
-    }
     
     public String echo(String str) {
         callback(ECHO, str, "", "");
@@ -153,23 +46,6 @@ public class EmoActivity extends NativeActivity {
     
     public String getLastErrorCode() {
     	return lastErrorCode;
-    }
-    
-    public void vibrate() {
-    	Vibrator vibrator = (Vibrator)getSystemService(VIBRATOR_SERVICE);
-        if (vibrator != null) vibrator.vibrate(400);
-    }
-
-    public String getDataFilePath(String name) {
-        return getFilesDir() + File.separator + name;
-    }
-    
-    public void toast(final String text, final int duration) {
-		runOnUiThread(new Runnable() {
-			public void run() {
-				Toast.makeText(EmoActivity.this, text, duration).show();
-			}
-		});
     }
 
     public void asyncHttpRequest(final String name, final int timeout, final String... params) {

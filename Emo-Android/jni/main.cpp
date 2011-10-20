@@ -25,15 +25,12 @@
 // OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, 
 // EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // 
-#include "native_app_glue.h"
+#include <android_native_app_glue.h>
 
 #include "emo/Runtime.h"
 #include "emo/Engine.h"
 
 emo::Engine* engine;
-
-#define likely(x) __builtin_expect(!!(x), 1)
-#define unlikely(x) __builtin_expect(!!(x), 0)
 
 void android_main(struct android_app* state) {
 
@@ -53,7 +50,7 @@ void android_main(struct android_app* state) {
         int events;
         struct android_poll_source* source;
 
-        while ((ident=ALooper_pollAll(engine->animating ? 0 : -1, NULL, &events,
+        while ((ident=ALooper_pollAll(engine->animating, NULL, &events,
                 (void**)&source)) >= 0) {
 
             // Process this event.
@@ -72,20 +69,16 @@ void android_main(struct android_app* state) {
                 }
             }
 
-            if (unlikely(state->destroyRequested != 0)) {
+            if (state->destroyRequested != 0) {
                 engine->onDispose();
+                engine->onTerminateDisplay();
                 delete engine;
                 return;
             }
         }
 
-        if (likely(engine->animating)) {
+        if (engine->animating) {
             engine->onDrawFrame();
-        }
-        
-        // invoke ANR (Application Not Responding) dialog
-        if (unlikely(engine->useANR)) {
-            break;
         }
     }
 }

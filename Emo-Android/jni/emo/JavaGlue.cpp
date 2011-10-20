@@ -69,6 +69,7 @@ JNIEXPORT void JNICALL Java_com_emo_1framework_EmoActivity_callback
     errMsg = strdup(cmsg);
     env->ReleaseStringUTFChars(jerrMsg, cmsg);
 
+
     callSqFunction_Bool_Strings(engine->sqvm, EMO_NAMESPACE, EMO_FUNC_ONCALLBACK, name, value, errCode, errMsg, false);
 
     free(name);
@@ -207,23 +208,6 @@ namespace emo {
         return value;
     }
 
-    /*  
-     * Call java method with int parameter that returns int.
-     */  
-    jint JavaGlue::callInt_Int(std::string methodName, jint passValue) {
-        JNIEnv* env;
-        JavaVM* vm = engine->app->activity->vm;
-
-        vm->AttachCurrentThread(&env, NULL);
-
-        jclass clazz = env->GetObjectClass(engine->app->activity->clazz);
-        jmethodID methodj = env->GetMethodID(clazz, methodName.c_str(), "(I)I");
-        jint value = env->CallIntMethod(engine->app->activity->clazz, methodj, passValue);
-        vm->DetachCurrentThread();
-
-        return value;
-    }   
-
     /*
      * Call java method with one string parameter that returns string.
      */
@@ -263,25 +247,6 @@ namespace emo {
         vm->DetachCurrentThread();
     }
 
-    /*
-     * Call java method with (string,int) parameter that returns void.
-     */
-    void JavaGlue::callStringInt_Void(std::string methodName, std::string value1, jint value2) {
-        JNIEnv* env;
-        JavaVM* vm = engine->app->activity->vm;
-
-        vm->AttachCurrentThread(&env, NULL);
-
-        jclass clazz = env->GetObjectClass(engine->app->activity->clazz);
-        jmethodID methodj = env->GetMethodID(clazz, methodName.c_str(), "(Ljava/lang/String;I)V");
-        env->CallVoidMethod(engine->app->activity->clazz, methodj, env->NewStringUTF(value1.c_str()), value2);
-        vm->DetachCurrentThread();
-    }
-
-    std::string JavaGlue::getDataFilePath(std::string name) {
-        return this->callString_String("getDataFilePath", name);
-    }
-
     void JavaGlue::setOrientationLandscape() {
 
     	int32_t orient = AConfiguration_getOrientation(engine->app->config);
@@ -307,46 +272,6 @@ namespace emo {
 
     bool JavaGlue::isSimulator() {
     	return this->callVoid_Bool("isSimulator");
-    }
-
-    void JavaGlue::vibrate() {
-    	this->callVoid_Void("vibrate");
-    }
-
-    bool JavaGlue::loadTextBitmap(Drawable* drawable, Image* image, bool forceUpdate) {
-        emo::FontDrawable* fontDrawable = reinterpret_cast<emo::FontDrawable*>(drawable);
-
-        image->filename = drawable->name;
-
-        JNIEnv* env;
-        JavaVM* vm = engine->app->activity->vm;
-
-        vm->AttachCurrentThread(&env, NULL);
-
-        jclass clazz = env->GetObjectClass(engine->app->activity->clazz);
-        jmethodID methodj = env->GetMethodID(clazz, "loadTextBitmap", 
-            "(Ljava/lang/String;ILjava/lang/String;ZZLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)[B");
-        jbyteArray src = (jbyteArray)env->CallObjectMethod(engine->app->activity->clazz, methodj,
-                                 env->NewStringUTF(fontDrawable->name.c_str()),
-                                 (jint)fontDrawable->fontSize,
-                                 env->NewStringUTF(fontDrawable->fontFace.c_str()),
-                                 fontDrawable->isBold   ? JNI_TRUE : JNI_FALSE,
-                                 fontDrawable->isItalic ? JNI_TRUE : JNI_FALSE,
-                                 env->NewStringUTF(fontDrawable->param1.c_str()),
-                                 env->NewStringUTF(fontDrawable->param2.c_str()),
-                                 env->NewStringUTF(fontDrawable->param3.c_str()),
-                                 env->NewStringUTF(fontDrawable->param4.c_str()),
-                                 env->NewStringUTF(fontDrawable->param5.c_str()),
-                                 env->NewStringUTF(fontDrawable->param6.c_str())
-                                 );
-        jsize size = env->GetArrayLength(src);
-
-        jbyte* png = env->GetByteArrayElements(src, NULL);
-        loadPngFromBytes((unsigned char*)png, size, image, forceUpdate);
-        env->ReleaseByteArrayElements(src, png, JNI_ABORT);
-        vm->DetachCurrentThread();
-
-        return image->width > 0 && image->height > 0;
     }
 }
 

@@ -57,9 +57,7 @@ void initSQVM(HSQUIRRELVM v) {
 	sq_setprintfunc(v, sq_printfunc, sq_errorfunc);
 	sq_pushroottable(v);
 	sqstd_register_systemlib(v);
-#ifndef EMO_WITH_SANDBOX
 	sqstd_register_iolib(v);
-#endif
 	sqstd_register_bloblib(v);
 	sqstd_register_mathlib(v);
 	sqstd_register_stringlib(v);
@@ -208,44 +206,28 @@ SQBool callSqFunction_Bool_Float(HSQUIRRELVM v, const SQChar* nname, const SQCha
  * print function
  */
 void sq_printfunc(HSQUIRRELVM v, const SQChar *s,...) {
+	static SQChar text[2048];
 	va_list args;
     va_start(args, s);
-    SQChar* str = va_arg(args, SQChar*);
-    LOGI(str);
+    scvsprintf(text, s, args);
     va_end(args);
+
+    LOGI(text);
 }
 
 /*
  * error function
  */
 void sq_errorfunc(HSQUIRRELVM v, const SQChar *s,...) {
-    char str[4096];
-    
+	static SQChar text[2048];
 	va_list args;
     va_start(args, s);
-    vsnprintf(str, 4096, s, args);    
-    
-    // check if the error was called from emo::onError
-    // because error inside onError causes infinite loop.
-    bool fromOnError = false;
-    SQInteger level = 1;
-    SQStackInfos si;
-    while(SQ_SUCCEEDED(sq_stackinfos(v,level,&si))) {
-        const SQChar *fn = _SC("unknown");
-        if (si.funcname) fn = si.funcname;
-        level++;
-        if (strcmp(fn, "_onError") == 0 || strcmp(fn, "onError") == 0) {
-            fromOnError = true;
-            break;
-        }
-    }
-    
-    if (!fromOnError) {
-        callSqFunction_Bool_String(v, EMO_NAMESPACE, EMO_FUNC_ONERROR, str, SQFalse);
-    }
-    
-    LOGE(str);
+    scvsprintf(text, s, args);
     va_end(args);
+
+    callSqFunction_Bool_String(v, EMO_NAMESPACE, EMO_FUNC_ONERROR, text, SQFalse);
+
+    LOGE(text);
 }
 /*
  * Register global function.

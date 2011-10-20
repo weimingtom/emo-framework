@@ -25,7 +25,7 @@
 	sections = [[NSArray alloc] initWithObjects:@"Basic", @"Animation", 
 					@"Event", @"On-Screen Controller", @"Audio",
 					@"Database", @"Physics", @"Physics with Joints",
-					@"Scene Transition", @"Misc",
+					@"Misc",
 					nil];
 	examples = [[NSMutableArray alloc] init];
 	
@@ -36,8 +36,6 @@
 		[NSArray arrayWithObjects:@"Drawing Texts",    @"textsprite_example.nut", nil],
 		[NSArray arrayWithObjects:@"Drawing Tiles",    @"tiles_example.nut", nil],
 		[NSArray arrayWithObjects:@"Drawing TiledMap", @"mapsprite_example.nut", nil],
-        [NSArray arrayWithObjects:@"Using a Texture Atlas",   @"atlas_example.nut", nil],
-        [NSArray arrayWithObjects:@"Using Unicode Characters",   @"fontsprite_example.nut", nil],
 		nil]];
 	
 	// Amimation
@@ -92,20 +90,13 @@
 						  [NSArray arrayWithObjects:@"Using GearJoint",     @"physics_gearjoint.nut", nil],
 						  [NSArray arrayWithObjects:@"Using LineJoint",     @"physics_linejoint.nut", nil],
 						  [NSArray arrayWithObjects:@"Using WeldJoint",     @"physics_weldjoint.nut", nil],
-						  [NSArray arrayWithObjects:@"Using MouseJoint",    @"physics_mousejoint.nut", nil],
 						  nil]];
-	// Using Transitions
-	[examples addObject: [NSArray arrayWithObjects:
-                          [NSArray arrayWithObjects:@"Fade In/Out",        @"transition_fade_example.nut",  nil],
-                          [NSArray arrayWithObjects:@"Move In/Out",        @"transition_move_example.nut",  nil],
-                          [NSArray arrayWithObjects:@"Rotate and Scale",   @"transition_scale_example.nut", nil],
-                          nil]];
+	
 	// Misc
 	[examples addObject: [NSArray arrayWithObjects:
 						 [NSArray arrayWithObjects:@"Loading Screen",  @"modifier_rotate_example.nut", nil],
 						 [NSArray arrayWithObjects:@"Splash Screen",   @"modifier_event.nut", nil],
 						 [NSArray arrayWithObjects:@"Accessing via HTTP", @"http_access_example.nut", nil],
-                         [NSArray arrayWithObjects:@"Compiling a Script", @"compile_script_example.nut", nil],
 						 nil]];
 }
 

@@ -4,7 +4,7 @@
 
 emo.FontSprite class represents a text sprite to display text that are defined in the property file. Unicode characters and !TrueType fonts are supported.
 
-== constructor(_name, _fontsize = null, _fontface = null, _isBold = false, _isItalic = false)  ==
+== constructor(name, fontsize = null, fontface = null, isBold = false, isItalic = false)  ==
 
 Creates text sprite for given name with given fonts. If font parameters are null, the default system font parameters are used.
 
@@ -35,15 +35,17 @@ For iOS, text properties are defined in the strings.plist in you project Resourc
 Sets the parameter of the palceholder text.
 
 {{{
+// the text "Hello, %s!" is replaced by "Hello, World!"
 text.setParam("World");
 }}}
 
 == reload ==
 == reload(name) ==
 
-Reload the sprite text. parameter
+Reload the sprite text.
 
 {{{
+// the text "Hello, %s!" is replaced by "Hello, World!"
 text.setParam("World");
 text.reload();
 }}}

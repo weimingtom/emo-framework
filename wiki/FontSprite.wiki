@@ -2,7 +2,7 @@
 
 = emo.FontSprite =
 
-emo.FontSprite class represents a text sprite to display text that are defined in the property file. Unicode characters and TrueType fonts are supported.
+emo.FontSprite class represents a text sprite to display text that are defined in the property file. Unicode characters and !TrueType fonts are supported.
 
 == constructor(_name, _fontsize = null, _fontface = null, _isBold = false, _isItalic = false)  ==
 

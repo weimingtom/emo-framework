@@ -13,6 +13,7 @@
     * [FontSprite]
     * [SpriteSheet]
     * [MapSprite]
+    * [LiquidSprite]
     * AnalogOnScreenController
     * DigitalOnScreenController
     * Easing

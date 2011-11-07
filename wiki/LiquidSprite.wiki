@@ -1,0 +1,14 @@
+#summary API reference for emo.LiquidSprite
+
+= emo.LiquidSprite =
+
+emo.LiquidSprite class represents a soft sprite with liquid body.
+
+== constructor(name)  ==
+
+Creates liquid sprite for given name.
+
+{{{
+// Create new liquid sprite.
+local sprite = emo.LiquidSprite("ball.png");
+}}}

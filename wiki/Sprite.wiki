@@ -8,7 +8,7 @@ emo.Sprite class represents basic entity for your game. Sprite class can move, s
 
 == constructor ==
 
-Create a sprite instance with a parameter for image file name. *Only PNG and PVRTC image can be used* to create a sprite.
+Create a sprite instance with a parameter for image file name. *Only PNG and PVRTC(iOS) image can be used* to create a sprite.
 
 {{{
 // create a sprite instance from dog.png

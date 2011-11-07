@@ -7,7 +7,7 @@ emo.TextSprite class represents a text sprite to display text into the screen. T
 
 == constructor(name, textbase, width, height, border = null, margin = null) ==
 
-Creates text sprite with given sprite sheet image, size, border and margin. *Only PNG image can be used* to create a sprite. TextSprite constructor is similar to emo.SpriteSheet. The textbase parameter is the sequence of texts that is same text in the sprite sheet. The sprite sheet image for text sprite is something like below:
+Creates text sprite with given sprite sheet image, size, border and margin. *Only PNG and PVRTC(iOS) image can be used* to create a sprite. TextSprite constructor is similar to emo.SpriteSheet. The textbase parameter is the sequence of texts that is same text in the sprite sheet. The sprite sheet image for text sprite is something like below:
 
 http://www.emo-framework.com/images/font_16x16.png
 

@@ -10,6 +10,7 @@
     * [Rectangle]
     * [Line]
     * [TextSprite]
+    * [FontSprite]
     * [SpriteSheet]
     * [MapSprite]
     * AnalogOnScreenController

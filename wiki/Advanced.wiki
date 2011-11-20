@@ -158,7 +158,24 @@ In libs/emo/!EmoEngine.m search following functions:
 Search nscontent variable in the loadScript function. You can add decryption code here.
 
 {{{
-NSString* nscontent = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error: nil];
+-(int)loadScript:(NSString *)path vm:(HSQUIRRELVM) v {
+// snip..
+
+// TODO_START: Decrypt your script file
+  NSString* nscontent = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error: nil];
+// TODO_END: Decrypt your script file
+
+  if (nscontent == nil) {
+    LOGE("Script content is not found:");
+    NSLOGE(path);
+    return ERR_SCRIPT_OPEN;
+  }
+	
+  const char* script = [nscontent UTF8String];
+  const char* sourcename  = [path UTF8String];
+
+  return sqCompileBuffer(v, script, sourcename);
+}
 }}}
 
 Note that entire .nut files should be xor encrypted if you use this

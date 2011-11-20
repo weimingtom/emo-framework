@@ -149,7 +149,7 @@ solution.
 
 emo for iOS uses Apple's standard Foundation Framework that is written in Objective-C. You can update the following part and change them to anything you want.
 
-In libs/emo/EmoEngine.m search following functions:
+In libs/emo/!EmoEngine.m search following functions:
 
 {{{
 -(int)loadScript:(NSString *)path vm:(HSQUIRRELVM) v;

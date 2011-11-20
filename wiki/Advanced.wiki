@@ -103,3 +103,42 @@ function onLoad() {
 }}}
 
 http://www.emo-framework.com/images/xcode_with_iad.png
+
+== Encrypting the source (Android) ==
+
+Currently emo provides no special source protection. If you can write C/C++ code by yourself, it can be done by updating reading functions by yourself. It seems that the "Simple XOR Encrypting" is a quite casual solution.
+
+http://www.eggheadcafe.com/tutorials/csharp/8b53894c-a889-4914-8c46-122980cc44ae/simple-xor-encryption.aspx
+
+In jni/emo/Runtime.cpp search following functions:
+
+{{{
+static SQInteger sq_lexer_asset(SQUserPointer asset)
+static SQInteger sq_lexer_fp(SQUserPointer fp)
+}}}
+
+You can add encryption logic to these functions like below:
+
+{{{
+static SQInteger sq_lexer_asset(SQUserPointer asset) {
+  SQChar c;
+  if(AAsset_read((AAsset*)asset, &c, 1) > 0) {
+    return c ^ 129; // UPDATED: simple XOR encryption
+  }
+  return 0;
+
+}
+
+static SQInteger sq_lexer_fp(SQUserPointer fp) {
+    int ret;
+    SQChar c;
+    if((ret = fread(&c, sizeof(c), 1, (FILE *)fp) > 0)) {
+        return c ^ 129; // UPDATED: simple XOR encryption
+    }
+    return 0;
+
+} 
+}}}
+
+Note that entire .nut files should be xor encrypted if you use this
+solution. 

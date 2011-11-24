@@ -2,7 +2,7 @@
 
 = emo.PointSprite =
 
-emo.PointSprite draws group of points with same texture all at once, much faster then emo.Sprite.
+emo.PointSprite draws group of points with same texture all at once, much faster than emo.Sprite.
 
 == constructor(name = null, points = null)  ==
 

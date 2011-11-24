@@ -50,13 +50,6 @@ print(sprite.getPointCount());
 
 Sets point count of the sprite. The minimum point count equals 1. 
 
-{{{
-// Create new point sprite.
-local sprite = emo.PointSprite("flare.png");
-
-sprite.setPointCount(10);
-}}}
-
 == updatePointCoords(coords) ==
 
 Updates point coordinates of the sprite. The parameter coords is the array of Vec2 instance. Note that the array count should not exceed the segment count.

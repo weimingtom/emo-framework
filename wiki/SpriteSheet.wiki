@@ -59,10 +59,10 @@ local explosion = emo.SpriteSheet("explosion.png", 19, 19, 3, 2, 0);
 explosion.load();
 
 // animate the sprite from index=1 to index=6, frame interval equals 500 milliseconds(0.5sec) once.  
-explosion.animates(1, 5, 500);
+explosion.animate(1, 5, 500);
 
 // animate the sprite with one loop (that replays the animation once.)
-explosion.animates(1, 5, 1);
+explosion.animate(1, 5, 1);
 }}}
 
 == animate(frame indices, null, interval, loopCount = 0) ==
@@ -74,7 +74,7 @@ local explosion = emo.SpriteSheet("explosion.png", 19, 19, 3, 2, 0);
 explosion.load();
 
 // animate the sprite, frame indices are [0,2,4,6], frame interval equals 500 milliseconds(0.5sec) once.  
-explosion.animates([0,2,4,6], 0, 500);
+explosion.animate([0,2,4,6], 0, 500);
 }}}
 
 == pause ==
@@ -85,7 +85,7 @@ SpriteSheet#pause pauses the animation and stop at the current frame index.
 local explosion = emo.SpriteSheet("explosion.png", 19, 19, 3, 2, 0);
 explosion.load();
 
-explosion.animates(1, 5, 500);
+explosion.animate(1, 5, 500);
 
 // pauses the animation at current frame.
 explosion.pause();
@@ -99,7 +99,7 @@ SpriteSheet#pauseAt pauses the animation and stop at the given frame index. Note
 local explosion = emo.SpriteSheet("explosion.png", 19, 19, 3, 2, 0);
 explosion.load();
 
-explosion.animates(1, 5, 500);
+explosion.animate(1, 5, 500);
 
 // pauses the animation at frame index = 0
 explosion.pauseAt(0);
@@ -113,7 +113,7 @@ SpriteSheet#stop stops the animation. This function stops the current animation 
 local explosion = emo.SpriteSheet("explosion.png", 19, 19, 3, 2, 0);
 explosion.load();
 
-explosion.animates(1, 5, 500);
+explosion.animate(1, 5, 500);
 
 // stops the animation.
 explosion.stop();

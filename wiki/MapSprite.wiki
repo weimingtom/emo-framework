@@ -31,7 +31,7 @@ local tiles = [
   [0, 4, -1, 2],
   [0, 4, -1, 2],
 ];
-citymap.setTile(tiles);
+citymap.setMap(tiles);
 citymap.load();
 }}}
 

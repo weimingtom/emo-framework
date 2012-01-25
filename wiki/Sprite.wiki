@@ -264,3 +264,12 @@ print(sprite.getName()); // returns "dog.png"
 local otherSprite = emo.Sprite("dog.png");
 print(otherSprite.getName()); // returns "dog.png"
 }}}
+
+== blendFunc ==
+
+The blending function can be specified for individual sprites. blendFunc defines the operation of blending when it is enabled. sfactor specifies which method is used to scale the source color components. dfactor specifies which method is used to scale the destination color components. See [http://www.opengl.org/sdk/docs/man/xhtml/glBlendFunc.xml OpenGL documentation] for details. The default blending is alpha blending. (sfactor=GL_SRC_ALPHA, dfactor=GL_ONE_MINUS_SRC_ALPHA) 
+
+{{{
+local sprite = emo.Sprite("dog.png");
+sprite.blendFunc(GL_SRC_ALPHA, GL_ONE);
+}}}

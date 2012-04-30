@@ -30,7 +30,7 @@ Only linear PCM wave audio can be loaded through audio channel.
 
 {{{
 local audio = emo.Audio(3);
-local ch0   = audio.craeteChannel(0);
+local ch0   = audio.createChannel(0);
 
 ch0.load("bang.wav");
 }}}
@@ -42,7 +42,7 @@ Plays the audio associated with the channel. Audio channel is automatically stop
 
 {{{
 local audio = emo.Audio(3);
-local ch0   = audio.craeteChannel(0);
+local ch0   = audio.createChannel(0);
 
 ch0.load("bang.wav");
 
@@ -55,7 +55,7 @@ Stops the audio associated with the channel. The current seek position is reset 
 
 {{{
 local audio = emo.Audio(3);
-local ch0   = audio.craeteChannel(0);
+local ch0   = audio.createChannel(0);
 
 ch0.load("bang.wav");
 
@@ -75,7 +75,7 @@ Pauses the audio associated with the channel. The audio is resumed when play() i
 
 {{{
 local audio = emo.Audio(3);
-local ch0   = audio.craeteChannel(0);
+local ch0   = audio.createChannel(0);
 
 ch0.load("bang.wav");
 
@@ -94,7 +94,7 @@ Seek the audio associated with the channel. The offset is milliseconds from the 
 
 {{{
 local audio = emo.Audio(3);
-local ch0   = audio.craeteChannel(0);
+local ch0   = audio.createChannel(0);
 
 ch0.load("bang.wav");
 
@@ -113,7 +113,7 @@ Loop the audio associated with the channel.
 
 {{{
 local audio = emo.Audio(3);
-local ch0   = audio.craeteChannel(0);
+local ch0   = audio.createChannel(0);
 
 ch0.load("bang.wav");
 
@@ -129,7 +129,7 @@ Returns whether loop is enabled or not.
 
 {{{
 local audio = emo.Audio(3);
-local ch0   = audio.craeteChannel(0);
+local ch0   = audio.createChannel(0);
 
 ch0.load("bang.wav");
 
@@ -144,7 +144,7 @@ Returns current status of the audio channel: *AUDIO_CHANNEL_STOPPED*, *AUDIO_CHA
 
 {{{
 local audio = emo.Audio(3);
-local ch0   = audio.craeteChannel(0);
+local ch0   = audio.createChannel(0);
 
 ch0.load("bang.wav");
 
@@ -164,7 +164,7 @@ Returns the max volume of the audio channel. Max volume is always 1.
 
 {{{
 local audio = emo.Audio(3);
-local ch0   = audio.craeteChannel(0);
+local ch0   = audio.createChannel(0);
 
 ch0.load("bang.wav");
 
@@ -177,7 +177,7 @@ Returns the minimum volume of the audio channel. Minimum volume is always 0. Not
 
 {{{
 local audio = emo.Audio(3);
-local ch0   = audio.craeteChannel(0);
+local ch0   = audio.createChannel(0);
 
 ch0.load("bang.wav");
 
@@ -190,7 +190,7 @@ Returns the current volume of the audio channel. The volume range is float value
 
 {{{
 local audio = emo.Audio(3);
-local ch0   = audio.craeteChannel(0);
+local ch0   = audio.createChannel(0);
 
 ch0.load("bang.wav");
 
@@ -203,7 +203,7 @@ Sets the current volume of the audio channel. Note that the actual range of volu
 
 {{{
 local audio = emo.Audio(3);
-local ch0   = audio.craeteChannel(0);
+local ch0   = audio.createChannel(0);
 
 ch0.load("bang.wav");
 
@@ -220,7 +220,7 @@ Close the audio channel. Audio resource associated with the channel is released 
 
 {{{
 local audio = emo.Audio(3);
-local ch0   = audio.craeteChannel(0);
+local ch0   = audio.createChannel(0);
 
 ch0.load("bang.wav");
 

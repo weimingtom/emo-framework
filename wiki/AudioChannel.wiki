@@ -26,7 +26,7 @@ emo-framework uses 'Extended Audio File Services' for iOS so following format ca
 
 ==== For Android ====
 
-emo-framework uses 'OpenSL ES" for Android, following format can be loaded through audio channel. WAV PCM, WAV alaw, WAV ulaw, MP3, Ogg Vorbis, AAC LC, HE-AACv1 (aacPlus), HE-AACv2 (enhanced aacPlus), AMR, and FLAC [provided these are supported by the overall platform, and AAC formats must be located within an MP4 or ADTS container. MIDI is not supported. See [http://mobilepearls.com/labs/native-android-api/opensles/index.html OpenSL ES for Android] for details.
+emo-framework uses 'OpenSL ES" for Android, following format can be loaded through audio channel. WAV PCM, WAV alaw, WAV ulaw, MP3, Ogg Vorbis, AAC LC, HE-AACv1 (aacPlus), HE-AACv2 (enhanced aacPlus), AMR, and FLAC (provided these are supported by the overall platform, and AAC formats must be located within an MP4 or ADTS container). MIDI is not supported. See [http://mobilepearls.com/labs/native-android-api/opensles/index.html OpenSL ES for Android] for details.
 
 {{{
 local audio = emo.Audio(3);
